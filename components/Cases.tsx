@@ -6,28 +6,34 @@ import Reveal from "./Reveal";
 
 const cases = [
   {
-    n: "01",
     name: "Erik Larsen & Co. VVS",
     tag: "VVS · København",
+    body: "Autoriseret VVS-firma i København, kåret som finalist/vinder af Årets Håndværker 2013–2025.",
     href: "https://www.eriklarsen.dk",
-    image: "/assets/case-eriklarsen-logo.png",
-    imageAlt: "Erik Larsen & Co. logo",
+    logo: "/assets/case-eriklarsen-logo.png",
+    logoAlt: "Erik Larsen & Co. logo",
+    logoBg: "bg-ink",
+    cardBg: "bg-white",
   },
   {
-    n: "02",
     name: "VN Isolering",
     tag: "Facade & isolering · Jylland",
+    body: "Facade- og isoleringsfirma med base i Jylland, kendt for solidt håndværk og synlige resultater.",
     href: "https://vnisolering.dk",
-    image: "/assets/case-vni-logo.png",
-    imageAlt: "VN Isolering logo",
+    logo: "/assets/case-vni-logo.png",
+    logoAlt: "VN Isolering logo",
+    logoBg: "bg-white",
+    cardBg: "bg-beige",
   },
   {
-    n: "03",
     name: "Proelectric",
     tag: "Elinstallation · Valby",
+    body: "Autoriseret elinstallatør i Valby, der udfører el-installationer for private og erhverv.",
     href: "https://proelectric.dk",
-    image: "/assets/case-proelectric-logo.png",
-    imageAlt: "Proelectric logo",
+    logo: "/assets/case-proelectric-logo.png",
+    logoAlt: "Proelectric logo",
+    logoBg: "bg-white",
+    cardBg: "bg-white",
   },
 ];
 
@@ -49,20 +55,34 @@ function CaseCard({ c }: { c: (typeof cases)[number] }) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onMouseMove={handleMove}
-        className="relative aspect-[4/5] w-full cursor-none overflow-hidden rounded-3xl border border-white/10 bg-ink transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-white/20 group-hover:shadow-[0_20px_40px_rgba(8,13,24,0.4)]"
+        className={`relative cursor-none overflow-hidden rounded-3xl p-8 shadow-cardSoft transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-card ${c.cardBg}`}
       >
-        <span className="absolute left-6 top-6 font-display text-xs text-white/30">
-          {c.n}
-        </span>
-
-        <div className="absolute inset-0 flex items-center justify-center p-12">
+        <div
+          className={`absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full p-2 ${c.logoBg}`}
+        >
           <Image
-            src={c.image}
-            alt={c.imageAlt}
-            fill
-            className="object-contain p-12 transition duration-500 group-hover:scale-105"
+            src={c.logo}
+            alt={c.logoAlt}
+            width={80}
+            height={80}
+            className="h-full w-full object-contain"
           />
         </div>
+
+        <h3 className="mt-16 font-display text-xl font-black text-ink">
+          {c.name}
+        </h3>
+        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-navy">
+          {c.tag}
+        </p>
+        <p className="mt-4 text-sm leading-relaxed text-muted">{c.body}</p>
+
+        <span className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-navy">
+          Se siden
+          <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+            →
+          </span>
+        </span>
 
         <div
           className="stained-glass pointer-events-none absolute flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-xs font-bold uppercase tracking-wide text-navyDeep transition-transform duration-200"
@@ -74,23 +94,6 @@ function CaseCard({ c }: { c: (typeof cases)[number] }) {
         >
           Se siden
         </div>
-      </div>
-
-      <div className="mt-5 flex items-baseline justify-between gap-3">
-        <div>
-          <h3 className="font-display text-lg font-black text-white">
-            {c.name}
-          </h3>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-steel">
-            {c.tag}
-          </p>
-        </div>
-        <span
-          aria-hidden
-          className="shrink-0 text-lg text-beige transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-        >
-          ↗
-        </span>
       </div>
     </a>
   );
