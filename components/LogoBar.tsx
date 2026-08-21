@@ -19,10 +19,10 @@ function Row({ ariaHidden = false }: { ariaHidden?: boolean }) {
           alt={logo.alt}
           width={120}
           height={40}
-          className="h-8 w-auto grayscale opacity-60 transition hover:grayscale-0 hover:opacity-100"
+          className="h-8 w-auto grayscale invert opacity-50 transition hover:opacity-90"
         />
       ))}
-      <span className="whitespace-nowrap font-display text-lg font-semibold text-mist transition hover:text-ink">
+      <span className="whitespace-nowrap font-display text-lg font-semibold text-white/50 transition hover:text-white/90">
         JK Dræn &amp; Kloakspuling
       </span>
     </div>
@@ -31,12 +31,7 @@ function Row({ ariaHidden = false }: { ariaHidden?: boolean }) {
 
 export default function LogoBar() {
   return (
-    <section className="border-y border-border bg-white py-8">
-      <div className="mx-auto max-w-page px-6">
-        <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.16em] text-mist">
-          Hjemmesider vi har bygget
-        </p>
-      </div>
+    <section className="border-y border-navyDeep bg-navyDeep py-10">
       <div className="overflow-hidden">
         <div className="marquee-track flex w-max">
           <Row />

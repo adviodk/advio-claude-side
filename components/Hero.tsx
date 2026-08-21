@@ -12,7 +12,7 @@ const badges = ["Gratis", "Ingen binding", "Tager 2 min"];
 
 function CtaCard() {
   return (
-    <div className="border border-ink bg-white p-8 shadow-card">
+    <div className="rounded-2xl bg-white p-8 shadow-card">
       <h2 className="font-display text-xl font-black text-ink">
         Klar til flere kunder?
       </h2>
@@ -55,18 +55,22 @@ function CtaCard() {
 
 export default function Hero() {
   return (
-    <section id="hero" className="scroll-mt-20 bg-canvas">
+    <section id="hero" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
         <div>
-          <span className="inline-block border border-ink bg-steel px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+          <span className="inline-block rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-beige">
             Typisk levering på 2 dage
           </span>
 
-          <h1 className="mt-6 font-display text-4xl font-black leading-[0.98] tracking-tight text-ink sm:text-5xl">
-            Få flere kunder med en{" "}
-            <span className="text-navy">professionel hjemmeside</span>
+          <h1 className="mt-6 leading-[1.02] tracking-tight sm:text-5xl">
+            <span className="block font-sans text-4xl font-black uppercase text-white">
+              Få flere kunder
+            </span>
+            <span className="block font-display text-4xl italic text-beige">
+              med en professionel hjemmeside
+            </span>
           </h1>
-          <p className="mt-6 max-w-md text-lg text-muted">
+          <p className="mt-6 max-w-md text-lg text-white/70">
             Du betaler kun hvis du er tilfreds – typisk levering på 2 dage.
           </p>
 
@@ -75,7 +79,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-9 grid grid-cols-2 gap-3 sm:max-w-sm">
-            <div className="overflow-hidden border border-ink shadow-cardSoft">
+            <div className="overflow-hidden rounded-xl shadow-cardSoft">
               <Image
                 src="/assets/ref-vvs.png"
                 alt="Eksempel på hjemmeside bygget af Advio for en VVS-virksomhed"
@@ -84,7 +88,7 @@ export default function Hero() {
                 className="h-auto w-full"
               />
             </div>
-            <div className="overflow-hidden border border-ink shadow-cardSoft">
+            <div className="overflow-hidden rounded-xl shadow-cardSoft">
               <Image
                 src="/assets/ref-elektriker.png"
                 alt="Eksempel på hjemmeside bygget af Advio for en elektriker"

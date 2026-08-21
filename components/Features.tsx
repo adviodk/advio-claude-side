@@ -35,8 +35,13 @@ export default function Features() {
           </h2>
         </div>
 
-        <h3 className="max-w-2xl font-display text-3xl font-black leading-[1.05] text-ink sm:text-4xl">
-          Klar til at tage næste skridt?
+        <h3 className="max-w-2xl leading-[1.05] sm:text-4xl">
+          <span className="font-sans text-3xl font-black uppercase text-ink sm:text-4xl">
+            Klar til at tage
+          </span>{" "}
+          <span className="font-display text-3xl italic text-navy sm:text-4xl">
+            næste skridt?
+          </span>
         </h3>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">

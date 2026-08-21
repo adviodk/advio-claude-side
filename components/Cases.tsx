@@ -32,22 +32,12 @@ const cases = [
 
 export default function Cases() {
   return (
-    <section id="cases" className="scroll-mt-20 border-t border-border bg-canvas">
+    <section id="cases" className="scroll-mt-20 bg-canvas">
       <div className="mx-auto max-w-page px-6 py-24">
-        <div className="mb-14 flex items-center gap-4">
-          <span className="h-px w-10 bg-steel" />
-          <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-            Resultater der taler for sig selv
-          </h2>
-        </div>
-
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-14 lg:grid-cols-3">
           {cases.map((c) => (
-            <article
-              key={c.title}
-              className="flex flex-col border border-ink bg-white shadow-cardSoft"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden border-b border-ink bg-ink">
+            <article key={c.title} className="flex flex-col">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-navyDeep">
                 {c.image ? (
                   <Image
                     src={c.image}
@@ -67,7 +57,7 @@ export default function Cases() {
                   </div>
                 )}
                 {c.image && (
-                  <div className="absolute bottom-3 left-3 bg-white/95 px-2.5 py-1.5">
+                  <div className="absolute bottom-3 left-3 rounded-lg bg-white/95 px-2.5 py-1.5 shadow-sm">
                     <Image
                       src={c.logo}
                       alt=""
@@ -79,22 +69,11 @@ export default function Cases() {
                 )}
               </div>
 
-              <div className="flex flex-1 flex-col p-6">
-                <div className="mb-3 flex flex-wrap gap-2">
-                  {c.tags.map((tag, i) => (
-                    <span
-                      key={tag}
-                      className={
-                        i === 0
-                          ? "border border-ink bg-steel px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-white"
-                          : "border border-border bg-tint px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-navy"
-                      }
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <h3 className="font-display text-lg font-black leading-snug text-ink">
+              <div className="flex flex-1 flex-col pt-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-steel">
+                  {c.tags.join(" · ")}
+                </p>
+                <h3 className="mt-3 font-display text-lg font-black leading-snug text-ink">
                   {c.title}
                 </h3>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
