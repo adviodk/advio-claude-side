@@ -6,7 +6,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["var(--font-fraunces)", "Georgia", "serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
       },
       colors: {
         ink: "#0b0f1a",

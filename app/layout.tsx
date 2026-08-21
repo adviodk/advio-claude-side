@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const fraunces = Fraunces({
+const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
   weight: ["600", "700", "900"],
   style: ["normal", "italic"],
-  variable: "--font-fraunces",
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="da">
       <body
-        className={`${inter.variable} ${fraunces.variable} font-sans antialiased`}
+        className={`${inter.variable} ${sourceSerif.variable} font-sans antialiased`}
       >
         {children}
         <CookieConsent />
