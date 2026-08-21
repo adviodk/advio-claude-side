@@ -62,7 +62,7 @@ export default function Hero() {
             <span className="block font-sans text-4xl font-black uppercase text-white">
               Få flere kunder
             </span>
-            <span className="block font-display text-4xl italic text-beige">
+            <span className="block font-display text-4xl font-medium italic text-beige">
               med en professionel hjemmeside
             </span>
           </h1>

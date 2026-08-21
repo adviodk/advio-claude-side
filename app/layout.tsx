@@ -7,7 +7,7 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
-  weight: ["600", "700", "900"],
+  weight: ["500", "600", "700", "900"],
   style: ["normal", "italic"],
   variable: "--font-display",
 });

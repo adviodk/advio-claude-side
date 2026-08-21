@@ -30,7 +30,7 @@ export default function Process() {
             <Reveal key={step.title} delay={i * 100}>
               <div>
                 <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-8">
-                  <span className="font-display text-sm text-steel">
+                  <span className="font-display text-sm font-medium text-steel">
                     0{i + 1}
                   </span>
                   <div>
