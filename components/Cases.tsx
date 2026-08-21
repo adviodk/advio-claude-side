@@ -9,15 +9,17 @@ const cases = [
     name: "Erik Larsen & Co. VVS",
     tag: "VVS · København",
     href: "https://www.eriklarsen.dk",
-    image: "/assets/case-eriklarsen-logo.png",
-    imageAlt: "Erik Larsen & Co. logo",
+    image: "/assets/case-eriklarsen-hero.png",
+    imageAlt: "Erik Larsen & Co. VVS' team",
+    fit: "cover" as const,
   },
   {
     name: "VN Isolering",
     tag: "Facade & isolering · Jylland",
     href: "https://vnisolering.dk",
-    image: "/assets/case-vni-logo.png",
-    imageAlt: "VN Isolering logo",
+    image: "/assets/case-vni-after.webp",
+    imageAlt: "Facaderenovering udført af VN Isolering",
+    fit: "cover" as const,
   },
   {
     name: "Proelectric",
@@ -25,6 +27,7 @@ const cases = [
     href: "https://proelectric.dk",
     image: "/assets/case-proelectric-logo.png",
     imageAlt: "Proelectric logo",
+    fit: "contain" as const,
   },
 ];
 
@@ -57,7 +60,9 @@ function CaseCard({ c }: { c: (typeof cases)[number] }) {
           src={c.image}
           alt={c.imageAlt}
           fill
-          className="object-contain p-6 transition duration-500 group-hover:scale-105"
+          className={`transition duration-500 group-hover:scale-105 ${
+            c.fit === "cover" ? "object-cover" : "object-contain p-6"
+          }`}
         />
         <div className="absolute inset-0 bg-navyDeep/0 transition-colors duration-300 group-hover:bg-navyDeep/10" />
 
