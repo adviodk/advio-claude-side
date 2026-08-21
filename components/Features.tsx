@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import Reveal from "./Reveal";
 
@@ -29,39 +28,7 @@ export default function Features() {
   return (
     <section id="features" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto max-w-page px-6 py-24">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_auto]">
-          <Reveal>
-            <div className="mb-6 flex items-center gap-4">
-              <span className="h-px w-10 bg-steel" />
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
-                Vi bygger hjemmesider der virker
-              </h2>
-            </div>
-
-            <h3 className="max-w-2xl leading-[1.05] sm:text-4xl">
-              <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
-                Klar til at tage
-              </span>{" "}
-              <span className="font-display text-3xl italic text-beige sm:text-4xl">
-                næste skridt?
-              </span>
-            </h3>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="mx-auto w-[180px] sm:w-[210px]">
-              <Image
-                src="/assets/phone-start.png"
-                alt="Advio-hjemmeside vist på en telefon med før/efter-billeder"
-                width={853}
-                height={1844}
-                className="h-auto w-full"
-              />
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f, i) => (
             <Reveal key={f.n} delay={i * 80}>
               <div className="rounded-2xl border border-white/10 bg-white shadow-cardSoft">
