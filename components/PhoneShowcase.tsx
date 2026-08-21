@@ -95,7 +95,7 @@ export default function PhoneShowcase() {
             </PhoneFrame>
 
             <div
-              className="pointer-events-none absolute flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-beige text-center text-[10px] font-bold uppercase leading-tight tracking-wide text-navyDeep transition-transform duration-200"
+              className="stained-glass pointer-events-none absolute flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-center text-[10px] font-bold uppercase leading-tight tracking-wide text-white transition-transform duration-200"
               style={{
                 left: pos.x,
                 top: pos.y,

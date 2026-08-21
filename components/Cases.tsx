@@ -11,7 +11,6 @@ const cases = [
     href: "https://www.eriklarsen.dk",
     image: "/assets/case-eriklarsen-logo.png",
     imageAlt: "Erik Larsen & Co. logo",
-    logoBg: "bg-ink",
   },
   {
     name: "VN Isolering",
@@ -19,7 +18,6 @@ const cases = [
     href: "https://vnisolering.dk",
     image: "/assets/case-vni-logo.png",
     imageAlt: "VN Isolering logo",
-    logoBg: "bg-white",
   },
   {
     name: "Proelectric",
@@ -27,7 +25,6 @@ const cases = [
     href: "https://proelectric.dk",
     image: "/assets/case-proelectric-logo.png",
     imageAlt: "Proelectric logo",
-    logoBg: "bg-white",
   },
 ];
 
@@ -54,7 +51,7 @@ function CaseCard({ c }: { c: (typeof cases)[number] }) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onMouseMove={handleMove}
-        className={`relative aspect-[4/5] w-full cursor-none overflow-hidden rounded-2xl border border-navy/50 ${c.logoBg}`}
+        className="relative aspect-[4/5] w-full cursor-none overflow-hidden rounded-2xl border border-navy/50 bg-ink"
       >
         <Image
           src={c.image}
@@ -65,7 +62,7 @@ function CaseCard({ c }: { c: (typeof cases)[number] }) {
         <div className="absolute inset-0 bg-navyDeep/0 transition-colors duration-300 group-hover:bg-navyDeep/10" />
 
         <div
-          className="pointer-events-none absolute flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-beige text-xs font-bold uppercase tracking-wide text-navyDeep transition-transform duration-200"
+          className="stained-glass pointer-events-none absolute flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-xs font-bold uppercase tracking-wide text-white transition-transform duration-200"
           style={{
             left: pos.x,
             top: pos.y,
