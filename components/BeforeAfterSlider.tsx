@@ -8,11 +8,13 @@ export default function BeforeAfterSlider({
   after,
   beforeAlt,
   afterAlt,
+  aspectClass = "aspect-[9/16]",
 }: {
   before: string;
   after: string;
   beforeAlt: string;
   afterAlt: string;
+  aspectClass?: string;
 }) {
   const [position, setPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,7 +49,7 @@ export default function BeforeAfterSlider({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      className="relative aspect-[9/16] w-full touch-none select-none overflow-hidden rounded-[1.6rem] bg-ink"
+      className={`relative ${aspectClass} w-full touch-none select-none overflow-hidden rounded-xl bg-ink`}
     >
       <Image
         src={after}

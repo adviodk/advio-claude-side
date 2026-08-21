@@ -8,22 +8,25 @@ const cases = [
     name: "Erik Larsen & Co. VVS",
     tag: "VVS · København",
     href: "https://www.eriklarsen.dk",
-    image: "/assets/case-eriklarsen-hero.png",
-    imageAlt: "Erik Larsen & Co. VVS' team",
+    image: "/assets/case-eriklarsen-logo.png",
+    imageAlt: "Erik Larsen & Co. logo",
+    logoBg: "bg-ink",
   },
   {
     name: "VN Isolering",
     tag: "Facade & isolering · Jylland",
     href: "https://vnisolering.dk",
-    image: "/assets/case-vni-after.webp",
-    imageAlt: "Facaderenovering udført af VN Isolering",
+    image: "/assets/case-vni-logo.png",
+    imageAlt: "VN Isolering logo",
+    logoBg: "bg-white",
   },
   {
     name: "Proelectric",
     tag: "Elinstallation · Valby",
     href: "https://proelectric.dk",
-    image: "/assets/case-proelectric-shot.png",
-    imageAlt: "Proelectrics hjemmeside",
+    image: "/assets/case-proelectric-logo.png",
+    imageAlt: "Proelectric logo",
+    logoBg: "bg-white",
   },
 ];
 
@@ -50,15 +53,15 @@ function CaseCard({ c }: { c: (typeof cases)[number] }) {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onMouseMove={handleMove}
-        className="relative aspect-[4/5] w-full cursor-none overflow-hidden rounded-2xl bg-navy"
+        className={`relative aspect-[4/5] w-full cursor-none overflow-hidden rounded-2xl border border-navy/50 ${c.logoBg}`}
       >
         <Image
           src={c.image}
           alt={c.imageAlt}
           fill
-          className="object-cover transition duration-500 group-hover:scale-105"
+          className="object-contain p-10 transition duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-navyDeep/0 transition-colors duration-300 group-hover:bg-navyDeep/30" />
+        <div className="absolute inset-0 bg-navyDeep/0 transition-colors duration-300 group-hover:bg-navyDeep/10" />
 
         <div
           className="pointer-events-none absolute flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-beige text-xs font-bold uppercase tracking-wide text-navyDeep transition-transform duration-200"
