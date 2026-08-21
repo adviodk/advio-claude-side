@@ -38,11 +38,11 @@ body {
   background:
     conic-gradient(
       from 0deg,
-      rgba(216, 196, 180, 0.85),
-      rgba(76, 107, 133, 0.8),
-      rgba(28, 51, 72, 0.85),
-      rgba(150, 180, 190, 0.8),
-      rgba(216, 196, 180, 0.85)
+      rgba(232, 214, 195, 0.88),
+      rgba(201, 174, 152, 0.82),
+      rgba(216, 196, 180, 0.88),
+      rgba(240, 226, 208, 0.8),
+      rgba(232, 214, 195, 0.88)
     );
   backdrop-filter: blur(6px) saturate(180%);
   -webkit-backdrop-filter: blur(6px) saturate(180%);
