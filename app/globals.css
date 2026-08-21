@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f5f6fa;
+  color: #0b0f1a;
+}
+
+.field {
+  @apply w-full border border-border bg-canvas px-4 py-3 text-sm text-ink placeholder:text-mist focus:border-blue focus:outline-none;
+}
+
+.marquee-track {
+  animation: marquee 26s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}

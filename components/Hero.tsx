@@ -1,0 +1,109 @@
+import Image from "next/image";
+import Link from "next/link";
+import CallbackModal from "./CallbackModal";
+
+const steps = [
+  { n: "01", label: "Firmanavn og branche" },
+  { n: "02", label: "Kontaktoplysninger" },
+  { n: "03", label: "Hvad siden skal kunne" },
+];
+
+const badges = ["Gratis", "Ingen binding", "Tager 2 min"];
+
+function CtaCard() {
+  return (
+    <div className="border border-ink bg-white p-8 shadow-card">
+      <h2 className="font-display text-xl font-black text-ink">
+        Klar til flere kunder?
+      </h2>
+      <p className="mt-2 text-sm text-muted">
+        Udfyld et kort skema – vi bygger et gratis udkast til dig på 2 dage.
+      </p>
+
+      <ol className="mt-7 divide-y divide-border">
+        {steps.map((step) => (
+          <li key={step.n} className="flex items-center gap-4 py-3.5">
+            <span className="font-display text-xs font-semibold text-blue">
+              {step.n}
+            </span>
+            <span className="text-sm text-ink">{step.label}</span>
+          </li>
+        ))}
+      </ol>
+
+      <Link
+        href="/formular"
+        className="mt-7 flex w-full items-center justify-center gap-2 border border-ink bg-blue py-4 text-sm font-semibold text-white transition-colors hover:bg-blueDeep"
+      >
+        Få dit gratis udkast
+        <span aria-hidden>→</span>
+      </Link>
+
+      <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-1.5">
+        {badges.map((badge) => (
+          <span
+            key={badge}
+            className="text-xs font-medium uppercase tracking-wide text-mist"
+          >
+            {badge}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function Hero() {
+  return (
+    <section id="hero" className="scroll-mt-20 bg-canvas">
+      <div className="mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
+        <div>
+          <span className="inline-block border border-ink bg-yellow px-3 py-1 text-xs font-semibold uppercase tracking-wide text-ink">
+            Typisk levering på 2 dage
+          </span>
+
+          <h1 className="mt-6 font-display text-4xl font-black leading-[0.98] tracking-tight text-ink sm:text-5xl">
+            Få flere kunder med en{" "}
+            <span className="text-blue">professionel hjemmeside</span>
+          </h1>
+          <p className="mt-6 max-w-md text-lg text-muted">
+            Du betaler kun hvis du er tilfreds – typisk levering på 2 dage.
+          </p>
+
+          <div className="mt-9 md:hidden">
+            <CtaCard />
+          </div>
+
+          <div className="mt-9 grid grid-cols-2 gap-3 sm:max-w-sm">
+            <div className="overflow-hidden border border-ink shadow-cardSoft">
+              <Image
+                src="/assets/ref-vvs.png"
+                alt="Eksempel på hjemmeside bygget af Advio for en VVS-virksomhed"
+                width={480}
+                height={253}
+                className="h-auto w-full"
+              />
+            </div>
+            <div className="overflow-hidden border border-ink shadow-cardSoft">
+              <Image
+                src="/assets/ref-elektriker.png"
+                alt="Eksempel på hjemmeside bygget af Advio for en elektriker"
+                width={480}
+                height={260}
+                className="h-auto w-full"
+              />
+            </div>
+          </div>
+
+          <div className="mt-9">
+            <CallbackModal />
+          </div>
+        </div>
+
+        <div className="hidden md:block">
+          <CtaCard />
+        </div>
+      </div>
+    </section>
+  );
+}
