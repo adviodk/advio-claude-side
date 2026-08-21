@@ -10,9 +10,9 @@ const config: Config = {
       },
       colors: {
         ink: "#0b0f1a",
-        blue: "#1531d8",
-        blueDeep: "#0c1f99",
-        yellow: "#ffde59",
+        navy: "#1f2d50",
+        navyDeep: "#121b33",
+        steel: "#5b6b85",
         canvas: "#f5f6fa",
         muted: "#565b78",
         mist: "#9aa0bf",

@@ -45,7 +45,7 @@ export default async function BookPage({
         <div className="mt-8 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 border border-ink bg-blue px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blueDeep"
+            className="inline-flex items-center gap-2 rounded-full bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
           >
             Tilbage til forsiden
           </Link>

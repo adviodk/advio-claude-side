@@ -3,19 +3,23 @@ import BeforeAfterSlider from "./BeforeAfterSlider";
 export default function PhoneShowcase() {
   return (
     <div className="flex justify-center">
-      <div className="relative w-[230px] rounded-[2.2rem] border-[6px] border-charcoalDeep bg-charcoalDeep p-2 shadow-[10px_10px_0_rgba(35,38,46,0.15)] sm:w-[260px]">
-        <div className="absolute left-1/2 top-2 z-10 h-4 w-20 -translate-x-1/2 rounded-full bg-charcoalDeep" />
-        <div className="overflow-hidden rounded-[1.6rem] border border-charcoal">
-          <BeforeAfterSlider
-            before="/assets/case-vni-before.webp"
-            after="/assets/case-vni-after.webp"
-            beforeAlt="VN Isolering før"
-            afterAlt="VN Isolering efter"
-          />
+      <div className="relative w-[240px] rounded-[2.8rem] bg-gradient-to-b from-[#e2e5ec] via-[#aab0c2] to-[#7d8399] p-[3px] shadow-[10px_10px_0_rgba(35,38,46,0.12)] sm:w-[260px]">
+        <div className="rounded-[2.7rem] bg-charcoalDeep p-[10px]">
+          {/* Side buttons */}
+          <div className="absolute -left-[3px] top-24 h-8 w-[3px] rounded-l bg-[#8a90a3]" />
+          <div className="absolute -left-[3px] top-36 h-12 w-[3px] rounded-l bg-[#8a90a3]" />
+          <div className="absolute -right-[3px] top-28 h-16 w-[3px] rounded-r bg-[#8a90a3]" />
+
+          <div className="relative overflow-hidden rounded-[2rem] bg-white">
+            <div className="absolute left-1/2 top-2 z-20 h-5 w-24 -translate-x-1/2 rounded-full bg-charcoalDeep" />
+            <BeforeAfterSlider
+              before="/assets/case-vni-before.webp"
+              after="/assets/case-vni-after.webp"
+              beforeAlt="VN Isolering før"
+              afterAlt="VN Isolering efter"
+            />
+          </div>
         </div>
-        <p className="mt-3 text-center text-[11px] font-medium uppercase tracking-[0.14em] text-beige">
-          VN Isolering — før &amp; efter
-        </p>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ export default function Cases() {
     <section id="cases" className="scroll-mt-20 border-t border-border bg-canvas">
       <div className="mx-auto max-w-page px-6 py-24">
         <div className="mb-14 flex items-center gap-4">
-          <span className="h-px w-10 bg-blue" />
+          <span className="h-px w-10 bg-steel" />
           <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
             Resultater der taler for sig selv
           </h2>
@@ -56,7 +56,7 @@ export default function Cases() {
                     className="object-cover"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-blue">
+                  <div className="flex h-full w-full items-center justify-center bg-navy">
                     <Image
                       src={c.logo}
                       alt={c.tags[0]}
@@ -86,8 +86,8 @@ export default function Cases() {
                       key={tag}
                       className={
                         i === 0
-                          ? "border border-ink bg-yellow px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-ink"
-                          : "border border-border bg-tint px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-blue"
+                          ? "border border-ink bg-steel px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-white"
+                          : "border border-border bg-tint px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-navy"
                       }
                     >
                       {tag}
@@ -104,7 +104,7 @@ export default function Cases() {
                   href={c.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue hover:text-blueDeep"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-navyDeep"
                 >
                   Se hjemmesiden
                   <span aria-hidden>↗</span>

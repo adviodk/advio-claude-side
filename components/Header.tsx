@@ -38,7 +38,7 @@ export default function Header() {
 
         <Link
           href="/formular"
-          className="inline-flex items-center gap-2 border border-ink bg-blue px-4 py-2.5 text-sm font-semibold text-white shadow-cardSoft transition-colors hover:bg-blueDeep"
+          className="inline-flex items-center gap-2 rounded-full bg-beige px-5 py-2.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
         >
           Få et tilbud
         </Link>

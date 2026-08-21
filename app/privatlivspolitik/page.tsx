@@ -38,12 +38,12 @@ export default function PrivatlivspolitikPage() {
               CVR: 46287088
               <br />
               E-mail:{" "}
-              <a href="mailto:simon@advio.dk" className="font-medium text-blue">
+              <a href="mailto:simon@advio.dk" className="font-medium text-navy">
                 simon@advio.dk
               </a>
               <br />
               Telefon:{" "}
-              <a href="tel:+4522494295" className="font-medium text-blue">
+              <a href="tel:+4522494295" className="font-medium text-navy">
                 22 49 42 95
               </a>
             </p>
@@ -130,7 +130,7 @@ export default function PrivatlivspolitikPage() {
                 href="https://www.datatilsynet.dk"
                 target="_blank"
                 rel="noreferrer"
-                className="font-medium text-blue"
+                className="font-medium text-navy"
               >
                 datatilsynet.dk
               </a>

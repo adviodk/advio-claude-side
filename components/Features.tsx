@@ -29,7 +29,7 @@ export default function Features() {
     <section id="features" className="scroll-mt-20 border-t border-border bg-canvas">
       <div className="mx-auto max-w-page px-6 py-24">
         <div className="mb-6 flex items-center gap-4">
-          <span className="h-px w-10 bg-yellow" />
+          <span className="h-px w-10 bg-steel" />
           <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
             Vi bygger hjemmesider der virker
           </h2>
@@ -48,11 +48,11 @@ export default function Features() {
               >
                 <div
                   className={`h-1.5 ${
-                    Number(f.n) % 2 === 0 ? "bg-yellow" : "bg-blue"
+                    Number(f.n) % 2 === 0 ? "bg-steel" : "bg-navy"
                   }`}
                 />
                 <div className="p-7">
-                  <span className="font-display text-xs font-semibold text-blue">
+                  <span className="font-display text-xs font-semibold text-navy">
                     {f.n}
                   </span>
                   <h4 className="mt-3 font-display text-lg font-black text-ink">
@@ -74,7 +74,7 @@ export default function Features() {
         <div className="mt-12 flex justify-center">
           <Link
             href="/formular"
-            className="group inline-flex items-center gap-3 border border-ink bg-blue px-8 py-4 text-sm font-semibold text-white transition-colors hover:bg-blueDeep"
+            className="group inline-flex items-center gap-3 rounded-full bg-beige px-8 py-4 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
           >
             Få dit gratis udkast
             <span

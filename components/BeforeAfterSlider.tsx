@@ -47,7 +47,7 @@ export default function BeforeAfterSlider({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      className="relative aspect-[9/16] w-full touch-none select-none overflow-hidden bg-ink"
+      className="relative aspect-[9/16] w-full touch-none select-none overflow-hidden rounded-[1.6rem] bg-ink"
     >
       <Image
         src={after}
@@ -70,20 +70,20 @@ export default function BeforeAfterSlider({
       </div>
 
       <div
-        className="pointer-events-none absolute inset-y-0 w-0.5 bg-beige"
+        className="pointer-events-none absolute inset-y-0 w-0.5 bg-white"
         style={{ left: `${position}%` }}
       />
       <div
-        className="absolute top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center border border-ink bg-beige text-ink shadow-cardSoft"
+        className="absolute top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-charcoalDeep shadow-[0_2px_8px_rgba(0,0,0,0.35)]"
         style={{ left: `${position}%` }}
       >
-        <span aria-hidden className="text-xs">↔</span>
+        <span aria-hidden className="text-xs leading-none">◂▸</span>
       </div>
 
-      <span className="pointer-events-none absolute left-2 top-2 border border-ink bg-white/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink">
+      <span className="pointer-events-none absolute left-2 top-2 rounded-full bg-charcoalDeep/85 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
         Før
       </span>
-      <span className="pointer-events-none absolute right-2 top-2 border border-ink bg-yellow px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink">
+      <span className="pointer-events-none absolute right-2 top-2 rounded-full bg-emerald-600/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
         Efter
       </span>
     </div>

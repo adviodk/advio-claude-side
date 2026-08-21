@@ -168,7 +168,7 @@ export default function FormularPage() {
           </div>
           <div className="h-1.5 w-full border border-ink bg-white">
             <div
-              className="h-full bg-blue transition-all duration-300"
+              className="h-full bg-navy transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -318,7 +318,7 @@ export default function FormularPage() {
 
             {data.billeder === "Ja, jeg uploader nu" && (
               <div className="mt-4">
-                <label className="block cursor-pointer border border-dashed border-ink bg-tint px-4 py-6 text-center text-sm font-medium text-blue hover:bg-border">
+                <label className="block cursor-pointer border border-dashed border-ink bg-tint px-4 py-6 text-center text-sm font-medium text-navy hover:bg-border">
                   <input
                     type="file"
                     name="billeder_filer"
@@ -361,7 +361,7 @@ export default function FormularPage() {
                   value={v}
                   checked={data.indhold.includes(v)}
                   onChange={() => toggleIndhold(v)}
-                  activeClass="border-ink bg-yellow text-ink"
+                  activeClass="border-ink bg-steel text-white"
                 >
                   {v}
                 </CheckOption>
@@ -374,7 +374,7 @@ export default function FormularPage() {
               <button
                 type="button"
                 onClick={() => setStep((s) => s - 1)}
-                className="flex-1 border border-ink py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
+                className="flex-1 rounded-full border border-ink py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
               >
                 ← Tilbage
               </button>
@@ -383,7 +383,7 @@ export default function FormularPage() {
               <button
                 type="submit"
                 disabled={!canAdvance()}
-                className="flex flex-1 items-center justify-center gap-2 border border-ink bg-blue py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blueDeep disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Send og vælg en tid
                 <span aria-hidden>→</span>
@@ -393,7 +393,7 @@ export default function FormularPage() {
                 type="button"
                 onClick={handleNext}
                 disabled={!canAdvance()}
-                className="flex flex-1 items-center justify-center gap-2 border border-ink bg-blue py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blueDeep disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Næste
                 <span aria-hidden>→</span>
@@ -404,7 +404,7 @@ export default function FormularPage() {
 
         <p className="mt-8 text-center text-sm text-muted">
           Har du spørgsmål? Ring til Simon på{" "}
-          <a href="tel:+4522494295" className="font-medium text-blue">
+          <a href="tel:+4522494295" className="font-medium text-navy">
             22 49 42 95
           </a>
         </p>
@@ -434,7 +434,7 @@ function RadioOption({
         block ? "block w-full text-left" : "text-center"
       } ${
         checked
-          ? "border-ink bg-blue text-white"
+          ? "border-ink bg-navy text-white"
           : "border-border bg-white text-ink hover:border-ink"
       }`}
     >

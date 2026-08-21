@@ -24,7 +24,7 @@ export default function CookieConsent() {
         <p className="text-sm text-muted">
           Vi bruger cookies til statistik (Google Analytics), så vi kan forbedre
           siden. Læs mere i vores{" "}
-          <Link href="/privatlivspolitik" className="font-medium text-blue hover:text-blueDeep">
+          <Link href="/privatlivspolitik" className="font-medium text-navy hover:text-navyDeep">
             privatlivspolitik
           </Link>
           .
@@ -33,14 +33,14 @@ export default function CookieConsent() {
           <button
             type="button"
             onClick={() => choose("declined")}
-            className="border border-ink px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
+            className="rounded-full border border-ink px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
           >
             Afvis
           </button>
           <button
             type="button"
             onClick={() => choose("accepted")}
-            className="border border-ink bg-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blueDeep"
+            className="rounded-full bg-beige px-5 py-2.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
           >
             Accepter
           </button>

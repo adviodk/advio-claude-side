@@ -23,7 +23,7 @@ function CtaCard() {
       <ol className="mt-7 divide-y divide-border">
         {steps.map((step) => (
           <li key={step.n} className="flex items-center gap-4 py-3.5">
-            <span className="font-display text-xs font-semibold text-blue">
+            <span className="font-display text-xs font-semibold text-navy">
               {step.n}
             </span>
             <span className="text-sm text-ink">{step.label}</span>
@@ -33,7 +33,7 @@ function CtaCard() {
 
       <Link
         href="/formular"
-        className="mt-7 flex w-full items-center justify-center gap-2 border border-ink bg-blue py-4 text-sm font-semibold text-white transition-colors hover:bg-blueDeep"
+        className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-beige py-4 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
       >
         Få dit gratis udkast
         <span aria-hidden>→</span>
@@ -58,13 +58,13 @@ export default function Hero() {
     <section id="hero" className="scroll-mt-20 bg-canvas">
       <div className="mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
         <div>
-          <span className="inline-block border border-ink bg-yellow px-3 py-1 text-xs font-semibold uppercase tracking-wide text-ink">
+          <span className="inline-block border border-ink bg-steel px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
             Typisk levering på 2 dage
           </span>
 
           <h1 className="mt-6 font-display text-4xl font-black leading-[0.98] tracking-tight text-ink sm:text-5xl">
             Få flere kunder med en{" "}
-            <span className="text-blue">professionel hjemmeside</span>
+            <span className="text-navy">professionel hjemmeside</span>
           </h1>
           <p className="mt-6 max-w-md text-lg text-muted">
             Du betaler kun hvis du er tilfreds – typisk levering på 2 dage.

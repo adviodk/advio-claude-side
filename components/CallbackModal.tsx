@@ -10,7 +10,7 @@ export default function CallbackModal() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-2 border border-ink bg-ink px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blueDeep"
+        className="inline-flex items-center gap-2 rounded-full bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
       >
         Ring os op
         <span aria-hidden>→</span>
@@ -63,7 +63,7 @@ export default function CallbackModal() {
                 </div>
                 <button
                   type="submit"
-                  className="mt-5 w-full border border-ink bg-blue py-3.5 text-sm font-semibold text-white transition-colors hover:bg-blueDeep"
+                  className="mt-5 w-full rounded-full bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
                 >
                   Ring mig op
                 </button>

@@ -37,7 +37,7 @@ export default function Faq() {
     <section id="faq" className="scroll-mt-20 border-t border-border bg-white">
       <div className="mx-auto max-w-page px-6 py-24">
         <div className="mb-12 flex items-center gap-4">
-          <span className="h-px w-10 bg-blue" />
+          <span className="h-px w-10 bg-steel" />
           <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
             Ofte stillede spørgsmål
           </h2>
@@ -57,7 +57,7 @@ export default function Faq() {
                   {item.q}
                   <span
                     aria-hidden
-                    className={`shrink-0 text-blue transition-transform duration-200 ${
+                    className={`shrink-0 text-navy transition-transform duration-200 ${
                       open ? "rotate-180" : ""
                     }`}
                   >
@@ -77,7 +77,7 @@ export default function Faq() {
         <div className="mt-14 flex justify-center">
           <Link
             href="/formular"
-            className="group inline-flex items-center gap-3 border border-ink bg-yellow px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-ink hover:text-yellow"
+            className="group inline-flex items-center gap-3 rounded-full bg-beige px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-navyDeep transition-colors hover:bg-beigeDeep"
           >
             Klar til dit gratis udkast?
             <span aria-hidden className="transition-transform group-hover:translate-x-1">
