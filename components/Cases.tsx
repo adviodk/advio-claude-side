@@ -57,7 +57,7 @@ function CaseCard({ c }: { c: (typeof cases)[number] }) {
           src={c.image}
           alt={c.imageAlt}
           fill
-          className="object-contain p-10 transition duration-500 group-hover:scale-105"
+          className="object-contain p-6 transition duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-navyDeep/0 transition-colors duration-300 group-hover:bg-navyDeep/10" />
 
