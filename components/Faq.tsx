@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Reveal from "./Reveal";
 
 const faqs = [
   {
@@ -34,57 +35,63 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="scroll-mt-20 border-t border-border bg-white">
+    <section id="faq" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto max-w-page px-6 py-24">
-        <div className="mb-12 flex items-center gap-4">
-          <span className="h-px w-10 bg-steel" />
-          <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-            Ofte stillede spørgsmål
-          </h2>
-        </div>
+        <Reveal>
+          <div className="mb-12 flex items-center gap-4">
+            <span className="h-px w-10 bg-steel" />
+            <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
+              Ofte stillede spørgsmål
+            </h2>
+          </div>
+        </Reveal>
 
-        <div className="grid gap-x-10 md:grid-cols-2">
-          {faqs.map((item, i) => {
-            const open = openIndex === i;
-            return (
-              <div key={item.q} className="border-b border-border">
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(open ? null : i)}
-                  aria-expanded={open}
-                  className="flex w-full items-center justify-between gap-4 py-4 text-left text-[15px] font-semibold text-ink"
-                >
-                  {item.q}
-                  <span
-                    aria-hidden
-                    className={`shrink-0 text-navy transition-transform duration-200 ${
-                      open ? "rotate-180" : ""
-                    }`}
+        <Reveal delay={80}>
+          <div className="grid gap-x-10 md:grid-cols-2">
+            {faqs.map((item, i) => {
+              const open = openIndex === i;
+              return (
+                <div key={item.q} className="border-b border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setOpenIndex(open ? null : i)}
+                    aria-expanded={open}
+                    className="flex w-full items-center justify-between gap-4 py-4 text-left text-[15px] font-semibold text-white"
                   >
-                    ⌄
-                  </span>
-                </button>
-                {open && (
-                  <p className="pb-5 text-sm leading-relaxed text-muted">
-                    {item.a}
-                  </p>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                    {item.q}
+                    <span
+                      aria-hidden
+                      className={`shrink-0 text-beige transition-transform duration-200 ${
+                        open ? "rotate-180" : ""
+                      }`}
+                    >
+                      ⌄
+                    </span>
+                  </button>
+                  {open && (
+                    <p className="pb-5 text-sm leading-relaxed text-white/60">
+                      {item.a}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </Reveal>
 
-        <div className="mt-14 flex justify-center">
-          <Link
-            href="/formular"
-            className="group inline-flex items-center gap-3 rounded-full bg-beige px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-navyDeep transition-colors hover:bg-beigeDeep"
-          >
-            Klar til dit gratis udkast?
-            <span aria-hidden className="transition-transform group-hover:translate-x-1">
-              →
-            </span>
-          </Link>
-        </div>
+        <Reveal delay={160}>
+          <div className="mt-14 flex justify-center">
+            <Link
+              href="/formular"
+              className="group inline-flex items-center gap-3 rounded-full bg-beige px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-navyDeep transition-colors hover:bg-beigeDeep"
+            >
+              Klar til dit gratis udkast?
+              <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

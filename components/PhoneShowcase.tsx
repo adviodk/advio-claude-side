@@ -24,6 +24,15 @@ function PhoneFrame({ children }: { children: React.ReactNode }) {
 export default function PhoneShowcase() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState(0);
+  const [hover, setHover] = useState(false);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const hoverRef = useRef<HTMLDivElement>(null);
+
+  function handleMove(e: React.MouseEvent) {
+    const rect = hoverRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }
 
   useEffect(() => {
     let raf = 0;
@@ -54,29 +63,48 @@ export default function PhoneShowcase() {
         }}
       >
         <div style={{ backfaceVisibility: "hidden" }}>
-          <PhoneFrame>
-            <div className="px-5 pb-6 pt-9">
-              <p className="text-center text-[10px] font-semibold uppercase tracking-[0.16em] text-steel">
-                Før &amp; efter
-              </p>
-              <h4 className="mt-1.5 text-center font-display text-base font-black leading-tight text-ink">
-                Se forskellen med egne øjne
-              </h4>
+          <div
+            ref={hoverRef}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            onMouseMove={handleMove}
+            className="relative cursor-none"
+          >
+            <PhoneFrame>
+              <div className="px-5 pb-6 pt-9">
+                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.16em] text-steel">
+                  Før &amp; efter
+                </p>
+                <h4 className="mt-1.5 text-center font-display text-base font-black leading-tight text-ink">
+                  Se forskellen med egne øjne
+                </h4>
 
-              <div className="mt-4">
-                <BeforeAfterSlider
-                  before="/assets/case-vni-before.webp"
-                  after="/assets/case-vni-after.webp"
-                  beforeAlt="VN Isolering før"
-                  afterAlt="VN Isolering efter"
-                  aspectClass="aspect-[4/3]"
-                />
+                <div className="mt-4">
+                  <BeforeAfterSlider
+                    before="/assets/case-vni-before.webp"
+                    after="/assets/case-vni-after.webp"
+                    beforeAlt="VN Isolering før"
+                    afterAlt="VN Isolering efter"
+                    aspectClass="aspect-[4/3]"
+                  />
+                </div>
+                <p className="mt-2.5 text-center text-xs text-muted">
+                  Facaderenovering udført af VN Isolering
+                </p>
               </div>
-              <p className="mt-2.5 text-center text-xs text-muted">
-                Facaderenovering udført af VN Isolering
-              </p>
+            </PhoneFrame>
+
+            <div
+              className="pointer-events-none absolute flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-beige text-center text-[10px] font-bold uppercase leading-tight tracking-wide text-navyDeep transition-transform duration-200"
+              style={{
+                left: pos.x,
+                top: pos.y,
+                transform: `translate(-50%, -50%) scale(${hover ? 1 : 0})`,
+              }}
+            >
+              Træk for at se
             </div>
-          </PhoneFrame>
+          </div>
         </div>
 
         <div

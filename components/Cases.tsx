@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import Reveal from "./Reveal";
 
 const cases = [
   {
@@ -91,13 +92,17 @@ export default function Cases() {
   return (
     <section id="cases" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto max-w-page px-6 py-24">
-        <h2 className="font-display text-3xl font-black text-white sm:text-4xl">
-          Cases
-        </h2>
+        <Reveal>
+          <h2 className="font-display text-3xl font-black text-white sm:text-4xl">
+            Cases
+          </h2>
+        </Reveal>
 
         <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {cases.map((c) => (
-            <CaseCard key={c.name} c={c} />
+          {cases.map((c, i) => (
+            <Reveal key={c.name} delay={i * 80}>
+              <CaseCard c={c} />
+            </Reveal>
           ))}
         </div>
       </div>
