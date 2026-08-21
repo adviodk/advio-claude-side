@@ -41,6 +41,8 @@ export default function LogoBar() {
         <div className="marquee-track flex w-max">
           <Row />
           <Row ariaHidden />
+          <Row ariaHidden />
+          <Row ariaHidden />
         </div>
       </div>
     </section>

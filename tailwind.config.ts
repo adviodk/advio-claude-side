@@ -18,6 +18,10 @@ const config: Config = {
         mist: "#9aa0bf",
         border: "#dfe1ee",
         tint: "#eceefb",
+        charcoal: "#23262e",
+        charcoalDeep: "#181a20",
+        beige: "#efe7d8",
+        beigeDeep: "#e2d7c0",
       },
       maxWidth: {
         page: "1180px",

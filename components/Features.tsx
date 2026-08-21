@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PhoneShowcase from "./PhoneShowcase";
 
 const features = [
   {
@@ -38,30 +39,36 @@ export default function Features() {
           Klar til at tage næste skridt?
         </h3>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          {features.map((f) => (
-            <div
-              key={f.n}
-              className="border border-ink bg-white shadow-cardSoft"
-            >
+        <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="grid gap-6 sm:grid-cols-2">
+            {features.map((f) => (
               <div
-                className={`h-1.5 ${
-                  Number(f.n) % 2 === 0 ? "bg-yellow" : "bg-blue"
-                }`}
-              />
-              <div className="p-7">
-                <span className="font-display text-xs font-semibold text-blue">
-                  {f.n}
-                </span>
-                <h4 className="mt-3 font-display text-lg font-black text-ink">
-                  {f.title}
-                </h4>
-                <p className="mt-2.5 text-sm leading-relaxed text-muted">
-                  {f.body}
-                </p>
+                key={f.n}
+                className="border border-ink bg-white shadow-cardSoft"
+              >
+                <div
+                  className={`h-1.5 ${
+                    Number(f.n) % 2 === 0 ? "bg-yellow" : "bg-blue"
+                  }`}
+                />
+                <div className="p-7">
+                  <span className="font-display text-xs font-semibold text-blue">
+                    {f.n}
+                  </span>
+                  <h4 className="mt-3 font-display text-lg font-black text-ink">
+                    {f.title}
+                  </h4>
+                  <p className="mt-2.5 text-sm leading-relaxed text-muted">
+                    {f.body}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <div>
+            <PhoneShowcase />
+          </div>
         </div>
 
         <div className="mt-12 flex justify-center">
