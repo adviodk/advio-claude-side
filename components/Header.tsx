@@ -14,17 +14,14 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-canvas/95 backdrop-blur">
       <div className="mx-auto flex max-w-page items-center justify-between px-6 py-4">
-        <Link href="#hero" className="flex items-center gap-2">
+        <Link href="#hero" className="flex items-center">
           <Image
             src="/assets/advio-logo.png"
             alt="Advio logo"
-            width={28}
-            height={28}
+            width={44}
+            height={44}
             priority
           />
-          <span className="font-display text-lg font-semibold tracking-tight text-ink">
-            Advio
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
