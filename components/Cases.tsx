@@ -1,100 +1,110 @@
-"use client";
-
-import { useRef, useState } from "react";
 import Image from "next/image";
 import Reveal from "./Reveal";
 
-const cases = [
+type PhotoCase = {
+  name: string;
+  tag: string;
+  href: string;
+  image: string;
+  imageAlt: string;
+  tint: string;
+};
+
+type LogoCase = {
+  name: string;
+  tag: string;
+  href: string;
+  logo: string;
+  logoAlt: string;
+};
+
+const cases: (PhotoCase | LogoCase)[] = [
   {
     name: "Erik Larsen & Co. VVS",
-    tag: "VVS · København",
-    body: "Autoriseret VVS-firma i København, kåret som finalist/vinder af Årets Håndværker 2013–2025.",
+    tag: "VVS",
     href: "https://www.eriklarsen.dk",
-    logo: "/assets/case-eriklarsen-logo.png",
-    logoAlt: "Erik Larsen & Co. logo",
-    logoBg: "bg-ink",
-    cardBg: "bg-white",
+    image: "/assets/case-eriklarsen-hero.png",
+    imageAlt: "Erik Larsen & Co. VVS",
+    tint: "from-navyDeep/95 via-navyDeep/50",
   },
   {
     name: "VN Isolering",
-    tag: "Facade & isolering · Jylland",
-    body: "Facade- og isoleringsfirma med base i Jylland, kendt for solidt håndværk og synlige resultater.",
+    tag: "Facade & isolering",
     href: "https://vnisolering.dk",
-    logo: "/assets/case-vni-logo.png",
-    logoAlt: "VN Isolering logo",
-    logoBg: "bg-white",
-    cardBg: "bg-beige",
+    image: "/assets/case-vni-after.webp",
+    imageAlt: "VN Isolering",
+    tint: "from-ink/95 via-ink/45",
   },
   {
     name: "Proelectric",
-    tag: "Elinstallation · Valby",
-    body: "Autoriseret elinstallatør i Valby, der udfører el-installationer for private og erhverv.",
+    tag: "Elinstallation",
     href: "https://proelectric.dk",
     logo: "/assets/case-proelectric-logo.png",
     logoAlt: "Proelectric logo",
-    logoBg: "bg-white",
-    cardBg: "bg-white",
   },
 ];
 
-function CaseCard({ c }: { c: (typeof cases)[number] }) {
-  const [hover, setHover] = useState(false);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const ref = useRef<HTMLDivElement>(null);
+function CaseContent({ c }: { c: PhotoCase | LogoCase }) {
+  return (
+    <div className="relative z-10 flex h-full max-w-page flex-col justify-end px-6 pb-12 md:mx-auto md:px-12 md:pb-16">
+      <span className="inline-flex w-fit items-center rounded-full bg-beige px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-navyDeep">
+        Sådan hjalp vi {c.tag}
+      </span>
 
-  function handleMove(e: React.MouseEvent) {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }
+      <h3 className="mt-5 font-display text-4xl leading-[1.02] text-white sm:text-5xl md:text-6xl">
+        {c.name}
+      </h3>
+
+      <span className="mt-6 inline-flex w-fit items-center gap-2 border-b border-white/40 pb-1.5 text-xs font-bold uppercase tracking-[0.14em] text-white transition-colors group-hover:border-white">
+        Se casen her
+        <span
+          aria-hidden
+          className="transition-transform duration-300 group-hover:translate-x-1"
+        >
+          →
+        </span>
+      </span>
+    </div>
+  );
+}
+
+function CaseBlock({ c }: { c: PhotoCase | LogoCase }) {
+  const isPhoto = "image" in c;
 
   return (
-    <a href={c.href} target="_blank" rel="noopener noreferrer" className="group block">
-      <div
-        ref={ref}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onMouseMove={handleMove}
-        className={`relative cursor-none overflow-hidden rounded-3xl p-8 shadow-cardSoft transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-card ${c.cardBg}`}
-      >
-        <div
-          className={`absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full p-2 ${c.logoBg}`}
-        >
+    <a
+      href={c.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative block h-[420px] w-full overflow-hidden sm:h-[480px] md:h-[560px]"
+    >
+      {isPhoto ? (
+        <>
           <Image
-            src={c.logo}
-            alt={c.logoAlt}
-            width={80}
-            height={80}
-            className="h-full w-full object-contain"
+            src={c.image}
+            alt={c.imageAlt}
+            fill
+            sizes="100vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
-        </div>
+          <div className={`absolute inset-0 bg-gradient-to-t ${c.tint} to-transparent`} />
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 bg-navy" />
+          <div className="absolute inset-0 flex items-center justify-end pr-6 opacity-15 transition-transform duration-700 ease-out group-hover:scale-105 md:pr-24">
+            <Image
+              src={c.logo}
+              alt=""
+              width={420}
+              height={420}
+              className="h-auto w-[260px] object-contain sm:w-[340px] md:w-[420px]"
+            />
+          </div>
+        </>
+      )}
 
-        <h3 className="mt-16 font-display text-xl font-black text-ink">
-          {c.name}
-        </h3>
-        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-navy">
-          {c.tag}
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-muted">{c.body}</p>
-
-        <span className="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-navy">
-          Se siden
-          <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
-        </span>
-
-        <div
-          className="stained-glass pointer-events-none absolute flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-xs font-bold uppercase tracking-wide text-navyDeep transition-transform duration-200"
-          style={{
-            left: pos.x,
-            top: pos.y,
-            transform: `translate(-50%, -50%) scale(${hover ? 1 : 0})`,
-          }}
-        >
-          Se siden
-        </div>
-      </div>
+      <CaseContent c={c} />
     </a>
   );
 }
@@ -119,14 +129,14 @@ export default function Cases() {
             </span>
           </h3>
         </Reveal>
+      </div>
 
-        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {cases.map((c, i) => (
-            <Reveal key={c.name} delay={i * 80}>
-              <CaseCard c={c} />
-            </Reveal>
-          ))}
-        </div>
+      <div className="flex flex-col gap-1">
+        {cases.map((c, i) => (
+          <Reveal key={c.name} delay={i * 80}>
+            <CaseBlock c={c} />
+          </Reveal>
+        ))}
       </div>
     </section>
   );
