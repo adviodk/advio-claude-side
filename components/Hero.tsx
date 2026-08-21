@@ -58,11 +58,7 @@ export default function Hero() {
     <section id="hero" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
         <div>
-          <span className="inline-block rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-beige">
-            Typisk levering på 2 dage
-          </span>
-
-          <h1 className="mt-6 leading-[1.02] tracking-tight sm:text-5xl">
+          <h1 className="leading-[1.02] tracking-tight sm:text-5xl">
             <span className="block font-sans text-4xl font-black uppercase text-white">
               Få flere kunder
             </span>

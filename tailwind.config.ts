@@ -10,9 +10,9 @@ const config: Config = {
       },
       colors: {
         ink: "#0b0f1a",
-        navy: "#1f2d50",
-        navyDeep: "#121b33",
-        steel: "#5b6b85",
+        navy: "#244b6e",
+        navyDeep: "#1c3348",
+        steel: "#4c6b85",
         canvas: "#f5f6fa",
         muted: "#565b78",
         mist: "#9aa0bf",
@@ -20,8 +20,8 @@ const config: Config = {
         tint: "#eceefb",
         charcoal: "#23262e",
         charcoalDeep: "#181a20",
-        beige: "#efe7d8",
-        beigeDeep: "#e2d7c0",
+        beige: "#d8c4b4",
+        beigeDeep: "#c9ae98",
       },
       maxWidth: {
         page: "1180px",

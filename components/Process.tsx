@@ -1,16 +1,13 @@
 const steps = [
   {
-    n: "01",
     title: "Udfyld skema",
     body: "Tag 2 minutter på de korte trin.",
   },
   {
-    n: "02",
     title: "Godkend dit udkast",
     body: "Vi sender et færdigt udkast til gennemsyn.",
   },
   {
-    n: "03",
     title: "Gå live på 2 dage",
     body: "Din nye side er klar til kunderne.",
   },
@@ -18,27 +15,29 @@ const steps = [
 
 export default function Process() {
   return (
-    <section id="process" className="scroll-mt-20 border-t border-border bg-white">
+    <section id="process" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto max-w-page px-6 py-24">
-        <div className="mb-14 flex items-center gap-4">
-          <span className="h-px w-10 bg-steel" />
-          <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-            Sådan kommer du i gang
-          </h2>
-        </div>
+        <h2 className="font-display text-4xl font-black text-white sm:text-5xl">
+          Sådan kommer du i gang
+        </h2>
 
-        <div className="grid gap-10 md:grid-cols-3">
-          {steps.map((step) => (
-            <div key={step.n}>
-              <span className="inline-flex h-8 w-8 items-center justify-center border border-ink bg-steel font-display text-sm font-bold text-white">
-                {step.n}
-              </span>
-              <h3 className="mt-4 font-display text-xl font-black text-ink">
-                {step.title}
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted">
-                {step.body}
-              </p>
+        <div className="mt-16 max-w-2xl">
+          {steps.map((step, i) => (
+            <div key={step.title}>
+              <div className="flex flex-col gap-2 py-8 sm:flex-row sm:items-baseline sm:gap-8">
+                <span className="font-display text-sm text-steel">
+                  0{i + 1}
+                </span>
+                <div>
+                  <h3 className="font-sans text-xl font-bold text-white">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-white/60">{step.body}</p>
+                </div>
+              </div>
+              {i < steps.length - 1 && (
+                <span className="block h-px w-10 bg-white/20" />
+              )}
             </div>
           ))}
         </div>

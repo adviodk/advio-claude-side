@@ -1,95 +1,100 @@
+"use client";
+
+import { useRef, useState } from "react";
 import Image from "next/image";
 
 const cases = [
   {
-    tags: ["VVS", "København"],
-    title: "Erik Larsen & Co. VVS fik en digital forside der matcher deres håndværk",
-    body: "Autoriseret VVS-firma i København, kåret som finalist/vinder af Årets Håndværker 2013–2025. Ny hjemmeside der samler ydelser, anmeldelser og kontaktvej ét sted.",
+    name: "Erik Larsen & Co. VVS",
+    tag: "VVS · København",
     href: "https://www.eriklarsen.dk",
-    logo: "/assets/case-eriklarsen-logo.png",
     image: "/assets/case-eriklarsen-hero.png",
     imageAlt: "Erik Larsen & Co. VVS' team",
   },
   {
-    tags: ["Facade & isolering", "Jylland"],
-    title: "VN Isolering fik en hjemmeside der viser resultaterne frem",
-    body: "Facade- og isoleringsfirma med base i Jylland. Ny hjemmeside bygget om før/efter-billeder, så kunderne kan se kvaliteten, før de beder om en vurdering.",
+    name: "VN Isolering",
+    tag: "Facade & isolering · Jylland",
     href: "https://vnisolering.dk",
-    logo: "/assets/case-vni-logo.png",
     image: "/assets/case-vni-after.webp",
     imageAlt: "Facaderenovering udført af VN Isolering",
   },
   {
-    tags: ["Elinstallation", "Valby"],
-    title: "Proelectric fik en hjemmeside der virker fra dag ét",
-    body: "Autoriseret elinstallatør i Valby, der udfører el-installationer for private og erhverv. Ny hjemmeside med fokus på faglighed og hurtig kontakt.",
+    name: "Proelectric",
+    tag: "Elinstallation · Valby",
     href: "https://proelectric.dk",
-    logo: "/assets/case-proelectric-logo.png",
     image: "/assets/case-proelectric-shot.png",
     imageAlt: "Proelectrics hjemmeside",
   },
 ];
 
+function CaseCard({ c }: { c: (typeof cases)[number] }) {
+  const [hover, setHover] = useState(false);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const ref = useRef<HTMLDivElement>(null);
+
+  function handleMove(e: React.MouseEvent) {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }
+
+  return (
+    <a
+      href={c.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block"
+    >
+      <div
+        ref={ref}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onMouseMove={handleMove}
+        className="relative aspect-[4/5] w-full cursor-none overflow-hidden rounded-2xl bg-navy"
+      >
+        <Image
+          src={c.image}
+          alt={c.imageAlt}
+          fill
+          className="object-cover transition duration-500 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-navyDeep/0 transition-colors duration-300 group-hover:bg-navyDeep/30" />
+
+        <div
+          className="pointer-events-none absolute flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-beige text-xs font-bold uppercase tracking-wide text-navyDeep transition-transform duration-200"
+          style={{
+            left: pos.x,
+            top: pos.y,
+            transform: `translate(-50%, -50%) scale(${hover ? 1 : 0})`,
+          }}
+        >
+          Se siden
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <h3 className="font-display text-lg font-black text-white">
+          {c.name}
+        </h3>
+        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-steel">
+          {c.tag}
+        </p>
+      </div>
+    </a>
+  );
+}
+
 export default function Cases() {
   return (
-    <section id="cases" className="scroll-mt-20 bg-canvas">
+    <section id="cases" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto max-w-page px-6 py-24">
-        <div className="grid gap-14 lg:grid-cols-3">
-          {cases.map((c) => (
-            <article key={c.title} className="flex flex-col">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-navyDeep">
-                {c.image ? (
-                  <Image
-                    src={c.image}
-                    alt={c.imageAlt}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-navy">
-                    <Image
-                      src={c.logo}
-                      alt={c.tags[0]}
-                      width={160}
-                      height={70}
-                      className="h-auto w-40"
-                    />
-                  </div>
-                )}
-                {c.image && (
-                  <div className="absolute bottom-3 left-3 rounded-lg bg-white/95 px-2.5 py-1.5 shadow-sm">
-                    <Image
-                      src={c.logo}
-                      alt=""
-                      width={90}
-                      height={32}
-                      className="h-6 w-auto"
-                    />
-                  </div>
-                )}
-              </div>
+        <h2 className="font-display text-3xl font-black text-white sm:text-4xl">
+          Cases
+        </h2>
 
-              <div className="flex flex-1 flex-col pt-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-steel">
-                  {c.tags.join(" · ")}
-                </p>
-                <h3 className="mt-3 font-display text-lg font-black leading-snug text-ink">
-                  {c.title}
-                </h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
-                  {c.body}
-                </p>
-                <a
-                  href={c.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-navyDeep"
-                >
-                  Se hjemmesiden
-                  <span aria-hidden>↗</span>
-                </a>
-              </div>
-            </article>
+        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          {cases.map((c) => (
+            <CaseCard key={c.name} c={c} />
           ))}
         </div>
       </div>
