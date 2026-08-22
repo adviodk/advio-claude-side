@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import PhoneScrollVideo from "./PhoneScrollVideo";
 
 const steps = [
   {
@@ -25,27 +26,31 @@ export default function Process() {
           </h2>
         </Reveal>
 
-        <div className="mt-8 max-w-2xl">
-          {steps.map((step, i) => (
-            <Reveal key={step.title} delay={i * 100}>
-              <div>
-                <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-8">
-                  <span className="font-display text-sm font-medium text-steel">
-                    0{i + 1}
-                  </span>
-                  <div>
-                    <h3 className="font-sans text-lg font-bold text-white">
-                      {step.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-white/60">{step.body}</p>
+        <div className="mt-8 grid gap-4 lg:grid-cols-2 lg:items-start lg:gap-16">
+          <div className="max-w-2xl">
+            {steps.map((step, i) => (
+              <Reveal key={step.title} delay={i * 100}>
+                <div>
+                  <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-8">
+                    <span className="font-display text-sm font-medium text-steel">
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <h3 className="font-sans text-lg font-bold text-white">
+                        {step.title}
+                      </h3>
+                      <p className="mt-1 text-sm text-white/60">{step.body}</p>
+                    </div>
                   </div>
+                  {i < steps.length - 1 && (
+                    <span className="block h-px w-10 bg-white/20" />
+                  )}
                 </div>
-                {i < steps.length - 1 && (
-                  <span className="block h-px w-10 bg-white/20" />
-                )}
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
+
+          <PhoneScrollVideo />
         </div>
       </div>
     </section>
