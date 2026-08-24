@@ -2,17 +2,36 @@
 
 import { useState } from "react";
 
-export default function CallbackModal() {
+export default function CallbackModal({
+  label = "Ring os op",
+  className = "inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep",
+}: {
+  label?: string;
+  className?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
+  const [navn, setNavn] = useState("");
+  const [telefon, setTelefon] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "ring-mig-op", navn, telefon }),
+      });
+    } catch {
+      // Ignore — we still confirm to the user below.
+    }
+    setSent(true);
+  }
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
-      >
-        Ring os op
+      <button onClick={() => setOpen(true)} className={className}>
+        {label}
         <span aria-hidden>→</span>
       </button>
 
@@ -35,12 +54,7 @@ export default function CallbackModal() {
                 </p>
               </div>
             ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSent(true);
-                }}
-              >
+              <form onSubmit={handleSubmit}>
                 <h3 className="font-display text-lg font-black text-ink">
                   Ring mig op
                 </h3>
@@ -50,11 +64,25 @@ export default function CallbackModal() {
                 <div className="mt-6 space-y-5">
                   <label className="block">
                     <span className="field-label">Navn</span>
-                    <input required type="text" className="field" />
+                    <input
+                      required
+                      type="text"
+                      name="navn"
+                      value={navn}
+                      onChange={(e) => setNavn(e.target.value)}
+                      className="field"
+                    />
                   </label>
                   <label className="block">
                     <span className="field-label">Telefonnummer</span>
-                    <input required type="tel" className="field" />
+                    <input
+                      required
+                      type="tel"
+                      name="telefon"
+                      value={telefon}
+                      onChange={(e) => setTelefon(e.target.value)}
+                      className="field"
+                    />
                   </label>
                 </div>
                 <button

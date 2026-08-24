@@ -118,6 +118,19 @@ export default function FormularPage() {
     if (nextFieldRef.current) {
       nextFieldRef.current.value = `${window.location.origin}/formular/book?${params.toString()}`;
     }
+
+    fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "spørgeskema",
+        firma: data.firma,
+        telefon: data.telefon,
+        email: data.email,
+      }),
+      keepalive: true,
+    }).catch(() => {});
+
     // No preventDefault: this submits natively (multipart) to FormSubmit,
     // which is required for the file upload to be attached to the email.
     // FormSubmit only redirects to _next once it has processed the POST

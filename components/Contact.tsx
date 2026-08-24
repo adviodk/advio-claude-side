@@ -18,6 +18,19 @@ export default function Contact() {
     if (nextFieldRef.current) {
       nextFieldRef.current.value = `${window.location.origin}/?sent=true#kontakt`;
     }
+
+    const data = new FormData(e.currentTarget);
+    fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "kontaktformular",
+        navn: data.get("navn"),
+        kontakt: data.get("kontakt"),
+      }),
+      keepalive: true,
+    }).catch(() => {});
+
     // No preventDefault: submits natively to FormSubmit, which redirects
     // back to _next once the email has been sent server-side.
   }

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import CallbackModal from "./CallbackModal";
 
 const steps = [
   { n: "01", label: "Firmanavn og branche" },
@@ -96,7 +95,13 @@ export default function Hero() {
           </div>
 
           <div className="mt-9">
-            <CallbackModal />
+            <a
+              href="tel:+4522494295"
+              className="inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+            >
+              Ring til os
+              <span aria-hidden>→</span>
+            </a>
           </div>
         </div>
 
