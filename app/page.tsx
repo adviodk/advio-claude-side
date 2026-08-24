@@ -18,8 +18,8 @@ export default function Home() {
         <Cases />
         <Process />
         <Features />
-        <Faq />
         <Contact />
+        <Faq />
       </main>
       <Footer />
     </>

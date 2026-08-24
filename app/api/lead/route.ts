@@ -12,7 +12,7 @@ type LeadPayload = {
 const TITLES: Record<LeadPayload["type"], string> = {
   kontaktformular: "NYT LEAD (KONTAKTFORMULAR)",
   "spørgeskema": "NYT LEAD (SPØRGESKEMA)",
-  "ring-mig-op": "NYT LEAD (RING MIG OP)",
+  "ring-mig-op": "NYT LEAD (RING TIL OS)",
 };
 
 function buildMessage(payload: LeadPayload): string {
@@ -57,12 +57,31 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         chat_id: chatId,
         text: buildMessage(payload),
+        // Loud, attention-grabbing delivery — leads should never be silent.
+        disable_notification: false,
       }),
     });
 
     if (!telegramRes.ok) {
       const detail = await telegramRes.text();
       return NextResponse.json({ ok: false, error: detail }, { status: 502 });
+    }
+
+    const sent = await telegramRes.json();
+    const messageId = sent?.result?.message_id;
+
+    // Pin the lead so it stays at the top of the chat and can't be missed
+    // or scrolled past — this also fires its own notification.
+    if (messageId) {
+      await fetch(`https://api.telegram.org/bot${token}/pinChatMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          message_id: messageId,
+          disable_notification: false,
+        }),
+      }).catch(() => {});
     }
 
     return NextResponse.json({ ok: true });

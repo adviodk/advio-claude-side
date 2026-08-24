@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     q: "Er der servicegebyr eller binding?",
-    a: "Vi kører normalt ikke med vedligeholdelseskontrakter eller bindingsperioder. På større projekter kan vi dog drifte din hjemmeside for dig – inkl. op til 2 ændringer pr. uge – til en fast månedlig pris.",
+    a: "Vi kører normalt ikke med vedligeholdelseskontrakter eller bindingsperioder. På større projekter kan vi dog drifte din hjemmeside for dig til en fast månedlig pris.",
   },
   {
     q: "Hvad hvis jeg allerede har en hjemmeside?",
@@ -55,7 +55,7 @@ export default function Faq() {
         </Reveal>
 
         <Reveal delay={80}>
-          <div className="grid gap-x-10 md:grid-cols-2">
+          <div className="grid items-start gap-x-10 md:grid-cols-2">
             {faqs.map((item, i) => {
               const open = openIndex === i;
               return (
@@ -76,11 +76,17 @@ export default function Faq() {
                       ⌄
                     </span>
                   </button>
-                  {open && (
-                    <p className="pb-5 text-sm leading-relaxed text-white/60">
-                      {item.a}
-                    </p>
-                  )}
+                  <div
+                    className={`grid transition-[grid-template-rows] duration-200 ease-out ${
+                      open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="pb-5 text-sm leading-relaxed text-white/60">
+                        {item.a}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               );
             })}

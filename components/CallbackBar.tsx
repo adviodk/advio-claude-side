@@ -8,7 +8,7 @@ export default function CallbackBar() {
           Skal vi ringe dig op?
         </p>
         <CallbackModal
-          label="Ring mig op"
+          label="Ring til os"
           className="inline-flex shrink-0 items-center gap-2 rounded-none bg-beige px-5 py-2.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
         />
       </div>

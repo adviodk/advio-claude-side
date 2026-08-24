@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function CallbackModal({
-  label = "Ring os op",
+  label = "Ring til os",
   className = "inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep",
 }: {
   label?: string;
@@ -56,7 +56,7 @@ export default function CallbackModal({
             ) : (
               <form onSubmit={handleSubmit}>
                 <h3 className="font-display text-lg font-black text-ink">
-                  Ring mig op
+                  Ring til os
                 </h3>
                 <p className="mt-1 text-sm text-muted">
                   Læg dit nummer, så ringer vi dig op.
@@ -89,7 +89,7 @@ export default function CallbackModal({
                   type="submit"
                   className="mt-5 w-full rounded-none bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
                 >
-                  Ring mig op
+                  Ring til os
                 </button>
                 <button
                   type="button"
