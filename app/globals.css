@@ -7,12 +7,24 @@ html {
 }
 
 body {
-  background: #f5f6fa;
-  color: #0b0f1a;
+  background: #f7f6f2;
+  color: #1a1c1b;
 }
 
 .field {
-  @apply w-full border border-border bg-canvas px-4 py-3 text-sm text-ink placeholder:text-mist focus:border-navy focus:outline-none;
+  @apply w-full border-0 border-b border-border bg-transparent px-0 pb-2.5 pt-0 text-base text-ink placeholder:text-mist/70 focus:border-navy focus:outline-none;
+}
+
+.field-label {
+  @apply mb-0.5 block text-sm font-bold text-navy;
+}
+
+.bg-navy-fade {
+  background-color: #1c2020;
+  background-image:
+    radial-gradient(120% 70% at 15% -10%, rgba(225, 226, 209, 0.06), transparent 60%),
+    radial-gradient(90% 60% at 100% 0%, rgba(109, 110, 105, 0.14), transparent 65%),
+    radial-gradient(100% 70% at 50% 120%, rgba(47, 53, 54, 0.7), transparent 70%);
 }
 
 .marquee-track {

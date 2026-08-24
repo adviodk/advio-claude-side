@@ -39,7 +39,7 @@ export default function Header() {
 
         <Link
           href="/formular"
-          className="inline-flex items-center gap-2 rounded-full bg-beige px-5 py-2.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+          className="inline-flex items-center gap-2 rounded-none bg-beige px-5 py-2.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
         >
           Få et tilbud
         </Link>

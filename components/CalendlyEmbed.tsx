@@ -35,7 +35,7 @@ export default function CalendlyEmbed() {
         <button
           type="button"
           onClick={() => setStoredConsent("accepted")}
-          className="rounded-full bg-beige px-6 py-3 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+          className="rounded-none bg-beige px-6 py-3 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
         >
           Accepter cookies
         </button>

@@ -56,7 +56,7 @@ function CaseBlock({ c }: { c: CaseItem }) {
         </h3>
 
         <span className="mt-6 inline-flex w-fit items-center gap-2 border-b border-white/40 pb-1.5 text-xs font-medium uppercase tracking-[0.14em] text-white transition-colors group-hover:border-white">
-          Se casen her
+          Se siden her
           <span
             aria-hidden
             className="transition-transform duration-300 group-hover:translate-x-1"
@@ -71,7 +71,7 @@ function CaseBlock({ c }: { c: CaseItem }) {
 
 export default function Cases() {
   return (
-    <section id="cases" className="scroll-mt-20 bg-navyDeep">
+    <section id="cases" className="scroll-mt-20 bg-navy-fade">
       <div className="mx-auto max-w-page px-6 py-24">
         <Reveal>
           <div className="mb-4 flex items-center gap-4">
@@ -82,9 +82,9 @@ export default function Cases() {
           </div>
           <h3 className="leading-[1.02] tracking-tight">
             <span className="font-sans text-4xl font-black uppercase text-white sm:text-5xl">
-              Cases
+              Udvalgte cases
             </span>{" "}
-            <span className="font-display text-4xl font-medium italic text-beige sm:text-5xl">
+            <span className="font-display text-4xl font-medium uppercase text-beige sm:text-5xl">
               der taler for sig selv
             </span>
           </h3>

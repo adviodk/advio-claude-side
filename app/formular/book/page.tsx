@@ -10,7 +10,7 @@ export default async function BookPage({
   const params = await searchParams;
 
   return (
-    <div className="min-h-screen bg-navyDeep">
+    <div className="min-h-screen bg-navy-fade">
       <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
         <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5">
           <Link
@@ -35,7 +35,7 @@ export default async function BookPage({
           <span className="block font-sans text-2xl font-black uppercase text-white sm:text-3xl">
             Tak!
           </span>
-          <span className="block font-display text-2xl font-medium italic text-beige sm:text-3xl">
+          <span className="block font-display text-2xl font-medium uppercase text-beige sm:text-3xl">
             Vælg en tid der passer dig
           </span>
         </h1>
@@ -51,7 +51,7 @@ export default async function BookPage({
         <div className="mt-8 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-full bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+            className="inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
           >
             Tilbage til forsiden
           </Link>

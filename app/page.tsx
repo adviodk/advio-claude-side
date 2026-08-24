@@ -5,6 +5,7 @@ import Cases from "@/components/Cases";
 import Process from "@/components/Process";
 import Features from "@/components/Features";
 import Faq from "@/components/Faq";
+import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
         <Process />
         <Features />
         <Faq />
+        <Contact />
       </main>
       <Footer />
     </>

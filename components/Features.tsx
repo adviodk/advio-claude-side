@@ -26,7 +26,7 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="features" className="scroll-mt-20 bg-navyDeep">
+    <section id="features" className="scroll-mt-20 bg-navy-fade">
       <div className="mx-auto max-w-page px-6 py-24">
         <Reveal>
           <div className="mb-4 flex items-center gap-4">
@@ -39,7 +39,7 @@ export default function Features() {
             <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
               Bygget til at
             </span>{" "}
-            <span className="font-display text-3xl font-medium italic text-beige sm:text-4xl">
+            <span className="font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
               konvertere
             </span>
           </h2>
@@ -74,7 +74,7 @@ export default function Features() {
           <div className="mt-12 flex justify-center">
             <Link
               href="/formular"
-              className="group inline-flex items-center gap-3 rounded-full bg-beige px-8 py-4 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+              className="group inline-flex items-center gap-3 rounded-none bg-beige px-8 py-4 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
             >
               Få dit gratis udkast
               <span

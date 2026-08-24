@@ -33,7 +33,7 @@ function CtaCard() {
 
       <Link
         href="/formular"
-        className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-beige py-4 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+        className="mt-7 flex w-full items-center justify-center gap-2 rounded-none bg-beige py-4 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
       >
         Få dit gratis udkast
         <span aria-hidden>→</span>
@@ -55,14 +55,14 @@ function CtaCard() {
 
 export default function Hero() {
   return (
-    <section id="hero" className="scroll-mt-20 bg-navyDeep">
+    <section id="hero" className="scroll-mt-20 bg-navy-fade">
       <div className="mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
         <div>
           <h1 className="leading-[0.98] tracking-tight">
             <span className="block font-sans text-5xl font-black uppercase text-white sm:text-6xl md:text-7xl">
               Få flere kunder
             </span>
-            <span className="block font-display text-4xl font-medium italic text-beige sm:text-5xl md:text-6xl">
+            <span className="block font-display text-4xl font-medium uppercase text-beige sm:text-5xl md:text-6xl">
               med en professionel hjemmeside
             </span>
           </h1>

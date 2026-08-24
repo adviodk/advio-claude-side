@@ -35,7 +35,7 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="scroll-mt-20 bg-navyDeep">
+    <section id="faq" className="scroll-mt-20 bg-navy-fade">
       <div className="mx-auto max-w-page px-6 py-24">
         <Reveal>
           <div className="mb-4 flex items-center gap-4">
@@ -48,7 +48,7 @@ export default function Faq() {
             <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
               Godt at
             </span>{" "}
-            <span className="font-display text-3xl font-medium italic text-beige sm:text-4xl">
+            <span className="font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
               vide
             </span>
           </h2>
@@ -91,7 +91,7 @@ export default function Faq() {
           <div className="mt-14 flex justify-center">
             <Link
               href="/formular"
-              className="group inline-flex items-center gap-3 rounded-full bg-beige px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-navyDeep transition-colors hover:bg-beigeDeep"
+              className="group inline-flex items-center gap-3 rounded-none bg-beige px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-navyDeep transition-colors hover:bg-beigeDeep"
             >
               Klar til dit gratis udkast?
               <span aria-hidden className="transition-transform group-hover:translate-x-1">

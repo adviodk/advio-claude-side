@@ -25,7 +25,7 @@ export default function CookieConsent() {
           type="button"
           onClick={() => choose("declined")}
           aria-label="Luk"
-          className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+          className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded-none border border-white/20 text-white/70 transition-colors hover:border-white/40 hover:text-white"
         >
           ✕
         </button>
@@ -45,14 +45,14 @@ export default function CookieConsent() {
           <button
             type="button"
             onClick={() => choose("accepted")}
-            className="flex-1 rounded-full bg-beige px-5 py-3 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+            className="flex-1 rounded-none bg-beige px-5 py-3 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
           >
             Godkend
           </button>
           <button
             type="button"
             onClick={() => choose("declined")}
-            className="flex-1 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+            className="flex-1 rounded-none border border-white/25 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
           >
             Afvis
           </button>

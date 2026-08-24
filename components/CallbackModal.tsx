@@ -10,7 +10,7 @@ export default function CallbackModal() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-2 rounded-full bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+        className="inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
       >
         Ring os op
         <span aria-hidden>→</span>
@@ -22,7 +22,7 @@ export default function CallbackModal() {
           onClick={() => setOpen(false)}
         >
           <div
-            className="w-full max-w-sm border border-ink bg-white p-7 shadow-card"
+            className="w-full max-w-sm rounded-2xl bg-white p-7 shadow-card"
             onClick={(e) => e.stopPropagation()}
           >
             {sent ? (
@@ -47,23 +47,19 @@ export default function CallbackModal() {
                 <p className="mt-1 text-sm text-muted">
                   Læg dit nummer, så ringer vi dig op.
                 </p>
-                <div className="mt-5 space-y-3">
-                  <input
-                    required
-                    type="text"
-                    placeholder="Dit navn"
-                    className="field"
-                  />
-                  <input
-                    required
-                    type="tel"
-                    placeholder="Dit telefonnummer"
-                    className="field"
-                  />
+                <div className="mt-6 space-y-5">
+                  <label className="block">
+                    <span className="field-label">Navn</span>
+                    <input required type="text" className="field" />
+                  </label>
+                  <label className="block">
+                    <span className="field-label">Telefonnummer</span>
+                    <input required type="tel" className="field" />
+                  </label>
                 </div>
                 <button
                   type="submit"
-                  className="mt-5 w-full rounded-full bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+                  className="mt-5 w-full rounded-none bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
                 >
                   Ring mig op
                 </button>

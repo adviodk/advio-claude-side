@@ -125,7 +125,7 @@ export default function FormularPage() {
   }
 
   return (
-    <div className="min-h-screen bg-navyDeep">
+    <div className="min-h-screen bg-navy-fade">
       <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
         <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5">
           <Link
@@ -150,7 +150,7 @@ export default function FormularPage() {
           <span className="block font-sans text-3xl font-black uppercase text-white sm:text-4xl">
             Lad os bygge
           </span>
-          <span className="block font-display text-3xl font-medium italic text-beige sm:text-4xl">
+          <span className="block font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
             din nye hjemmeside
           </span>
         </h1>
@@ -380,7 +380,7 @@ export default function FormularPage() {
               <button
                 type="button"
                 onClick={() => setStep((s) => s - 1)}
-                className="flex-1 rounded-full border border-border py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
+                className="flex-1 rounded-none border border-border py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
               >
                 ← Tilbage
               </button>
@@ -389,7 +389,7 @@ export default function FormularPage() {
               <button
                 type="submit"
                 disabled={!canAdvance()}
-                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex flex-1 items-center justify-center gap-2 rounded-none bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Send og vælg en tid
                 <span aria-hidden>→</span>
@@ -399,7 +399,7 @@ export default function FormularPage() {
                 type="button"
                 onClick={handleNext}
                 disabled={!canAdvance()}
-                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex flex-1 items-center justify-center gap-2 rounded-none bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Næste
                 <span aria-hidden>→</span>

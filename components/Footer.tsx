@@ -12,7 +12,7 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer id="kontakt" className="scroll-mt-20 border-t border-navyDeep bg-navyDeep text-white">
+    <footer className="border-t border-navyDeep bg-navy-fade text-white">
       <div className="h-1.5 bg-beige" />
       <div className="mx-auto max-w-page px-6 py-16">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
