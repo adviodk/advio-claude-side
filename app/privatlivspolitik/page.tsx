@@ -8,16 +8,22 @@ export const metadata = {
 export default function PrivatlivspolitikPage() {
   return (
     <div className="min-h-screen bg-canvas">
-      <header className="border-b border-border bg-white">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
         <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5">
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm text-muted hover:text-ink"
+            className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
           >
             <span aria-hidden>←</span>
             Tilbage til forsiden
           </Link>
-          <Image src="/assets/advio-logo.png" alt="Advio" width={26} height={26} />
+          <Image
+            src="/assets/ADVIOLOGONYT.png"
+            alt="Advio"
+            width={84}
+            height={28}
+            className="h-7 w-auto"
+          />
         </div>
       </header>
 
@@ -94,13 +100,16 @@ export default function PrivatlivspolitikPage() {
           <section>
             <h2 className="font-display text-lg font-bold text-ink">Cookies</h2>
             <p className="mt-3">
-              Vi bruger kun cookies til statistik (Google Analytics), og kun
-              hvis du aktivt har accepteret det i cookie-banneret. Cookies fra
-              Google Analytics indsamler oplysninger om hvordan du bruger
-              siden, fx hvilke sider du besøger og hvor du kommer fra. Du kan
-              til enhver tid trække dit samtykke tilbage ved at slette cookies
-              i din browser og genindlæse siden, hvorefter banneret vises
-              igen.
+              Vi bruger kun cookies hvis du aktivt har accepteret det i
+              cookie-banneret. Det gælder både statistik-cookies fra Google
+              Analytics, som indsamler oplysninger om hvordan du bruger
+              siden, fx hvilke sider du besøger og hvor du kommer fra, og
+              cookies fra Calendly, som bruges til at vise bookingkalenderen
+              på siden hvor du kan booke et møde. Har du ikke givet samtykke,
+              vises der i stedet en boks hvor du selv kan vælge at acceptere
+              cookies for at se kalenderen. Du kan til enhver tid trække dit
+              samtykke tilbage ved at slette cookies i din browser og
+              genindlæse siden, hvorefter banneret vises igen.
             </p>
           </section>
 

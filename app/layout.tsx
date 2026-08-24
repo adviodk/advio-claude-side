@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
-import { Inter, Source_Serif_4 } from "next/font/google";
+import { Hanken_Grotesk, Fraunces } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const sourceSerif = Source_Serif_4({
+const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "900"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-inter",
+});
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "900"],
   style: ["normal", "italic"],
   variable: "--font-display",
 });
@@ -26,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="da">
       <body
-        className={`${inter.variable} ${sourceSerif.variable} font-sans antialiased`}
+        className={`${hankenGrotesk.variable} ${fraunces.variable} font-sans antialiased`}
       >
         {children}
         <CookieConsent />

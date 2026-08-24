@@ -16,15 +16,14 @@ export default function Footer() {
       <div className="h-1.5 bg-beige" />
       <div className="mx-auto max-w-page px-6 py-16">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <Image
-              src="/assets/advio-logo.png"
+              src="/assets/ADVIOLOGONYT.png"
               alt="Advio logo"
-              width={26}
-              height={26}
-              className="brightness-0 invert"
+              width={84}
+              height={28}
+              className="h-7 w-auto"
             />
-            <span className="font-display text-lg font-semibold">Advio</span>
           </div>
 
           <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/70">

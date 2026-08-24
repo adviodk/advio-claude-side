@@ -12,15 +12,16 @@ const links = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-canvas/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
       <div className="mx-auto flex max-w-page items-center justify-between px-6 py-4">
         <Link href="#hero" className="flex items-center">
           <Image
-            src="/assets/advio-logo.png"
+            src="/assets/ADVIOLOGONYT.png"
             alt="Advio logo"
-            width={44}
-            height={44}
+            width={96}
+            height={32}
             priority
+            className="h-8 w-auto"
           />
         </Link>
 
@@ -29,7 +30,7 @@ export default function Header() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-muted transition-colors hover:text-ink"
+              className="text-sm text-white/70 transition-colors hover:text-white"
             >
               {link.label}
             </a>

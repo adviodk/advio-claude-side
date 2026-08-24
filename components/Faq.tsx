@@ -38,12 +38,20 @@ export default function Faq() {
     <section id="faq" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto max-w-page px-6 py-24">
         <Reveal>
-          <div className="mb-12 flex items-center gap-4">
+          <div className="mb-4 flex items-center gap-4">
             <span className="h-px w-10 bg-steel" />
-            <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
               Ofte stillede spørgsmål
-            </h2>
+            </span>
           </div>
+          <h2 className="mb-12 leading-[1.02] tracking-tight">
+            <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
+              Godt at
+            </span>{" "}
+            <span className="font-display text-3xl font-medium italic text-beige sm:text-4xl">
+              vide
+            </span>
+          </h2>
         </Reveal>
 
         <Reveal delay={80}>

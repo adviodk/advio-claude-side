@@ -80,11 +80,11 @@ export default function Cases() {
               Udvalgte projekter
             </h2>
           </div>
-          <h3 className="leading-[1.05] sm:text-4xl">
-            <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
+          <h3 className="leading-[1.02] tracking-tight">
+            <span className="font-sans text-4xl font-black uppercase text-white sm:text-5xl">
               Cases
             </span>{" "}
-            <span className="font-display text-3xl font-medium italic text-beige sm:text-4xl">
+            <span className="font-display text-4xl font-medium italic text-beige sm:text-5xl">
               der taler for sig selv
             </span>
           </h3>

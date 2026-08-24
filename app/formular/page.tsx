@@ -125,50 +125,56 @@ export default function FormularPage() {
   }
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <header className="border-b border-border bg-white">
+    <div className="min-h-screen bg-navyDeep">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
         <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5">
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm text-muted hover:text-ink"
+            className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
           >
             <span aria-hidden>←</span>
             Tilbage til forsiden
           </Link>
           <Image
-            src="/assets/advio-logo.png"
+            src="/assets/ADVIOLOGONYT.png"
             alt="Advio"
-            width={26}
-            height={26}
+            width={84}
+            height={28}
+            className="h-7 w-auto"
           />
         </div>
       </header>
 
       <main className="mx-auto max-w-xl px-6 py-16">
-        <h1 className="font-display text-3xl font-black tracking-tight text-ink sm:text-4xl">
-          Lad os bygge din nye hjemmeside
+        <h1 className="leading-[1.02] tracking-tight">
+          <span className="block font-sans text-3xl font-black uppercase text-white sm:text-4xl">
+            Lad os bygge
+          </span>
+          <span className="block font-display text-3xl font-medium italic text-beige sm:text-4xl">
+            din nye hjemmeside
+          </span>
         </h1>
-        <p className="mt-4 text-muted">
+        <p className="mt-4 text-white/70">
           Det tager kun 2 minutter at udfylde – vi vender tilbage med et
           skræddersyet professionelt udkast.
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium uppercase tracking-wide text-mist">
+        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium uppercase tracking-wide text-white/50">
           {badges.map((b) => (
             <span key={b}>{b}</span>
           ))}
         </div>
 
         <div className="mt-10">
-          <div className="mb-2 flex items-center justify-between text-xs font-medium text-muted">
+          <div className="mb-2 flex items-center justify-between text-xs font-medium text-white/60">
             <span>
               Trin {step + 1} af {TOTAL_STEPS}
             </span>
             <span>{progress}%</span>
           </div>
-          <div className="h-1.5 w-full border border-ink bg-white">
+          <div className="h-1.5 w-full rounded-full border border-white/20 bg-white/5">
             <div
-              className="h-full bg-navy transition-all duration-300"
+              className="h-full rounded-full bg-beige transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -180,7 +186,7 @@ export default function FormularPage() {
           encType="multipart/form-data"
           onSubmit={handleSubmit}
           onKeyDown={handleKeyDown}
-          className="mt-10 border border-ink bg-white p-8 shadow-cardSoft"
+          className="mt-10 rounded-2xl bg-white p-8 shadow-card"
         >
           <input type="hidden" name="_subject" value="Ny henvendelse fra advio.dk" />
           <input type="hidden" name="_template" value="table" />
@@ -318,7 +324,7 @@ export default function FormularPage() {
 
             {data.billeder === "Ja, jeg uploader nu" && (
               <div className="mt-4">
-                <label className="block cursor-pointer border border-dashed border-ink bg-tint px-4 py-6 text-center text-sm font-medium text-navy hover:bg-border">
+                <label className="block cursor-pointer rounded-xl border border-dashed border-border bg-tint px-4 py-6 text-center text-sm font-medium text-navy hover:bg-border">
                   <input
                     type="file"
                     name="billeder_filer"
@@ -361,7 +367,7 @@ export default function FormularPage() {
                   value={v}
                   checked={data.indhold.includes(v)}
                   onChange={() => toggleIndhold(v)}
-                  activeClass="border-ink bg-steel text-white"
+                  activeClass="border-steel bg-steel text-white"
                 >
                   {v}
                 </CheckOption>
@@ -374,7 +380,7 @@ export default function FormularPage() {
               <button
                 type="button"
                 onClick={() => setStep((s) => s - 1)}
-                className="flex-1 rounded-full border border-ink py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
+                className="flex-1 rounded-full border border-border py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
               >
                 ← Tilbage
               </button>
@@ -402,9 +408,9 @@ export default function FormularPage() {
           </div>
         </form>
 
-        <p className="mt-8 text-center text-sm text-muted">
+        <p className="mt-8 text-center text-sm text-white/60">
           Har du spørgsmål? Ring til Simon på{" "}
-          <a href="tel:+4522494295" className="font-medium text-navy">
+          <a href="tel:+4522494295" className="font-medium text-beige">
             22 49 42 95
           </a>
         </p>
@@ -430,12 +436,12 @@ function RadioOption({
 }) {
   return (
     <label
-      className={`cursor-pointer border px-4 py-3.5 text-sm font-medium transition-colors ${
+      className={`cursor-pointer rounded-xl border px-4 py-3.5 text-sm font-medium transition-colors ${
         block ? "block w-full text-left" : "text-center"
       } ${
         checked
-          ? "border-ink bg-navy text-white"
-          : "border-border bg-white text-ink hover:border-ink"
+          ? "border-navy bg-navy text-white"
+          : "border-border bg-white text-ink hover:border-navy"
       }`}
     >
       <input
@@ -470,9 +476,9 @@ function CheckOption({
 }) {
   return (
     <label
-      className={`cursor-pointer border px-3 py-3.5 text-sm font-medium transition-colors ${
+      className={`cursor-pointer rounded-xl border px-3 py-3.5 text-sm font-medium transition-colors ${
         block ? "block w-full text-left" : ""
-      } ${checked ? activeClass : "border-border bg-white text-ink hover:border-ink"}`}
+      } ${checked ? activeClass : "border-border bg-white text-ink hover:border-navy"}`}
     >
       <input
         type="checkbox"

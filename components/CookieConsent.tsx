@@ -19,32 +19,51 @@ export default function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-ink bg-white shadow-card">
-      <div className="mx-auto flex max-w-page flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-muted">
-          Vi bruger cookies til statistik (Google Analytics), så vi kan forbedre
-          siden. Læs mere i vores{" "}
-          <Link href="/privatlivspolitik" className="font-medium text-navy hover:text-navyDeep">
-            privatlivspolitik
-          </Link>
-          .
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 p-4 backdrop-blur-sm">
+      <div className="relative w-full max-w-md rounded-3xl border border-white/15 bg-navyDeep/70 p-8 shadow-2xl backdrop-blur-2xl">
+        <button
+          type="button"
+          onClick={() => choose("declined")}
+          aria-label="Luk"
+          className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors hover:border-white/40 hover:text-white"
+        >
+          ✕
+        </button>
+
+        <h2 className="pr-12 font-sans text-xl font-black text-white">
+          Websitet bruger cookies
+        </h2>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/70">
+          Vi bruger cookies til statistik (Google Analytics) og til at vise
+          bookingkalenderen (Calendly), så vi kan forbedre siden og gøre det
+          nemt at booke et møde. Ved at klikke &ldquo;Godkend&rdquo;
+          accepterer du brugen af cookies.
         </p>
-        <div className="flex shrink-0 gap-3">
-          <button
-            type="button"
-            onClick={() => choose("declined")}
-            className="rounded-full border border-ink px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
-          >
-            Afvis
-          </button>
+
+        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
           <button
             type="button"
             onClick={() => choose("accepted")}
-            className="rounded-full bg-beige px-5 py-2.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+            className="flex-1 rounded-full bg-beige px-5 py-3 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
           >
-            Accepter
+            Godkend
+          </button>
+          <button
+            type="button"
+            onClick={() => choose("declined")}
+            className="flex-1 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            Afvis
           </button>
         </div>
+
+        <Link
+          href="/privatlivspolitik"
+          className="mt-6 block text-center text-xs font-medium text-white/50 underline underline-offset-2 transition-colors hover:text-white/80"
+        >
+          Privatlivspolitik
+        </Link>
       </div>
     </div>
   );

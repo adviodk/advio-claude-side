@@ -28,6 +28,23 @@ export default function Features() {
   return (
     <section id="features" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto max-w-page px-6 py-24">
+        <Reveal>
+          <div className="mb-4 flex items-center gap-4">
+            <span className="h-px w-10 bg-steel" />
+            <span className="text-xs font-medium uppercase tracking-[0.18em] text-white/50">
+              Derfor Advio
+            </span>
+          </div>
+          <h2 className="mb-12 leading-[1.02] tracking-tight">
+            <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
+              Bygget til at
+            </span>{" "}
+            <span className="font-display text-3xl font-medium italic text-beige sm:text-4xl">
+              konvertere
+            </span>
+          </h2>
+        </Reveal>
+
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f, i) => (
             <Reveal key={f.n} delay={i * 80}>

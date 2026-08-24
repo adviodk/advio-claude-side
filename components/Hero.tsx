@@ -58,15 +58,15 @@ export default function Hero() {
     <section id="hero" className="scroll-mt-20 bg-navyDeep">
       <div className="mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
         <div>
-          <h1 className="leading-[1.02] tracking-tight sm:text-5xl">
-            <span className="block font-sans text-4xl font-black uppercase text-white">
+          <h1 className="leading-[0.98] tracking-tight">
+            <span className="block font-sans text-5xl font-black uppercase text-white sm:text-6xl md:text-7xl">
               Få flere kunder
             </span>
-            <span className="block font-display text-4xl font-medium italic text-beige">
+            <span className="block font-display text-4xl font-medium italic text-beige sm:text-5xl md:text-6xl">
               med en professionel hjemmeside
             </span>
           </h1>
-          <p className="mt-6 max-w-md text-lg text-white/70">
+          <p className="mt-7 max-w-md text-lg text-white/70">
             Du betaler kun hvis du er tilfreds – typisk levering på 2 dage.
           </p>
 
