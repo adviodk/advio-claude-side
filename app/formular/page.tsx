@@ -422,7 +422,7 @@ export default function FormularPage() {
         </form>
 
         <p className="mt-8 text-center text-sm text-white/60">
-          Har du spørgsmål? Ring til Simon på{" "}
+          Har du spørgsmål? Ring til os på{" "}
           <a href="tel:+4522494295" className="font-medium text-beige">
             22 49 42 95
           </a>

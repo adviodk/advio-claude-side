@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, FormEvent } from "react";
 import Reveal from "./Reveal";
-import CallbackModal from "./CallbackModal";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
@@ -117,7 +116,7 @@ export default function Contact() {
                   Foretrækker du at ringe?
                 </p>
                 <p className="mt-2 text-sm text-white/60">
-                  Så ringer vi dig op, eller du kan selv ringe til Simon på{" "}
+                  Ring til os på{" "}
                   <a href="tel:+4522494295" className="font-medium text-beige">
                     22 49 42 95
                   </a>
@@ -125,7 +124,13 @@ export default function Contact() {
                 </p>
               </div>
               <div className="mt-6">
-                <CallbackModal />
+                <a
+                  href="tel:+4522494295"
+                  className="inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+                >
+                  Ring til os
+                  <span aria-hidden>→</span>
+                </a>
               </div>
             </div>
           </Reveal>

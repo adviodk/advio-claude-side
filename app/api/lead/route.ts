@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 type LeadPayload = {
-  type: "kontaktformular" | "spørgeskema" | "ring-mig-op";
+  type: "kontaktformular" | "spørgeskema";
   navn?: string;
   kontakt?: string;
   firma?: string;
@@ -12,7 +12,6 @@ type LeadPayload = {
 const TITLES: Record<LeadPayload["type"], string> = {
   kontaktformular: "NYT LEAD (KONTAKTFORMULAR)",
   "spørgeskema": "NYT LEAD (SPØRGESKEMA)",
-  "ring-mig-op": "NYT LEAD (RING TIL OS)",
 };
 
 function buildMessage(payload: LeadPayload): string {
