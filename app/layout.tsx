@@ -3,7 +3,6 @@ import { Hanken_Grotesk, Fraunces } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import CallbackBar from "@/components/CallbackBar";
 
 const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
@@ -34,7 +33,6 @@ export default function RootLayout({
         className={`${hankenGrotesk.variable} ${fraunces.variable} font-sans antialiased`}
       >
         {children}
-        <CallbackBar />
         <CookieConsent />
         <GoogleAnalytics />
       </body>
