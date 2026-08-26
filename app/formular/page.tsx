@@ -4,7 +4,7 @@ import { useRef, useState, FormEvent, KeyboardEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 9;
 
 const badges = ["Gratis udkast", "Typisk levering 2 dage", "Ingen binding"];
 
@@ -43,8 +43,11 @@ type FormState = {
   harHjemmeside: string;
   domaene: string;
   harFacebook: string;
+  facebookUrl: string;
   billeder: string;
   indhold: string[];
+  services: string;
+  usp: string;
 };
 
 const initialState: FormState = {
@@ -55,9 +58,23 @@ const initialState: FormState = {
   harHjemmeside: "",
   domaene: "",
   harFacebook: "",
+  facebookUrl: "",
   billeder: "",
   indhold: [],
+  services: "",
+  usp: "",
 };
+
+function isValidFacebookUrl(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  try {
+    const url = new URL(/^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`);
+    return /(^|\.)(facebook|fb)\.com$/i.test(url.hostname);
+  } catch {
+    return false;
+  }
+}
 
 export default function FormularPage() {
   const [step, setStep] = useState(0);
@@ -92,11 +109,16 @@ export default function FormularPage() {
       case 3:
         return data.harHjemmeside.length > 0;
       case 4:
-        return data.harFacebook.length > 0;
+        return (
+          data.harFacebook.length > 0 &&
+          (data.harFacebook !== "Ja" || isValidFacebookUrl(data.facebookUrl))
+        );
       case 5:
         return data.billeder.length > 0;
       case 6:
         return data.indhold.length > 0;
+      case 7:
+        return data.services.trim().length > 0;
       default:
         return true;
     }
@@ -123,6 +145,9 @@ export default function FormularPage() {
     if (data.harHjemmeside) params.set("harHjemmeside", data.harHjemmeside);
     if (data.domaene) params.set("domaene", data.domaene);
     if (data.harFacebook) params.set("harFacebook", data.harFacebook);
+    if (data.facebookUrl) params.set("facebookUrl", data.facebookUrl);
+    if (data.services) params.set("services", data.services);
+    if (data.usp) params.set("usp", data.usp);
     if (nextFieldRef.current) {
       nextFieldRef.current.value = `${window.location.origin}/formular/book?${params.toString()}`;
     }
@@ -332,6 +357,25 @@ export default function FormularPage() {
                 </RadioOption>
               ))}
             </div>
+
+            {data.harFacebook === "Ja" && (
+              <label className="mt-4 block">
+                <span className="field-label">Indsæt linket til jeres Facebook-side</span>
+                <input
+                  type="text"
+                  name="facebook_url"
+                  placeholder="https://facebook.com/virksomhedsnavn"
+                  value={data.facebookUrl}
+                  onChange={(e) => update("facebookUrl", e.target.value)}
+                  className="field"
+                />
+                {data.facebookUrl.trim().length > 0 && !isValidFacebookUrl(data.facebookUrl) && (
+                  <span className="mt-1.5 block text-xs font-medium text-red-600">
+                    Indtast venligst et gyldigt Facebook-link (fx https://facebook.com/ditfirma)
+                  </span>
+                )}
+              </label>
+            )}
           </div>
 
           <div className={step === 5 ? "" : "hidden"}>
@@ -408,6 +452,41 @@ export default function FormularPage() {
                 </CheckOption>
               ))}
             </div>
+          </div>
+
+          <div className={step === 7 ? "" : "hidden"}>
+            <h2 className="font-display text-xl font-bold text-ink">
+              Hvilke ydelser tilbyder I?
+            </h2>
+            <p className="mt-1.5 text-sm text-muted">
+              De vigtigste ydelser jeres virksomhed tilbyder.
+            </p>
+            <input
+              type="text"
+              name="services"
+              placeholder="Fx facaderenovering, badeværelser, tilbygninger…"
+              value={data.services}
+              onChange={(e) => update("services", e.target.value)}
+              className="field mt-6"
+            />
+          </div>
+
+          <div className={step === 8 ? "" : "hidden"}>
+            <h2 className="font-display text-xl font-bold text-ink">
+              Hvad gør jer særlige?
+            </h2>
+            <p className="mt-1.5 text-sm text-muted">
+              <span className="font-semibold text-ink">Frivilligt</span> — fortæl kort, hvad
+              der gør jer anderledes end andre.
+            </p>
+            <input
+              type="text"
+              name="unique_selling_points"
+              placeholder="Fx 20 års erfaring, lokalt firma, hurtig service, autoriseret, gratis tilbud…"
+              value={data.usp}
+              onChange={(e) => update("usp", e.target.value)}
+              className="field mt-6"
+            />
           </div>
 
           <div className="mt-8 flex gap-3">

@@ -12,6 +12,9 @@ type Prefill = {
   harHjemmeside?: string;
   domaene?: string;
   harFacebook?: string;
+  facebookUrl?: string;
+  services?: string;
+  usp?: string;
 };
 
 // Awaits the Google Calendar call in its own component so it can sit behind
@@ -47,6 +50,9 @@ export default async function BookPage({
     harHjemmeside?: string;
     domaene?: string;
     harFacebook?: string;
+    facebookUrl?: string;
+    services?: string;
+    usp?: string;
   }>;
 }) {
   const params = await searchParams;
@@ -97,6 +103,9 @@ export default async function BookPage({
                 harHjemmeside: params.harHjemmeside,
                 domaene: params.domaene,
                 harFacebook: params.harFacebook,
+                facebookUrl: params.facebookUrl,
+                services: params.services,
+                usp: params.usp,
               }}
             />
           </Suspense>

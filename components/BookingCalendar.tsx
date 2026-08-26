@@ -15,6 +15,9 @@ type Prefill = {
   harHjemmeside?: string;
   domaene?: string;
   harFacebook?: string;
+  facebookUrl?: string;
+  services?: string;
+  usp?: string;
 };
 
 function formatDateLabel(dateKey: string) {
@@ -161,6 +164,9 @@ export default function BookingCalendar({
           harHjemmeside: prefill.harHjemmeside,
           domaene: prefill.domaene,
           harFacebook: prefill.harFacebook,
+          facebookUrl: prefill.facebookUrl,
+          services: prefill.services,
+          usp: prefill.usp,
         }),
       });
       const data = await res.json();

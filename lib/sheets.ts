@@ -13,6 +13,9 @@ const HEADERS = [
   "Domæne",
   "Har Facebook",
   "Google Meet link",
+  "Facebook link",
+  "Ydelser",
+  "USP",
 ];
 
 async function getFirstSheetTitle(sheets: ReturnType<typeof getSheetsClient>, spreadsheetId: string) {
@@ -33,6 +36,9 @@ export async function appendBookingRow(row: {
   harHjemmeside: string;
   domaene: string;
   harFacebook: string;
+  facebookUrl: string;
+  services: string;
+  usp: string;
   meetLink: string;
 }) {
   const spreadsheetId = process.env.GOOGLE_SHEET_ID;
@@ -44,14 +50,14 @@ export async function appendBookingRow(row: {
   // Cheap and idempotent — keeps the header in sync if the schema changes.
   await sheets.spreadsheets.values.update({
     spreadsheetId,
-    range: `${sheetTitle}!A1:L1`,
+    range: `${sheetTitle}!A1:O1`,
     valueInputOption: "RAW",
     requestBody: { values: [HEADERS] },
   });
 
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range: `${sheetTitle}!A:L`,
+    range: `${sheetTitle}!A:O`,
     valueInputOption: "RAW",
     insertDataOption: "INSERT_ROWS",
     requestBody: {
@@ -69,6 +75,9 @@ export async function appendBookingRow(row: {
           row.domaene,
           row.harFacebook,
           row.meetLink,
+          row.facebookUrl,
+          row.services,
+          row.usp,
         ],
       ],
     },

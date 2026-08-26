@@ -14,6 +14,9 @@ type BookPayload = {
   harHjemmeside?: string;
   domaene?: string;
   harFacebook?: string;
+  facebookUrl?: string;
+  services?: string;
+  usp?: string;
 };
 
 export async function POST(request: Request) {
@@ -108,6 +111,9 @@ export async function POST(request: Request) {
         harHjemmeside: payload.harHjemmeside || "",
         domaene: payload.domaene || "",
         harFacebook: payload.harFacebook || "",
+        facebookUrl: payload.facebookUrl || "",
+        services: payload.services || "",
+        usp: payload.usp || "",
         meetLink,
       }),
       sendTelegramMessage(
@@ -135,6 +141,9 @@ export async function POST(request: Request) {
           "Har hjemmeside": payload.harHjemmeside || "",
           Domæne: payload.domaene || "",
           "Har Facebook": payload.harFacebook || "",
+          "Facebook link": payload.facebookUrl || "",
+          Ydelser: payload.services || "",
+          USP: payload.usp || "",
           Tid: `${dateStr} kl. ${timeStr}`,
           "Google Meet": meetLink,
         }),
