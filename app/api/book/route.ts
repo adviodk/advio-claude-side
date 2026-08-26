@@ -71,19 +71,14 @@ export async function POST(request: Request) {
       requestBody: {
         summary: `Møde med ${payload.firma || navn}`,
         description: [
-          `Navn: ${navn}`,
-          `Email: ${email}`,
-          payload.telefon ? `Telefon: ${payload.telefon}` : null,
-          payload.firma ? `Firma: ${payload.firma}` : null,
-          payload.branche ? `Branche: ${payload.branche}` : null,
-          payload.harHjemmeside ? `Har hjemmeside: ${payload.harHjemmeside}` : null,
-          payload.domaene ? `Domæne: ${payload.domaene}` : null,
-          payload.harFacebook ? `Har Facebook: ${payload.harFacebook}` : null,
+          `Hej ${navn}`,
           "",
-          "Booket via advio.dk",
-        ]
-          .filter(Boolean)
-          .join("\n"),
+          "Tak fordi du har booket et møde med Advio! Vi glæder os til at tale med dig.",
+          "Mødet holdes over Google Meet — brug linket i denne invitation for at deltage.",
+          "",
+          "Vi ses snart!",
+          "Advio",
+        ].join("\n"),
         start: { dateTime: start.toISOString(), timeZone: TIMEZONE },
         end: { dateTime: end.toISOString(), timeZone: TIMEZONE },
         attendees: [{ email, displayName: navn }],
