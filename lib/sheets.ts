@@ -10,6 +10,7 @@ const HEADERS = [
   "Firma",
   "Branche",
   "Har hjemmeside",
+  "Domæne",
   "Har Facebook",
   "Google Meet link",
 ];
@@ -30,6 +31,7 @@ export async function appendBookingRow(row: {
   firma: string;
   branche: string;
   harHjemmeside: string;
+  domaene: string;
   harFacebook: string;
   meetLink: string;
 }) {
@@ -39,23 +41,17 @@ export async function appendBookingRow(row: {
   const sheets = getSheetsClient();
   const sheetTitle = await getFirstSheetTitle(sheets, spreadsheetId);
 
-  const existing = await sheets.spreadsheets.values.get({
+  // Cheap and idempotent — keeps the header in sync if the schema changes.
+  await sheets.spreadsheets.values.update({
     spreadsheetId,
-    range: `${sheetTitle}!A1:K1`,
+    range: `${sheetTitle}!A1:L1`,
+    valueInputOption: "RAW",
+    requestBody: { values: [HEADERS] },
   });
-
-  if (!existing.data.values || existing.data.values.length === 0) {
-    await sheets.spreadsheets.values.update({
-      spreadsheetId,
-      range: `${sheetTitle}!A1:K1`,
-      valueInputOption: "RAW",
-      requestBody: { values: [HEADERS] },
-    });
-  }
 
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range: `${sheetTitle}!A:K`,
+    range: `${sheetTitle}!A:L`,
     valueInputOption: "RAW",
     insertDataOption: "INSERT_ROWS",
     requestBody: {
@@ -70,6 +66,7 @@ export async function appendBookingRow(row: {
           row.firma,
           row.branche,
           row.harHjemmeside,
+          row.domaene,
           row.harFacebook,
           row.meetLink,
         ],

@@ -12,6 +12,7 @@ type BookPayload = {
   firma?: string;
   branche?: string;
   harHjemmeside?: string;
+  domaene?: string;
   harFacebook?: string;
 };
 
@@ -76,6 +77,7 @@ export async function POST(request: Request) {
           payload.firma ? `Firma: ${payload.firma}` : null,
           payload.branche ? `Branche: ${payload.branche}` : null,
           payload.harHjemmeside ? `Har hjemmeside: ${payload.harHjemmeside}` : null,
+          payload.domaene ? `Domæne: ${payload.domaene}` : null,
           payload.harFacebook ? `Har Facebook: ${payload.harFacebook}` : null,
           "",
           "Booket via advio.dk",
@@ -109,6 +111,7 @@ export async function POST(request: Request) {
         firma: payload.firma || "",
         branche: payload.branche || "",
         harHjemmeside: payload.harHjemmeside || "",
+        domaene: payload.domaene || "",
         harFacebook: payload.harFacebook || "",
         meetLink,
       }),
@@ -135,6 +138,7 @@ export async function POST(request: Request) {
           Firma: payload.firma || "",
           Branche: payload.branche || "",
           "Har hjemmeside": payload.harHjemmeside || "",
+          Domæne: payload.domaene || "",
           "Har Facebook": payload.harFacebook || "",
           Tid: `${dateStr} kl. ${timeStr}`,
           "Google Meet": meetLink,

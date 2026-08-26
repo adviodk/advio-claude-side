@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 
 type Availability = {
-  ok: boolean;
   timezone: string;
   days: Record<string, string[]>;
 };
@@ -14,6 +13,7 @@ type Prefill = {
   email?: string;
   branche?: string;
   harHjemmeside?: string;
+  domaene?: string;
   harFacebook?: string;
 };
 
@@ -47,8 +47,14 @@ function firstWeekdayIndex(year: number, month: number) {
 const MONTH_LABEL = new Intl.DateTimeFormat("da-DK", { month: "long", year: "numeric" });
 const WEEKDAY_LABELS = ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"];
 
-export default function BookingCalendar({ prefill }: { prefill: Prefill }) {
-  const [availability, setAvailability] = useState<Availability | null>(null);
+export default function BookingCalendar({
+  prefill,
+  initialAvailability,
+}: {
+  prefill: Prefill;
+  initialAvailability?: Availability | null;
+}) {
+  const [availability, setAvailability] = useState<Availability | null>(initialAvailability ?? null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
@@ -62,26 +68,37 @@ export default function BookingCalendar({ prefill }: { prefill: Prefill }) {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [booked, setBooked] = useState<{ meetLink: string; start: string } | null>(null);
 
+  function applyAvailability(data: Availability) {
+    setAvailability(data);
+    const firstDate = Object.keys(data.days).sort()[0] ?? null;
+    setSelectedDate((current) => current ?? firstDate);
+    if (firstDate) {
+      const [y, m] = firstDate.split("-").map(Number);
+      setView((current) => current ?? { year: y, month: m });
+    }
+  }
+
   async function loadAvailability() {
     setLoadError(null);
     try {
       const res = await fetch("/api/availability");
-      const data: Availability = await res.json();
+      const data = await res.json();
       if (!data.ok) throw new Error("Kunne ikke hente ledige tider");
-      setAvailability(data);
-      const firstDate = Object.keys(data.days).sort()[0] ?? null;
-      setSelectedDate((current) => current ?? firstDate);
-      if (firstDate) {
-        const [y, m] = firstDate.split("-").map(Number);
-        setView((current) => current ?? { year: y, month: m });
-      }
+      applyAvailability(data);
     } catch {
       setLoadError("Kunne ikke hente ledige tider. Prøv at genindlæse siden.");
     }
   }
 
   useEffect(() => {
-    loadAvailability();
+    if (initialAvailability) {
+      applyAvailability(initialAvailability);
+    } else {
+      loadAvailability();
+    }
+    // Only ever run once on mount — re-fetches after that go through
+    // loadAvailability() directly (e.g. after a 409 double-booking).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dateKeys = useMemo(
@@ -135,6 +152,7 @@ export default function BookingCalendar({ prefill }: { prefill: Prefill }) {
           firma: prefill.firma,
           branche: prefill.branche,
           harHjemmeside: prefill.harHjemmeside,
+          domaene: prefill.domaene,
           harFacebook: prefill.harFacebook,
         }),
       });
@@ -216,7 +234,7 @@ export default function BookingCalendar({ prefill }: { prefill: Prefill }) {
               onClick={() => shiftMonth(-1)}
               disabled={!canGoPrev}
               aria-label="Forrige måned"
-              className="px-2 py-1 text-ink disabled:opacity-20"
+              className="flex h-9 w-9 items-center justify-center border border-border text-lg font-bold text-ink transition-colors hover:border-navy hover:bg-tint disabled:pointer-events-none disabled:opacity-20"
             >
               ←
             </button>
@@ -228,7 +246,7 @@ export default function BookingCalendar({ prefill }: { prefill: Prefill }) {
               onClick={() => shiftMonth(1)}
               disabled={!canGoNext}
               aria-label="Næste måned"
-              className="px-2 py-1 text-ink disabled:opacity-20"
+              className="flex h-9 w-9 items-center justify-center border border-border text-lg font-bold text-ink transition-colors hover:border-navy hover:bg-tint disabled:pointer-events-none disabled:opacity-20"
             >
               →
             </button>

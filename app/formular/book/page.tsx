@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import BookingCalendar from "@/components/BookingCalendar";
+import { computeAvailability, type AvailabilityData } from "@/lib/availability";
 
 export default async function BookPage({
   searchParams,
@@ -11,10 +12,20 @@ export default async function BookPage({
     telefon?: string;
     email?: string;
     harHjemmeside?: string;
+    domaene?: string;
     harFacebook?: string;
   }>;
 }) {
   const params = await searchParams;
+
+  // Fetched during server rendering so the calendar has data the instant
+  // the page arrives in the browser — no client-side loading spinner.
+  let initialAvailability: AvailabilityData | null = null;
+  try {
+    initialAvailability = await computeAvailability();
+  } catch {
+    // BookingCalendar falls back to fetching client-side if this is null.
+  }
 
   return (
     <div className="min-h-screen bg-navy-fade">
@@ -53,12 +64,14 @@ export default async function BookPage({
 
         <div className="mt-8">
           <BookingCalendar
+            initialAvailability={initialAvailability}
             prefill={{
               firma: params.firma,
               branche: params.branche,
               telefon: params.telefon,
               email: params.email,
               harHjemmeside: params.harHjemmeside,
+              domaene: params.domaene,
               harFacebook: params.harFacebook,
             }}
           />

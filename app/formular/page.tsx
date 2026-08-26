@@ -41,6 +41,7 @@ type FormState = {
   telefon: string;
   email: string;
   harHjemmeside: string;
+  domaene: string;
   harFacebook: string;
   billeder: string;
   indhold: string[];
@@ -52,6 +53,7 @@ const initialState: FormState = {
   telefon: "",
   email: "",
   harHjemmeside: "",
+  domaene: "",
   harFacebook: "",
   billeder: "",
   indhold: [],
@@ -119,6 +121,7 @@ export default function FormularPage() {
     if (data.telefon) params.set("telefon", data.telefon);
     if (data.email) params.set("email", data.email);
     if (data.harHjemmeside) params.set("harHjemmeside", data.harHjemmeside);
+    if (data.domaene) params.set("domaene", data.domaene);
     if (data.harFacebook) params.set("harFacebook", data.harFacebook);
     if (nextFieldRef.current) {
       nextFieldRef.current.value = `${window.location.origin}/formular/book?${params.toString()}`;
@@ -296,6 +299,20 @@ export default function FormularPage() {
                 </RadioOption>
               ))}
             </div>
+
+            {data.harHjemmeside === "Ja" && (
+              <label className="mt-4 block">
+                <span className="field-label">Domæne (valgfrit)</span>
+                <input
+                  type="text"
+                  name="domaene"
+                  placeholder="fx firmanavn.dk"
+                  value={data.domaene}
+                  onChange={(e) => update("domaene", e.target.value)}
+                  className="field"
+                />
+              </label>
+            )}
           </div>
 
           <div className={step === 4 ? "" : "hidden"}>
