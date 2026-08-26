@@ -56,9 +56,16 @@ export default function BookingCalendar({
 }) {
   const [availability, setAvailability] = useState<Availability | null>(initialAvailability ?? null);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(
+    () => Object.keys(initialAvailability?.days ?? {}).sort()[0] ?? null,
+  );
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const [view, setView] = useState<{ year: number; month: number } | null>(null);
+  const [view, setView] = useState<{ year: number; month: number } | null>(() => {
+    const firstDate = Object.keys(initialAvailability?.days ?? {}).sort()[0];
+    if (!firstDate) return null;
+    const [y, m] = firstDate.split("-").map(Number);
+    return { year: y, month: m };
+  });
 
   const [navn, setNavn] = useState("");
   const [email, setEmail] = useState(prefill.email || "");
@@ -91,9 +98,9 @@ export default function BookingCalendar({
   }
 
   useEffect(() => {
-    if (initialAvailability) {
-      applyAvailability(initialAvailability);
-    } else {
+    // State above is already seeded from initialAvailability where present;
+    // only hit the network here as a fallback when SSR couldn't fetch it.
+    if (!initialAvailability) {
       loadAvailability();
     }
     // Only ever run once on mount — re-fetches after that go through
