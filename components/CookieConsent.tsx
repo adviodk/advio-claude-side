@@ -35,10 +35,9 @@ export default function CookieConsent() {
         </h2>
 
         <p className="mt-4 text-sm leading-relaxed text-white/70">
-          Vi bruger cookies til statistik (Google Analytics) og til at vise
-          bookingkalenderen (Calendly), så vi kan forbedre siden og gøre det
-          nemt at booke et møde. Ved at klikke &ldquo;Godkend&rdquo;
-          accepterer du brugen af cookies.
+          Vi bruger cookies til statistik (Google Analytics), så vi kan
+          forbedre siden. Ved at klikke &ldquo;Godkend&rdquo; accepterer du
+          brugen af cookies.
         </p>
 
         <div className="mt-7 flex flex-col gap-3 sm:flex-row">

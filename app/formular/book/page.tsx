@@ -1,11 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
-import CalendlyEmbed from "@/components/CalendlyEmbed";
+import BookingCalendar from "@/components/BookingCalendar";
 
 export default async function BookPage({
   searchParams,
 }: {
-  searchParams: Promise<{ firma?: string }>;
+  searchParams: Promise<{
+    firma?: string;
+    branche?: string;
+    telefon?: string;
+    email?: string;
+    harHjemmeside?: string;
+    harFacebook?: string;
+  }>;
 }) {
   const params = await searchParams;
 
@@ -45,7 +52,16 @@ export default async function BookPage({
         </p>
 
         <div className="mt-8">
-          <CalendlyEmbed />
+          <BookingCalendar
+            prefill={{
+              firma: params.firma,
+              branche: params.branche,
+              telefon: params.telefon,
+              email: params.email,
+              harHjemmeside: params.harHjemmeside,
+              harFacebook: params.harFacebook,
+            }}
+          />
         </div>
 
         <div className="mt-8 text-center">

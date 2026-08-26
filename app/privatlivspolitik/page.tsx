@@ -82,8 +82,16 @@ export default function PrivatlivspolitikPage() {
                 e-mail til simon@advio.dk.
               </li>
               <li>
-                <span className="font-medium text-ink">Calendly</span> — hvis du
-                booker et møde, håndteres bookingen af Calendly.
+                <span className="font-medium text-ink">Google Calendar/Meet</span>{" "}
+                — hvis du booker et møde, oprettes det direkte i vores kalender
+                med et Google Meet-link, og du modtager en kalenderinvitation
+                på den e-mail du opgiver.
+              </li>
+              <li>
+                <span className="font-medium text-ink">Google Sheets</span> —
+                bookingoplysninger (navn, kontaktoplysninger og mødetidspunkt)
+                gemmes i et internt regneark, så vi kan holde styr på vores
+                møder.
               </li>
               <li>
                 <span className="font-medium text-ink">Google Analytics</span> —
@@ -101,15 +109,12 @@ export default function PrivatlivspolitikPage() {
             <h2 className="font-display text-lg font-bold text-ink">Cookies</h2>
             <p className="mt-3">
               Vi bruger kun cookies hvis du aktivt har accepteret det i
-              cookie-banneret. Det gælder både statistik-cookies fra Google
+              cookie-banneret. Det gælder statistik-cookies fra Google
               Analytics, som indsamler oplysninger om hvordan du bruger
-              siden, fx hvilke sider du besøger og hvor du kommer fra, og
-              cookies fra Calendly, som bruges til at vise bookingkalenderen
-              på siden hvor du kan booke et møde. Har du ikke givet samtykke,
-              vises der i stedet en boks hvor du selv kan vælge at acceptere
-              cookies for at se kalenderen. Du kan til enhver tid trække dit
-              samtykke tilbage ved at slette cookies i din browser og
-              genindlæse siden, hvorefter banneret vises igen.
+              siden, fx hvilke sider du besøger og hvor du kommer fra.
+              Bookingkalenderen på siden bruger ikke cookies. Du kan til
+              enhver tid trække dit samtykke tilbage ved at slette cookies i
+              din browser og genindlæse siden, hvorefter banneret vises igen.
             </p>
           </section>
 

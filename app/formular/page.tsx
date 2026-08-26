@@ -115,6 +115,11 @@ export default function FormularPage() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     const params = new URLSearchParams();
     if (data.firma) params.set("firma", data.firma);
+    if (data.branche) params.set("branche", data.branche);
+    if (data.telefon) params.set("telefon", data.telefon);
+    if (data.email) params.set("email", data.email);
+    if (data.harHjemmeside) params.set("harHjemmeside", data.harHjemmeside);
+    if (data.harFacebook) params.set("harFacebook", data.harFacebook);
     if (nextFieldRef.current) {
       nextFieldRef.current.value = `${window.location.origin}/formular/book?${params.toString()}`;
     }
@@ -134,7 +139,7 @@ export default function FormularPage() {
     // No preventDefault: this submits natively (multipart) to FormSubmit,
     // which is required for the file upload to be attached to the email.
     // FormSubmit only redirects to _next once it has processed the POST
-    // server-side, so the email is always sent before the Calendly page loads.
+    // server-side, so the email is always sent before the booking page loads.
   }
 
   return (
