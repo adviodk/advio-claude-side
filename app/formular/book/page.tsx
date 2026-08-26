@@ -1,7 +1,40 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import BookingCalendar from "@/components/BookingCalendar";
 import { computeAvailability, type AvailabilityData } from "@/lib/availability";
+
+type Prefill = {
+  firma?: string;
+  branche?: string;
+  telefon?: string;
+  email?: string;
+  harHjemmeside?: string;
+  domaene?: string;
+  harFacebook?: string;
+};
+
+// Awaits the Google Calendar call in its own component so it can sit behind
+// a Suspense boundary — the rest of the page streams in immediately instead
+// of waiting on the freebusy request.
+async function AvailabilityLoader({ prefill }: { prefill: Prefill }) {
+  let initialAvailability: AvailabilityData | null = null;
+  try {
+    initialAvailability = await computeAvailability();
+  } catch {
+    // BookingCalendar falls back to fetching client-side if this is null.
+  }
+
+  return <BookingCalendar initialAvailability={initialAvailability} prefill={prefill} />;
+}
+
+function CalendarSkeleton() {
+  return (
+    <div className="rounded-2xl bg-white p-8 shadow-card">
+      <p className="text-sm text-muted">Henter ledige tider…</p>
+    </div>
+  );
+}
 
 export default async function BookPage({
   searchParams,
@@ -17,15 +50,6 @@ export default async function BookPage({
   }>;
 }) {
   const params = await searchParams;
-
-  // Fetched during server rendering so the calendar has data the instant
-  // the page arrives in the browser — no client-side loading spinner.
-  let initialAvailability: AvailabilityData | null = null;
-  try {
-    initialAvailability = await computeAvailability();
-  } catch {
-    // BookingCalendar falls back to fetching client-side if this is null.
-  }
 
   return (
     <div className="min-h-screen bg-navy-fade">
@@ -63,18 +87,19 @@ export default async function BookPage({
         </p>
 
         <div className="mt-8">
-          <BookingCalendar
-            initialAvailability={initialAvailability}
-            prefill={{
-              firma: params.firma,
-              branche: params.branche,
-              telefon: params.telefon,
-              email: params.email,
-              harHjemmeside: params.harHjemmeside,
-              domaene: params.domaene,
-              harFacebook: params.harFacebook,
-            }}
-          />
+          <Suspense fallback={<CalendarSkeleton />}>
+            <AvailabilityLoader
+              prefill={{
+                firma: params.firma,
+                branche: params.branche,
+                telefon: params.telefon,
+                email: params.email,
+                harHjemmeside: params.harHjemmeside,
+                domaene: params.domaene,
+                harFacebook: params.harFacebook,
+              }}
+            />
+          </Suspense>
         </div>
 
         <div className="mt-8 text-center">
