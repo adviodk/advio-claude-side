@@ -148,6 +148,7 @@ export default function FormularPage() {
     if (data.facebookUrl) params.set("facebookUrl", data.facebookUrl);
     if (data.services) params.set("services", data.services);
     if (data.usp) params.set("usp", data.usp);
+    if (data.billeder) params.set("billeder", data.billeder);
     if (nextFieldRef.current) {
       nextFieldRef.current.value = `${window.location.origin}/formular/book?${params.toString()}`;
     }

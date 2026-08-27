@@ -2,6 +2,7 @@ import { getSheetsClient } from "@/lib/google";
 
 const HEADERS = [
   "Lead ID",
+  "Status",
   "Tidspunkt booket",
   "Dato",
   "Tid",
@@ -13,11 +14,29 @@ const HEADERS = [
   "Har hjemmeside",
   "Domæne",
   "Har Facebook",
-  "Google Meet link",
   "Facebook link",
+  "Google Meet link",
   "Ydelser",
   "USP",
+  "Billeder",
+  "Demo URL",
+  "Projektmappe",
+  "Fejl",
 ];
+
+export const STATUS_OPTIONS = [
+  "AFVENTER",
+  "GODKENDT",
+  "AFVIST",
+  "OPRETTER PROJEKT",
+  "HENTER ASSETS",
+  "GENERERER",
+  "QA",
+  "DEMO KLAR",
+  "FEJL",
+] as const;
+
+const DEFAULT_STATUS: (typeof STATUS_OPTIONS)[number] = "AFVENTER";
 
 async function getFirstSheetTitle(sheets: ReturnType<typeof getSheetsClient>, spreadsheetId: string) {
   const meta = await sheets.spreadsheets.get({ spreadsheetId });
@@ -26,23 +45,24 @@ async function getFirstSheetTitle(sheets: ReturnType<typeof getSheetsClient>, sp
   return title;
 }
 
-/** Scans the Lead ID column for the highest existing ADV-### and returns the next one. */
+/** Scans the Lead ID column for the highest existing ADV-<year>-### and returns the next one, resetting per year. */
 async function getNextLeadId(
   sheets: ReturnType<typeof getSheetsClient>,
   spreadsheetId: string,
   sheetTitle: string,
 ) {
+  const year = new Date().getFullYear();
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId,
     range: `${sheetTitle}!A2:A`,
   });
   const existing = (res.data.values || []).flat();
   const maxNumber = existing.reduce((max, value) => {
-    const match = /^ADV-(\d+)$/.exec(String(value).trim());
+    const match = new RegExp(`^ADV-${year}-(\\d+)$`).exec(String(value).trim());
     if (!match) return max;
     return Math.max(max, parseInt(match[1], 10));
   }, 0);
-  return `ADV-${String(maxNumber + 1).padStart(3, "0")}`;
+  return `ADV-${year}-${String(maxNumber + 1).padStart(3, "0")}`;
 }
 
 export async function appendBookingRow(row: {
@@ -59,6 +79,7 @@ export async function appendBookingRow(row: {
   facebookUrl: string;
   services: string;
   usp: string;
+  billeder: string;
   meetLink: string;
 }) {
   const spreadsheetId = process.env.GOOGLE_SHEET_ID;
@@ -70,7 +91,7 @@ export async function appendBookingRow(row: {
   // Cheap and idempotent — keeps the header in sync if the schema changes.
   await sheets.spreadsheets.values.update({
     spreadsheetId,
-    range: `${sheetTitle}!A1:P1`,
+    range: `${sheetTitle}!A1:U1`,
     valueInputOption: "RAW",
     requestBody: { values: [HEADERS] },
   });
@@ -79,13 +100,14 @@ export async function appendBookingRow(row: {
 
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range: `${sheetTitle}!A:P`,
+    range: `${sheetTitle}!A:U`,
     valueInputOption: "RAW",
     insertDataOption: "INSERT_ROWS",
     requestBody: {
       values: [
         [
           leadId,
+          DEFAULT_STATUS,
           new Date().toISOString(),
           row.dato,
           row.tid,
@@ -97,10 +119,14 @@ export async function appendBookingRow(row: {
           row.harHjemmeside,
           row.domaene,
           row.harFacebook,
-          row.meetLink,
           row.facebookUrl,
+          row.meetLink,
           row.services,
           row.usp,
+          row.billeder,
+          "",
+          "",
+          "",
         ],
       ],
     },

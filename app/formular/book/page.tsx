@@ -15,6 +15,7 @@ type Prefill = {
   facebookUrl?: string;
   services?: string;
   usp?: string;
+  billeder?: string;
 };
 
 // Awaits the Google Calendar call in its own component so it can sit behind
@@ -53,6 +54,7 @@ export default async function BookPage({
     facebookUrl?: string;
     services?: string;
     usp?: string;
+    billeder?: string;
   }>;
 }) {
   const params = await searchParams;
@@ -106,6 +108,7 @@ export default async function BookPage({
                 facebookUrl: params.facebookUrl,
                 services: params.services,
                 usp: params.usp,
+                billeder: params.billeder,
               }}
             />
           </Suspense>

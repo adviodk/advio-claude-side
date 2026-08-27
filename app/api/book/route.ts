@@ -17,6 +17,7 @@ type BookPayload = {
   facebookUrl?: string;
   services?: string;
   usp?: string;
+  billeder?: string;
 };
 
 export async function POST(request: Request) {
@@ -115,6 +116,7 @@ export async function POST(request: Request) {
       facebookUrl: payload.facebookUrl || "",
       services: payload.services || "",
       usp: payload.usp || "",
+      billeder: payload.billeder || "",
       meetLink,
     }).catch(() => null);
 
@@ -149,6 +151,7 @@ export async function POST(request: Request) {
           "Facebook link": payload.facebookUrl || "",
           Ydelser: payload.services || "",
           USP: payload.usp || "",
+          Billeder: payload.billeder || "",
           Tid: `${dateStr} kl. ${timeStr}`,
           "Google Meet": meetLink,
         }),

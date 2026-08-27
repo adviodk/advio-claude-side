@@ -18,6 +18,7 @@ type Prefill = {
   facebookUrl?: string;
   services?: string;
   usp?: string;
+  billeder?: string;
 };
 
 function formatDateLabel(dateKey: string) {
@@ -167,6 +168,7 @@ export default function BookingCalendar({
           facebookUrl: prefill.facebookUrl,
           services: prefill.services,
           usp: prefill.usp,
+          billeder: prefill.billeder,
         }),
       });
       const data = await res.json();
