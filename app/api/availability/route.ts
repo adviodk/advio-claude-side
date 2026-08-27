@@ -1,14 +1,5 @@
-import { NextResponse } from "next/server";
-import { computeAvailability } from "@/lib/availability";
+import { proxyToAutomation } from "@/lib/automationProxy";
 
 export async function GET() {
-  try {
-    const data = await computeAvailability();
-    return NextResponse.json({ ok: true, ...data });
-  } catch (error) {
-    return NextResponse.json(
-      { ok: false, error: error instanceof Error ? error.message : "Unknown error" },
-      { status: 502 },
-    );
-  }
+  return proxyToAutomation("/api/availability");
 }

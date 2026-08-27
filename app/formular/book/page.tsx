@@ -2,7 +2,12 @@ import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import BookingCalendar from "@/components/BookingCalendar";
-import { computeAvailability, type AvailabilityData } from "@/lib/availability";
+
+type AvailabilityData = {
+  timezone: string;
+  slotMinutes: number;
+  days: Record<string, string[]>;
+};
 
 type Prefill = {
   firma?: string;
@@ -18,13 +23,27 @@ type Prefill = {
   billeder?: string;
 };
 
-// Awaits the Google Calendar call in its own component so it can sit behind
+// Awaits the Advio Automation call in its own component so it can sit behind
 // a Suspense boundary — the rest of the page streams in immediately instead
-// of waiting on the freebusy request.
+// of waiting on it. This used to be a direct in-process call to
+// computeAvailability(); now that availability lives in a separate service,
+// it's a server-side fetch instead — still never touches the browser, so no
+// CORS and no exposed secrets, just a network hop that didn't exist before.
 async function AvailabilityLoader({ prefill }: { prefill: Prefill }) {
   let initialAvailability: AvailabilityData | null = null;
   try {
-    initialAvailability = await computeAvailability();
+    const baseUrl = process.env.AUTOMATION_BASE_URL;
+    const apiKey = process.env.AUTOMATION_API_KEY;
+    if (baseUrl && apiKey) {
+      const res = await fetch(`${baseUrl}/api/availability`, {
+        headers: { "x-automation-key": apiKey },
+        // Don't let a slow/down Automation hold up the page indefinitely —
+        // BookingCalendar falls back to fetching client-side if this is null.
+        signal: AbortSignal.timeout(5000),
+      });
+      const data = await res.json();
+      if (data.ok) initialAvailability = data;
+    }
   } catch {
     // BookingCalendar falls back to fetching client-side if this is null.
   }
