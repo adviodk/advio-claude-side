@@ -1,6 +1,7 @@
 import { getSheetsClient } from "@/lib/google";
 
 const HEADERS = [
+  "Lead ID",
   "Tidspunkt booket",
   "Dato",
   "Tid",
@@ -23,6 +24,25 @@ async function getFirstSheetTitle(sheets: ReturnType<typeof getSheetsClient>, sp
   const title = meta.data.sheets?.[0]?.properties?.title;
   if (!title) throw new Error("Spreadsheet has no sheets");
   return title;
+}
+
+/** Scans the Lead ID column for the highest existing ADV-### and returns the next one. */
+async function getNextLeadId(
+  sheets: ReturnType<typeof getSheetsClient>,
+  spreadsheetId: string,
+  sheetTitle: string,
+) {
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId,
+    range: `${sheetTitle}!A2:A`,
+  });
+  const existing = (res.data.values || []).flat();
+  const maxNumber = existing.reduce((max, value) => {
+    const match = /^ADV-(\d+)$/.exec(String(value).trim());
+    if (!match) return max;
+    return Math.max(max, parseInt(match[1], 10));
+  }, 0);
+  return `ADV-${String(maxNumber + 1).padStart(3, "0")}`;
 }
 
 export async function appendBookingRow(row: {
@@ -50,19 +70,22 @@ export async function appendBookingRow(row: {
   // Cheap and idempotent — keeps the header in sync if the schema changes.
   await sheets.spreadsheets.values.update({
     spreadsheetId,
-    range: `${sheetTitle}!A1:O1`,
+    range: `${sheetTitle}!A1:P1`,
     valueInputOption: "RAW",
     requestBody: { values: [HEADERS] },
   });
 
+  const leadId = await getNextLeadId(sheets, spreadsheetId, sheetTitle);
+
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range: `${sheetTitle}!A:O`,
+    range: `${sheetTitle}!A:P`,
     valueInputOption: "RAW",
     insertDataOption: "INSERT_ROWS",
     requestBody: {
       values: [
         [
+          leadId,
           new Date().toISOString(),
           row.dato,
           row.tid,
@@ -82,4 +105,6 @@ export async function appendBookingRow(row: {
       ],
     },
   });
+
+  return leadId;
 }

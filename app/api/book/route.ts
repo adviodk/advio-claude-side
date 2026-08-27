@@ -99,26 +99,30 @@ export async function POST(request: Request) {
 
     // Best-effort side effects — a failure here shouldn't undo the booking,
     // which is already confirmed in Google Calendar at this point.
+    // appendBookingRow runs first (and is allowed to fail silently) so the
+    // Lead ID it assigns can be included in the notification/email below.
+    const leadId = await appendBookingRow({
+      dato: dateStr,
+      tid: timeStr,
+      navn,
+      email,
+      telefon: payload.telefon || "",
+      firma: payload.firma || "",
+      branche: payload.branche || "",
+      harHjemmeside: payload.harHjemmeside || "",
+      domaene: payload.domaene || "",
+      harFacebook: payload.harFacebook || "",
+      facebookUrl: payload.facebookUrl || "",
+      services: payload.services || "",
+      usp: payload.usp || "",
+      meetLink,
+    }).catch(() => null);
+
     await Promise.allSettled([
-      appendBookingRow({
-        dato: dateStr,
-        tid: timeStr,
-        navn,
-        email,
-        telefon: payload.telefon || "",
-        firma: payload.firma || "",
-        branche: payload.branche || "",
-        harHjemmeside: payload.harHjemmeside || "",
-        domaene: payload.domaene || "",
-        harFacebook: payload.harFacebook || "",
-        facebookUrl: payload.facebookUrl || "",
-        services: payload.services || "",
-        usp: payload.usp || "",
-        meetLink,
-      }),
       sendTelegramMessage(
         [
           "🚨 NYT LEAD (BOOKING)",
+          leadId ? `Lead ID: ${leadId}` : null,
           `Navn: ${navn}`,
           `Kontakt: ${[payload.telefon, email].filter(Boolean).join(" / ")}`,
           payload.firma ? `Firma: ${payload.firma}` : null,
@@ -133,6 +137,7 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           _subject: "Ny booking fra advio.dk",
           _template: "table",
+          "Lead ID": leadId || "",
           Navn: navn,
           Email: email,
           Telefon: payload.telefon || "",
