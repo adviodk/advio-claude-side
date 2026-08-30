@@ -76,10 +76,14 @@ export default function HeroVideo() {
       }
     ).requestIdleCallback;
 
+    // Kept short: requestIdleCallback still lets the very first paint (the
+    // poster) win uncontested, but a long timeout here risks the video's
+    // own fade-in being picked up as a *later*, separate LCP candidate —
+    // capping it keeps that candidate's timestamp low even if it happens.
     if (ric) {
-      idleId = ric(startLoading, { timeout: 2000 });
+      idleId = ric(startLoading, { timeout: 400 });
     } else {
-      timeoutId = setTimeout(startLoading, 300);
+      timeoutId = setTimeout(startLoading, 150);
     }
 
     return () => {

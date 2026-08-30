@@ -12,7 +12,7 @@ const badges = ["Gratis", "Ingen binding", "Tager 2 min"];
 
 function CtaCard() {
   return (
-    <div className="rounded-2xl bg-white p-8 shadow-card">
+    <div className="rounded-xl bg-white p-8 shadow-card">
       <h2 className="font-display text-xl font-bold text-ink">
         Klar til flere kunder?
       </h2>
@@ -65,17 +65,17 @@ export default function Hero() {
         className="absolute inset-0 bg-gradient-to-b from-navyDeep/80 via-navyDeep/50 to-navyDeep/85"
       />
 
-      <div className="relative mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
-        <div>
-          <h1 className="leading-[0.98] tracking-tight">
-            <span className="block font-display text-5xl font-bold uppercase text-white sm:text-6xl md:text-7xl">
+      <div className="relative mx-auto grid max-w-page gap-14 px-6 py-24 md:grid-cols-2 md:items-center md:py-32">
+        <div className="animate-hero-in">
+          <h1 className="leading-[0.94] tracking-tighter">
+            <span className="block font-display text-6xl font-bold uppercase text-white sm:text-7xl md:text-[5.5rem]">
               Få flere kunder
             </span>
             <span className="block font-display text-4xl font-medium uppercase text-beige sm:text-5xl md:text-6xl">
               med en professionel hjemmeside
             </span>
           </h1>
-          <p className="mt-7 max-w-md text-lg text-white/70">
+          <p className="mt-8 max-w-md text-lg text-white/70">
             Du betaler kun hvis du er tilfreds – typisk levering på 2 dage.
           </p>
 

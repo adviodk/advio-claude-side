@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Reveal from "./Reveal";
+import SectionHeading from "./SectionHeading";
 
 const faqs = [
   {
@@ -36,23 +37,13 @@ export default function Faq() {
 
   return (
     <section id="faq" className="scroll-mt-20 bg-navy-fade">
-      <div className="mx-auto max-w-page px-6 py-24">
-        <Reveal>
-          <div className="mb-4 flex items-center gap-4">
-            <span className="h-px w-10 bg-steel" />
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
-              Ofte stillede spørgsmål
-            </span>
-          </div>
-          <h2 className="mb-12 leading-[1.02] tracking-tight">
-            <span className="font-display text-3xl font-bold uppercase text-white sm:text-4xl">
-              Godt at
-            </span>{" "}
-            <span className="font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
-              vide
-            </span>
-          </h2>
-        </Reveal>
+      <div className="mx-auto max-w-page px-6 py-24 sm:py-32">
+        <SectionHeading
+          eyebrow="Ofte stillede spørgsmål"
+          lead="Godt at"
+          accent="vide"
+          className="mb-14 sm:mb-16"
+        />
 
         <Reveal delay={80}>
           <div className="grid items-start gap-x-10 md:grid-cols-2">

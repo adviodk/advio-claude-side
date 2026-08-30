@@ -1,8 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useInViewOnce } from "@/lib/useInViewOnce";
+
+function clamp(v: number, min = 0, max = 1) {
+  return Math.min(max, Math.max(min, v));
+}
 
 function CheckIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
   return (
@@ -18,43 +22,49 @@ function CheckIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
   );
 }
 
-function StepConnector({ n }: { n: number }) {
-  return (
-    <div className="flex flex-col items-center">
-      <span className="h-8 w-px bg-white/15" />
-      <span className="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 font-display text-sm font-bold text-white">
-        {n}
-      </span>
-      <span className="h-8 w-px bg-white/15" />
-    </div>
-  );
-}
+// --- scroll-driven progress (desktop only) --------------------------------
 
-function StepCard({
-  eyebrow,
-  title,
-  children,
-  demo,
-}: {
-  eyebrow: string;
-  title: string;
-  children?: React.ReactNode;
-  demo: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-8 rounded-2xl border border-white/10 bg-white p-8 shadow-cardSoft md:flex-row md:items-center md:justify-between md:gap-10 md:p-12">
-      <div className="max-w-sm">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-mist">
-          {eyebrow}
-        </p>
-        <h3 className="mt-2 font-display text-2xl font-bold leading-[1.1] text-ink sm:text-3xl">
-          {title}
-        </h3>
-        {children}
-      </div>
-      <div className="flex md:justify-end">{demo}</div>
-    </div>
-  );
+/** Tracks 0→1 scroll progress through `ref`'s element, updated via a
+ * single passive rAF-throttled listener. Only active at desktop widths —
+ * on mobile it stays 0 and the section renders its simplified stacked
+ * layout instead, so no scroll work happens there at all. */
+function useSectionProgress(ref: React.RefObject<HTMLDivElement | null>) {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    if (!mql.matches) return;
+
+    let rafId = 0;
+    let ticking = false;
+
+    function measure() {
+      ticking = false;
+      const el = ref.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      const p = total > 0 ? clamp(-rect.top / total) : 0;
+      setProgress(p);
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      rafId = requestAnimationFrame(measure);
+    }
+
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(rafId);
+    };
+  }, [ref]);
+
+  return progress;
 }
 
 // --- Step 1: udfyld skema ---------------------------------------------
@@ -65,35 +75,46 @@ const step1Fields = [
   { label: "Beskrivelse", value: "Ny hjemmeside til håndværksvirksomhed" },
 ];
 
-function Step1Demo({ inView }: { inView: boolean }) {
+function Step1Demo({
+  progress,
+  animated = false,
+}: {
+  progress: number;
+  animated?: boolean;
+}) {
+  const n = step1Fields.length;
+  const t = animated ? "transition-all duration-700 ease-out" : "";
   return (
     <div className="w-full max-w-sm space-y-3">
-      {step1Fields.map((field, i) => (
-        <div
-          key={field.label}
-          className={`flex items-center justify-between gap-4 border border-border bg-canvas px-5 py-3.5 transition-all duration-500 ease-out ${
-            inView ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
-          }`}
-          style={{ transitionDelay: `${i * 280}ms` }}
-        >
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mist">
-              {field.label}
-            </p>
-            <p className="mt-0.5 text-sm font-semibold text-ink">
-              {field.value}
-            </p>
-          </div>
-          <span
-            className={`flex h-6 w-6 flex-none items-center justify-center rounded-full bg-beige text-navyDeep transition-all duration-300 ease-out ${
-              inView ? "scale-100 opacity-100" : "scale-0 opacity-0"
-            }`}
-            style={{ transitionDelay: `${i * 280 + 400}ms` }}
+      {step1Fields.map((field, i) => {
+        const reveal = clamp((progress - i / n) / (0.6 / n));
+        const check = clamp((progress - (i + 0.55) / n) / (0.4 / n));
+        return (
+          <div
+            key={field.label}
+            className={`flex items-center justify-between gap-4 border border-border bg-canvas px-5 py-3.5 ${t}`}
+            style={{
+              opacity: reveal,
+              transform: `translateY(${(1 - reveal) * 10}px)`,
+            }}
           >
-            <CheckIcon />
-          </span>
-        </div>
-      ))}
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mist">
+                {field.label}
+              </p>
+              <p className="mt-0.5 text-sm font-semibold text-ink">
+                {field.value}
+              </p>
+            </div>
+            <span
+              className={`flex h-6 w-6 flex-none items-center justify-center rounded-full bg-beige text-navyDeep ${t}`}
+              style={{ opacity: check, transform: `scale(${0.5 + check * 0.5})` }}
+            >
+              <CheckIcon />
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -110,39 +131,48 @@ const step2Pages = [
   { label: "Blog", selected: false },
 ];
 
-function Step2Demo({ inView }: { inView: boolean }) {
-  const [selecting, setSelecting] = useState(false);
-
-  useEffect(() => {
-    if (!inView) return;
-    const t = setTimeout(() => setSelecting(true), 650);
-    return () => clearTimeout(t);
-  }, [inView]);
-
+function Step2Demo({
+  progress,
+  animated = false,
+}: {
+  progress: number;
+  animated?: boolean;
+}) {
+  const n = step2Pages.length;
   let selectedOrder = -1;
+  const selectedCount = step2Pages.filter((p) => p.selected).length;
+  const t = animated
+    ? "transition-[opacity,transform,background-color,border-color,color] duration-700 ease-out"
+    : "transition-[background-color,border-color,color] duration-300";
 
   return (
     <div className="grid w-full max-w-sm grid-cols-2 gap-2.5 sm:grid-cols-3">
       {step2Pages.map((page, i) => {
         if (page.selected) selectedOrder += 1;
-        const active = page.selected && selecting;
+        const reveal = clamp((progress - (i * 0.5) / n) / (0.7 / n));
+        const selectProgress = page.selected
+          ? clamp((progress - 0.35 - (selectedOrder / selectedCount) * 0.5) / 0.18)
+          : 0;
+        const active = selectProgress > 0.5;
         return (
           <div
             key={page.label}
-            className={`flex items-center justify-between gap-2 border px-3.5 py-3 text-xs font-semibold transition-all duration-500 ease-out ${
-              active
-                ? "border-navy bg-navy text-white"
-                : "border-border bg-canvas text-muted"
-            } ${inView ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
-            style={{ transitionDelay: `${i * 90}ms` }}
+            className={`flex items-center justify-between gap-2 border px-3.5 py-3 text-xs font-semibold ${
+              active ? "border-navy bg-navy text-white" : "border-border bg-canvas text-muted"
+            } ${t}`}
+            style={{
+              opacity: reveal,
+              transform: `translateY(${(1 - reveal) * 8}px)`,
+            }}
           >
             <span>{page.label}</span>
             {page.selected && (
               <span
-                className={`flex h-4 w-4 flex-none items-center justify-center rounded-full bg-beige text-navyDeep transition-all duration-300 ease-out ${
-                  active ? "scale-100 opacity-100" : "scale-0 opacity-0"
-                }`}
-                style={{ transitionDelay: `${selectedOrder * 250}ms` }}
+                className={`flex h-4 w-4 flex-none items-center justify-center rounded-full bg-beige text-navyDeep ${t}`}
+                style={{
+                  opacity: selectProgress,
+                  transform: `scale(${0.4 + selectProgress * 0.6})`,
+                }}
               >
                 <CheckIcon className="h-2.5 w-2.5" />
               </span>
@@ -158,24 +188,21 @@ function Step2Demo({ inView }: { inView: boolean }) {
 
 const step3Stages = ["Afventer", "Igangsat", "Færdig"] as const;
 
-function Step3Demo({ inView }: { inView: boolean }) {
-  const [stage, setStage] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    const t1 = setTimeout(() => setStage(1), 700);
-    const t2 = setTimeout(() => setStage(2), 1900);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [inView]);
+function Step3Demo({
+  progress,
+  animated = false,
+}: {
+  progress: number;
+  animated?: boolean;
+}) {
+  const reveal = clamp(progress / 0.15);
+  const stageFloat = clamp((progress - 0.15) / 0.85) * (step3Stages.length - 1);
+  const stage = Math.min(step3Stages.length - 1, Math.round(stageFloat));
 
   return (
     <div
-      className={`flex w-full max-w-sm flex-col transition-all duration-500 ease-out ${
-        inView ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
-      }`}
+      className={`flex w-full max-w-sm flex-col ${animated ? "transition-all duration-700 ease-out" : ""}`}
+      style={{ opacity: reveal, transform: `translateY(${(1 - reveal) * 8}px)` }}
     >
       {step3Stages.map((label, i) => {
         const status = i < stage ? "done" : i === stage ? "active" : "pending";
@@ -206,9 +233,8 @@ function Step3Demo({ inView }: { inView: boolean }) {
         );
       })}
       <p
-        className={`mt-4 text-xs font-medium uppercase tracking-[0.14em] text-mist transition-opacity duration-700 ${
-          stage === 2 ? "opacity-100" : "opacity-0"
-        }`}
+        className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-mist transition-opacity duration-700"
+        style={{ opacity: stage === step3Stages.length - 1 ? 1 : 0 }}
       >
         Klar inden for 48 timer
       </p>
@@ -216,57 +242,213 @@ function Step3Demo({ inView }: { inView: boolean }) {
   );
 }
 
+// --- shared step metadata --------------------------------------------------
+
+const steps = [
+  {
+    eyebrow: "Trin 1",
+    title: "Udfyld spørgeskemaet på 5 minutter.",
+    body: null as string | null,
+    cta: true,
+  },
+  {
+    eyebrow: "Trin 2",
+    title: "Hvad vil du have med?",
+    body: "Du vælger selv, hvilke sider din hjemmeside skal have.",
+    cta: false,
+  },
+  {
+    eyebrow: "Trin 3",
+    title: "Vi laver hjemmesiden.",
+    body: "Din nye side er klar til kunderne inden for 48 timer.",
+    cta: false,
+  },
+];
+
+function StepText({ eyebrow, title, body, cta }: (typeof steps)[number]) {
+  return (
+    <div className="max-w-sm">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-mist">
+        {eyebrow}
+      </p>
+      <h3 className="mt-2 font-display text-2xl font-bold leading-[1.1] tracking-tight text-ink sm:text-3xl">
+        {title}
+      </h3>
+      {body && <p className="mt-2 text-sm text-muted">{body}</p>}
+      {cta && (
+        <Link
+          href="/formular"
+          className="mt-5 inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
+        >
+          Start skemaet
+          <span aria-hidden>→</span>
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function ProgressRail({ progress }: { progress: number }) {
+  return (
+    <div className="relative flex flex-col items-center py-2">
+      <div className="absolute top-0 h-full w-px bg-white/10" />
+      <div
+        className="absolute top-0 w-px bg-beige"
+        style={{ height: `${progress * 100}%` }}
+      />
+      {[0, 1, 2].map((i) => {
+        const reached = progress >= i / 3 - 0.001;
+        return (
+          <span
+            key={i}
+            className="relative z-10 flex h-9 w-9 flex-none items-center justify-center rounded-full border font-display text-sm font-bold transition-colors duration-500"
+            style={{
+              marginTop: i === 0 ? 0 : "auto",
+              marginBottom: i === 2 ? 0 : "auto",
+              borderColor: reached ? "transparent" : "rgba(255,255,255,0.15)",
+              backgroundColor: reached ? "#e1e2d1" : "rgba(255,255,255,0.05)",
+              color: reached ? "#1c2020" : "#fff",
+            }}
+          >
+            {i + 1}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+// --- Desktop: cinematic scroll-pinned version -------------------------------
+
+function DesktopProcess() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const progress = useSectionProgress(wrapRef);
+  const activeIndex = Math.min(2, Math.floor(progress * 3));
+
+  return (
+    <div ref={wrapRef} className="relative hidden lg:block lg:h-[280vh]">
+      <div className="sticky top-24 mx-auto flex h-[calc(100vh-6rem)] max-w-page items-center px-6">
+        <div className="grid w-full grid-cols-[3rem_1fr] gap-10 lg:gap-16">
+          <ProgressRail progress={progress} />
+
+          <div className="relative h-[460px]">
+            {steps.map((step, i) => {
+              const bandProgress = clamp((progress - i / 3) * 3);
+              return (
+                <div
+                  key={step.title}
+                  className="absolute inset-0 flex items-center transition-opacity duration-500"
+                  style={{
+                    opacity: activeIndex === i ? 1 : 0,
+                    pointerEvents: activeIndex === i ? "auto" : "none",
+                  }}
+                >
+                  <div className="flex w-full flex-col justify-center gap-10 rounded-2xl border border-white/10 bg-white/95 p-10 shadow-2xl backdrop-blur-sm xl:flex-row xl:items-center xl:justify-between xl:gap-16">
+                    <StepText {...step} />
+                    <div className="flex xl:justify-end">
+                      {i === 0 && <Step1Demo progress={bandProgress} />}
+                      {i === 1 && <Step2Demo progress={bandProgress} />}
+                      {i === 2 && <Step3Demo progress={bandProgress} />}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --- Mobile: simplified stacked version -------------------------------------
+
+function MobileStepCard({
+  n,
+  step,
+  demo,
+}: {
+  n: number;
+  step: (typeof steps)[number];
+  demo: React.ReactNode;
+}) {
+  const { ref, inView } = useInViewOnce<HTMLDivElement>();
+  return (
+    <div ref={ref} className="flex flex-col">
+      <div className="mb-6 flex justify-center">
+        <span
+          className="flex h-9 w-9 items-center justify-center rounded-full border font-display text-sm font-bold transition-colors duration-500"
+          style={{
+            borderColor: inView ? "transparent" : "rgba(255,255,255,0.15)",
+            backgroundColor: inView ? "#e1e2d1" : "rgba(255,255,255,0.05)",
+            color: inView ? "#1c2020" : "#fff",
+          }}
+        >
+          {n}
+        </span>
+      </div>
+      <div className="flex flex-col gap-8 rounded-xl border border-white/10 bg-white p-8 shadow-cardSoft">
+        <StepText {...step} />
+        <div className="flex">{demo}</div>
+      </div>
+    </div>
+  );
+}
+
+function MobileProcess() {
+  return (
+    <div className="mx-auto flex max-w-page flex-col gap-10 px-6 pb-24 pt-14 lg:hidden">
+      <MobileStepCard
+        n={1}
+        step={steps[0]}
+        demo={<Step1DemoMobile />}
+      />
+      <MobileStepCard
+        n={2}
+        step={steps[1]}
+        demo={<Step2DemoMobile />}
+      />
+      <MobileStepCard
+        n={3}
+        step={steps[2]}
+        demo={<Step3DemoMobile />}
+      />
+    </div>
+  );
+}
+
+function Step1DemoMobile() {
+  const { ref, inView } = useInViewOnce<HTMLDivElement>();
+  return (
+    <div ref={ref}>
+      <Step1Demo progress={inView ? 1 : 0} animated />
+    </div>
+  );
+}
+function Step2DemoMobile() {
+  const { ref, inView } = useInViewOnce<HTMLDivElement>();
+  return (
+    <div ref={ref}>
+      <Step2Demo progress={inView ? 1 : 0} animated />
+    </div>
+  );
+}
+function Step3DemoMobile() {
+  const { ref, inView } = useInViewOnce<HTMLDivElement>();
+  return (
+    <div ref={ref}>
+      <Step3Demo progress={inView ? 1 : 0} animated />
+    </div>
+  );
+}
+
 // --- Section ---------------------------------------------------------------
 
 export default function ProcessSteps() {
-  const step1 = useInViewOnce<HTMLDivElement>();
-  const step2 = useInViewOnce<HTMLDivElement>();
-  const step3 = useInViewOnce<HTMLDivElement>();
-
   return (
-    <div className="mt-12 flex flex-col">
-      <StepConnector n={1} />
-      <div ref={step1.ref}>
-        <StepCard
-          eyebrow="Trin 1"
-          title="Udfyld spørgeskemaet på 5 minutter."
-          demo={<Step1Demo inView={step1.inView} />}
-        >
-          <Link
-            href="/formular"
-            className="mt-5 inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
-          >
-            Start skemaet
-            <span aria-hidden>→</span>
-          </Link>
-        </StepCard>
-      </div>
-
-      <StepConnector n={2} />
-      <div ref={step2.ref}>
-        <StepCard
-          eyebrow="Trin 2"
-          title="Hvad vil du have med?"
-          demo={<Step2Demo inView={step2.inView} />}
-        >
-          <p className="mt-2 text-sm text-muted">
-            Du vælger selv, hvilke sider din hjemmeside skal have.
-          </p>
-        </StepCard>
-      </div>
-
-      <StepConnector n={3} />
-      <div ref={step3.ref}>
-        <StepCard
-          eyebrow="Trin 3"
-          title="Vi laver hjemmesiden."
-          demo={<Step3Demo inView={step3.inView} />}
-        >
-          <p className="mt-2 text-sm text-muted">
-            Din nye side er klar til kunderne inden for 48 timer.
-          </p>
-        </StepCard>
-      </div>
+    <div className="mt-4">
+      <DesktopProcess />
+      <MobileProcess />
     </div>
   );
 }

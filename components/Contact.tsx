@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, FormEvent } from "react";
 import Reveal from "./Reveal";
+import SectionHeading from "./SectionHeading";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
@@ -36,27 +37,17 @@ export default function Contact() {
 
   return (
     <section id="kontakt" className="scroll-mt-20 bg-navy-fade">
-      <div className="mx-auto max-w-page px-6 py-24">
-        <Reveal>
-          <div className="mb-4 flex items-center gap-4">
-            <span className="h-px w-10 bg-steel" />
-            <span className="text-xs font-medium uppercase tracking-[0.18em] text-white/50">
-              Kontakt
-            </span>
-          </div>
-          <h2 className="mb-12 leading-[1.02] tracking-tight">
-            <span className="font-display text-3xl font-bold uppercase text-white sm:text-4xl">
-              Har du
-            </span>{" "}
-            <span className="font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
-              nogle spørgsmål?
-            </span>
-          </h2>
-        </Reveal>
+      <div className="mx-auto max-w-page px-6 py-24 sm:py-32">
+        <SectionHeading
+          eyebrow="Kontakt"
+          lead="Har du"
+          accent="nogle spørgsmål?"
+          className="mb-14 sm:mb-16"
+        />
 
         <div className="grid gap-6 md:grid-cols-[1.3fr_1fr]">
           <Reveal>
-            <div className="rounded-2xl bg-white p-8 shadow-card">
+            <div className="rounded-xl bg-white p-8 shadow-card">
               {sent ? (
                 <div className="py-10 text-center">
                   <p className="font-display text-xl font-bold text-ink">
@@ -110,7 +101,7 @@ export default function Contact() {
           </Reveal>
 
           <Reveal delay={80}>
-            <div className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-white/5 p-8">
+            <div className="flex h-full flex-col justify-between rounded-xl border border-white/10 bg-white/5 p-8">
               <div>
                 <p className="font-display text-xl font-bold text-white">
                   Foretrækker du at ringe?

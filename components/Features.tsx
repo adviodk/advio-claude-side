@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
+import SectionHeading from "./SectionHeading";
 
 const features = [
   {
@@ -27,44 +28,27 @@ const features = [
 export default function Features() {
   return (
     <section id="features" className="scroll-mt-20 bg-navy-fade">
-      <div className="mx-auto max-w-page px-6 py-24">
-        <Reveal>
-          <div className="mb-4 flex items-center gap-4">
-            <span className="h-px w-10 bg-steel" />
-            <span className="text-xs font-medium uppercase tracking-[0.18em] text-white/50">
-              Derfor Advio
-            </span>
-          </div>
-          <h2 className="mb-12 leading-[1.02] tracking-tight">
-            <span className="font-display text-3xl font-bold uppercase text-white sm:text-4xl">
-              Bygget til at
-            </span>{" "}
-            <span className="font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
-              konvertere
-            </span>
-          </h2>
-        </Reveal>
+      <div className="mx-auto max-w-page px-6 py-24 sm:py-32">
+        <SectionHeading
+          eyebrow="Derfor Advio"
+          lead="Bygget til at"
+          accent="konvertere"
+          className="mb-14 sm:mb-16"
+        />
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-px overflow-hidden rounded-xl bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f, i) => (
             <Reveal key={f.n} delay={i * 80}>
-              <div className="rounded-2xl border border-white/10 bg-white shadow-cardSoft">
-                <div
-                  className={`h-1.5 rounded-t-2xl ${
-                    Number(f.n) % 2 === 0 ? "bg-steel" : "bg-navy"
-                  }`}
-                />
-                <div className="p-7">
-                  <span className="font-display text-xs font-semibold text-navy">
-                    {f.n}
-                  </span>
-                  <h4 className="mt-3 font-display text-lg font-bold text-ink">
-                    {f.title}
-                  </h4>
-                  <p className="mt-2.5 text-sm leading-relaxed text-muted">
-                    {f.body}
-                  </p>
-                </div>
+              <div className="group h-full bg-white p-8 transition-colors duration-300 hover:bg-canvas">
+                <span className="font-display text-sm font-semibold text-mist">
+                  {f.n}
+                </span>
+                <h4 className="mt-4 font-display text-xl font-bold leading-snug tracking-tight text-ink">
+                  {f.title}
+                </h4>
+                <p className="mt-3 text-sm leading-relaxed text-muted">
+                  {f.body}
+                </p>
               </div>
             </Reveal>
           ))}
