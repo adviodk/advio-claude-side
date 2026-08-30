@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HeroVideo from "./HeroVideo";
 
 const steps = [
   { n: "01", label: "Firmanavn og branche" },
@@ -58,25 +59,7 @@ export default function Hero() {
       id="hero"
       className="relative scroll-mt-20 overflow-hidden bg-navy-fade"
     >
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="/assets/hero-ocean-poster.jpg"
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-      >
-        <source src="/assets/hero-ocean.mp4" type="video/mp4" />
-      </video>
-      <Image
-        src="/assets/hero-ocean-poster.jpg"
-        alt=""
-        fill
-        priority
-        aria-hidden="true"
-        className="hidden object-cover motion-reduce:block"
-      />
+      <HeroVideo />
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-gradient-to-b from-navyDeep/80 via-navyDeep/50 to-navyDeep/85"
@@ -107,6 +90,7 @@ export default function Hero() {
                 alt="Eksempel på hjemmeside bygget af Advio for en VVS-virksomhed"
                 width={480}
                 height={253}
+                sizes="(min-width: 640px) 180px, 45vw"
                 className="h-auto w-full"
               />
             </div>
@@ -116,6 +100,7 @@ export default function Hero() {
                 alt="Eksempel på hjemmeside bygget af Advio for en elektriker"
                 width={480}
                 height={260}
+                sizes="(min-width: 640px) 180px, 45vw"
                 className="h-auto w-full"
               />
             </div>

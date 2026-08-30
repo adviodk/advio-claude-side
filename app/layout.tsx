@@ -4,15 +4,18 @@ import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 
+// Only the weights actually referenced in the codebase are loaded (see
+// `grep -rohE "font-(medium|semibold|bold|black)"` across components/app).
+// 300/800 (Hanken) and 400/italic (Newsreader) are never rendered anywhere.
 const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700", "900"],
   variable: "--font-inter",
 });
 const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  weight: ["500", "600", "700"],
+  style: ["normal"],
   variable: "--font-display",
 });
 
