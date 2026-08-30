@@ -67,11 +67,38 @@ export function ButtonSubmit({
   children,
   variant = "solid",
   className = "",
-}: Common) {
+  disabled = false,
+}: Common & { disabled?: boolean }) {
   return (
     <button
       type="submit"
-      className={`${base} w-full justify-center ${variants[variant]} ${className}`}
+      disabled={disabled}
+      className={`${base} w-full justify-center ${variants[variant]} disabled:cursor-not-allowed disabled:opacity-40 ${className}`}
+    >
+      {children}
+      <Arrow />
+    </button>
+  );
+}
+
+export function Button({
+  children,
+  variant = "solid",
+  className = "",
+  onClick,
+  disabled = false,
+  type = "button",
+}: Common & {
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: "button" | "submit";
+}) {
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${base} justify-center ${variants[variant]} disabled:cursor-not-allowed disabled:opacity-40 ${className}`}
     >
       {children}
       <Arrow />

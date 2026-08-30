@@ -1,4 +1,3 @@
-import Image from "next/image";
 import HeroVideo from "./HeroVideo";
 import { ButtonLink, ButtonAnchor } from "./Button";
 
@@ -64,11 +63,11 @@ export default function Hero() {
       <div className="relative mx-auto grid max-w-page gap-16 px-6 py-28 md:grid-cols-[1.25fr_1fr] md:items-center md:py-36 lg:px-10">
         <div className="animate-hero-in">
           <h1 className="leading-[0.92] tracking-tighter">
-            <span className="block font-display text-7xl font-bold uppercase text-white sm:text-8xl md:text-[6rem] lg:text-[6.75rem]">
-              Få flere kunder
+            <span className="block font-display text-[11vw] font-bold uppercase text-white sm:text-6xl md:text-[5.25rem] lg:text-[5.75rem]">
+              Få en hjemmeside,
             </span>
-            <span className="block font-display text-4xl font-medium uppercase text-beige sm:text-5xl md:text-6xl">
-              med en professionel hjemmeside
+            <span className="block font-display text-2xl font-medium uppercase text-beige sm:text-4xl md:text-5xl lg:text-6xl">
+              der afspejler kvaliteten i dit arbejde.
             </span>
           </h1>
           <p className="mt-9 max-w-md text-lg leading-relaxed text-white/70">
@@ -79,32 +78,12 @@ export default function Hero() {
             <CtaCard />
           </div>
 
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:max-w-sm">
-            <div className="overflow-hidden border border-white/10">
-              <Image
-                src="/assets/ref-vvs.png"
-                alt="Eksempel på hjemmeside bygget af Advio for en VVS-virksomhed"
-                width={480}
-                height={253}
-                sizes="(min-width: 640px) 180px, 45vw"
-                className="h-auto w-full"
-              />
-            </div>
-            <div className="overflow-hidden border border-white/10">
-              <Image
-                src="/assets/ref-elektriker.png"
-                alt="Eksempel på hjemmeside bygget af Advio for en elektriker"
-                width={480}
-                height={260}
-                sizes="(min-width: 640px) 180px, 45vw"
-                className="h-auto w-full"
-              />
-            </div>
-          </div>
-
-          <div className="mt-10">
+          <div className="mt-10 flex flex-wrap gap-3">
             <ButtonAnchor href="tel:+4522494295" variant="ghost">
               Ring til os
+            </ButtonAnchor>
+            <ButtonAnchor href="#kontakt" variant="ghost">
+              Skriv til os
             </ButtonAnchor>
           </div>
         </div>

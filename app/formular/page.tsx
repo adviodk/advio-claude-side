@@ -3,6 +3,7 @@
 import { useRef, useState, FormEvent, KeyboardEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Button, ButtonSubmit } from "@/components/Button";
 
 const TOTAL_STEPS = 9;
 
@@ -173,11 +174,11 @@ export default function FormularPage() {
 
   return (
     <div className="min-h-screen bg-navy-fade">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
-        <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5">
+      <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-navyDeep/80 backdrop-blur-md">
+        <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5 lg:px-10">
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
+            className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
           >
             <span aria-hidden>←</span>
             Tilbage til forsiden
@@ -193,11 +194,11 @@ export default function FormularPage() {
       </header>
 
       <main className="mx-auto max-w-xl px-6 py-16">
-        <h1 className="leading-[1.02] tracking-tight">
-          <span className="block font-display text-3xl font-bold uppercase text-white sm:text-4xl">
+        <h1 className="leading-[0.98] tracking-tighter">
+          <span className="block font-display text-4xl font-bold uppercase text-white sm:text-5xl">
             Lad os bygge
           </span>
-          <span className="block font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
+          <span className="block font-display text-4xl font-medium uppercase text-beige sm:text-5xl">
             din nye hjemmeside
           </span>
         </h1>
@@ -233,7 +234,7 @@ export default function FormularPage() {
           encType="multipart/form-data"
           onSubmit={handleSubmit}
           onKeyDown={handleKeyDown}
-          className="mt-10 rounded-2xl bg-white p-8 shadow-card"
+          className="mt-10 border border-white/10 bg-ink/40 p-8 shadow-2xl backdrop-blur-2xl sm:p-10"
         >
           <input type="hidden" name="_subject" value="Ny henvendelse fra advio.dk" />
           <input type="hidden" name="_template" value="table" />
@@ -241,10 +242,10 @@ export default function FormularPage() {
           <input type="hidden" name="_next" ref={nextFieldRef} value="" />
 
           <div className={step === 0 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Hvad hedder dit firma?
             </h2>
-            <p className="mt-1.5 text-sm text-muted">
+            <p className="mt-1.5 text-sm text-white/55">
               Det navn kunderne kender jer under.
             </p>
             <input
@@ -253,12 +254,12 @@ export default function FormularPage() {
               placeholder="Fx Hansen VVS ApS"
               value={data.firma}
               onChange={(e) => update("firma", e.target.value)}
-              className="field mt-6"
+              className="field-dark mt-6"
             />
           </div>
 
           <div className={step === 1 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Hvilken slags håndværker er I?
             </h2>
             <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -277,10 +278,10 @@ export default function FormularPage() {
           </div>
 
           <div className={step === 2 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Hvordan får vi fat i dig?
             </h2>
-            <p className="mt-1.5 text-sm text-muted">
+            <p className="mt-1.5 text-sm text-white/55">
               Udfyld mindst ét felt – vi bruger det kun til at sende dit
               udkast.
             </p>
@@ -292,7 +293,7 @@ export default function FormularPage() {
                   placeholder="Fx 22 49 42 95"
                   value={data.telefon}
                   onChange={(e) => update("telefon", e.target.value)}
-                  className="field"
+                  className="field-dark"
                 />
               </Field>
               <Field label="Email">
@@ -302,14 +303,14 @@ export default function FormularPage() {
                   placeholder="din@email.dk"
                   value={data.email}
                   onChange={(e) => update("email", e.target.value)}
-                  className="field"
+                  className="field-dark"
                 />
               </Field>
             </div>
           </div>
 
           <div className={step === 3 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Har I allerede en hjemmeside?
             </h2>
             <div className="mt-6 grid grid-cols-2 gap-3">
@@ -328,21 +329,21 @@ export default function FormularPage() {
 
             {data.harHjemmeside === "Ja" && (
               <label className="mt-4 block">
-                <span className="field-label">Domæne (valgfrit)</span>
+                <span className="field-label-dark">Domæne (valgfrit)</span>
                 <input
                   type="text"
                   name="domaene"
                   placeholder="fx firmanavn.dk"
                   value={data.domaene}
                   onChange={(e) => update("domaene", e.target.value)}
-                  className="field"
+                  className="field-dark"
                 />
               </label>
             )}
           </div>
 
           <div className={step === 4 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Har I en Facebook-side?
             </h2>
             <div className="mt-6 grid grid-cols-2 gap-3">
@@ -361,17 +362,17 @@ export default function FormularPage() {
 
             {data.harFacebook === "Ja" && (
               <label className="mt-4 block">
-                <span className="field-label">Indsæt linket til jeres Facebook-side</span>
+                <span className="field-label-dark">Indsæt linket til jeres Facebook-side</span>
                 <input
                   type="text"
                   name="facebook_url"
                   placeholder="https://facebook.com/virksomhedsnavn"
                   value={data.facebookUrl}
                   onChange={(e) => update("facebookUrl", e.target.value)}
-                  className="field"
+                  className="field-dark"
                 />
                 {data.facebookUrl.trim().length > 0 && !isValidFacebookUrl(data.facebookUrl) && (
-                  <span className="mt-1.5 block text-xs font-medium text-red-600">
+                  <span className="mt-1.5 block text-xs font-medium text-red-400">
                     Indtast venligst et gyldigt Facebook-link (fx https://facebook.com/ditfirma)
                   </span>
                 )}
@@ -380,10 +381,10 @@ export default function FormularPage() {
           </div>
 
           <div className={step === 5 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Har I billeder af jeres arbejde?
             </h2>
-            <p className="mt-1.5 text-sm text-muted">
+            <p className="mt-1.5 text-sm text-white/55">
               Gode billeder af udført arbejde gør en enorm forskel for
               kunderne.
             </p>
@@ -404,7 +405,7 @@ export default function FormularPage() {
 
             {data.billeder === "Ja, jeg uploader nu" && (
               <div className="mt-4">
-                <label className="block cursor-pointer rounded-xl border border-dashed border-border bg-tint px-4 py-6 text-center text-sm font-medium text-navy hover:bg-border">
+                <label className="block cursor-pointer border border-dashed border-white/20 bg-white/[0.03] px-4 py-6 text-center text-sm font-medium text-white/60 transition-colors hover:bg-white/[0.06]">
                   <input
                     type="file"
                     name="billeder_filer"
@@ -422,7 +423,7 @@ export default function FormularPage() {
                     : "Klik for at vælge billeder"}
                 </label>
                 {fileNames.length > 0 && (
-                  <ul className="mt-2 space-y-0.5 text-xs text-muted">
+                  <ul className="mt-2 space-y-0.5 text-xs text-white/50">
                     {fileNames.map((n) => (
                       <li key={n}>{n}</li>
                     ))}
@@ -433,10 +434,10 @@ export default function FormularPage() {
           </div>
 
           <div className={step === 6 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Hvad skal hjemmesiden indeholde?
             </h2>
-            <p className="mt-1.5 text-sm text-muted">
+            <p className="mt-1.5 text-sm text-white/55">
               Vælg alt hvad der er relevant.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-3">
@@ -447,7 +448,7 @@ export default function FormularPage() {
                   value={v}
                   checked={data.indhold.includes(v)}
                   onChange={() => toggleIndhold(v)}
-                  activeClass="border-steel bg-steel text-white"
+                  activeClass="border-beige/60 bg-beige text-navyDeep"
                 >
                   {v}
                 </CheckOption>
@@ -456,10 +457,10 @@ export default function FormularPage() {
           </div>
 
           <div className={step === 7 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Hvilke ydelser tilbyder I?
             </h2>
-            <p className="mt-1.5 text-sm text-muted">
+            <p className="mt-1.5 text-sm text-white/55">
               De vigtigste ydelser jeres virksomhed tilbyder.
             </p>
             <input
@@ -468,16 +469,16 @@ export default function FormularPage() {
               placeholder="Fx facaderenovering, badeværelser, tilbygninger…"
               value={data.services}
               onChange={(e) => update("services", e.target.value)}
-              className="field mt-6"
+              className="field-dark mt-6"
             />
           </div>
 
           <div className={step === 8 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-bold text-ink">
+            <h2 className="font-display text-xl font-medium text-white">
               Hvad gør jer særlige?
             </h2>
-            <p className="mt-1.5 text-sm text-muted">
-              <span className="font-semibold text-ink">Frivilligt</span> — fortæl kort, hvad
+            <p className="mt-1.5 text-sm text-white/55">
+              <span className="font-semibold text-white/80">Frivilligt</span> — fortæl kort, hvad
               der gør jer anderledes end andre.
             </p>
             <input
@@ -486,39 +487,32 @@ export default function FormularPage() {
               placeholder="Fx 20 års erfaring, lokalt firma, hurtig service, autoriseret, gratis tilbud…"
               value={data.usp}
               onChange={(e) => update("usp", e.target.value)}
-              className="field mt-6"
+              className="field-dark mt-6"
             />
           </div>
 
           <div className="mt-8 flex gap-3">
             {step > 0 && (
-              <button
-                type="button"
+              <Button
+                variant="ghost"
                 onClick={() => setStep((s) => s - 1)}
-                className="flex-1 rounded-none border border-border py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-tint"
+                className="flex-1"
               >
-                ← Tilbage
-              </button>
+                Tilbage
+              </Button>
             )}
             {isLastStep ? (
-              <button
-                type="submit"
-                disabled={!canAdvance()}
-                className="flex flex-1 items-center justify-center gap-2 rounded-none bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep disabled:cursor-not-allowed disabled:opacity-40"
-              >
+              <ButtonSubmit className="flex-1" disabled={!canAdvance()}>
                 Send og vælg en tid
-                <span aria-hidden>→</span>
-              </button>
+              </ButtonSubmit>
             ) : (
-              <button
-                type="button"
+              <Button
                 onClick={handleNext}
                 disabled={!canAdvance()}
-                className="flex flex-1 items-center justify-center gap-2 rounded-none bg-beige py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex-1"
               >
                 Næste
-                <span aria-hidden>→</span>
-              </button>
+              </Button>
             )}
           </div>
         </form>
@@ -551,12 +545,12 @@ function RadioOption({
 }) {
   return (
     <label
-      className={`cursor-pointer rounded-xl border px-4 py-3.5 text-sm font-medium transition-colors ${
+      className={`cursor-pointer border px-4 py-3.5 text-sm font-medium transition-colors ${
         block ? "block w-full text-left" : "text-center"
       } ${
         checked
-          ? "border-navy bg-navy text-white"
-          : "border-border bg-white text-ink hover:border-navy"
+          ? "border-beige/60 bg-beige text-navyDeep"
+          : "border-white/10 bg-white/[0.03] text-white/70 hover:border-white/25"
       }`}
     >
       <input
@@ -591,9 +585,9 @@ function CheckOption({
 }) {
   return (
     <label
-      className={`cursor-pointer rounded-xl border px-3 py-3.5 text-sm font-medium transition-colors ${
+      className={`cursor-pointer border px-3 py-3.5 text-sm font-medium transition-colors ${
         block ? "block w-full text-left" : ""
-      } ${checked ? activeClass : "border-border bg-white text-ink hover:border-navy"}`}
+      } ${checked ? activeClass : "border-white/10 bg-white/[0.03] text-white/70 hover:border-white/25"}`}
     >
       <input
         type="checkbox"
@@ -617,7 +611,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-ink">
+      <span className="mb-1.5 block text-sm font-medium text-white/70">
         {label}
       </span>
       {children}
