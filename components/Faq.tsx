@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import { ButtonLink } from "./Button";
 
 const faqs = [
   {
@@ -46,34 +46,43 @@ export default function Faq() {
         />
 
         <Reveal delay={80}>
-          <div className="grid items-start gap-x-10 md:grid-cols-2">
+          <div className="mx-auto max-w-3xl divide-y divide-white/10 border-t border-white/10">
             {faqs.map((item, i) => {
               const open = openIndex === i;
               return (
-                <div key={item.q} className="border-b border-white/10">
+                <div key={item.q}>
                   <button
                     type="button"
                     onClick={() => setOpenIndex(open ? null : i)}
                     aria-expanded={open}
-                    className="flex w-full items-center justify-between gap-4 py-4 text-left text-[15px] font-semibold text-white"
+                    className="group flex w-full items-center justify-between gap-8 py-6 text-left transition-colors"
                   >
-                    {item.q}
                     <span
-                      aria-hidden
-                      className={`shrink-0 text-beige transition-transform duration-200 ${
-                        open ? "rotate-180" : ""
+                      className={`font-display text-lg font-medium transition-colors sm:text-xl ${
+                        open ? "text-white" : "text-white/70 group-hover:text-white"
                       }`}
                     >
-                      ⌄
+                      {item.q}
+                    </span>
+                    <span
+                      aria-hidden
+                      className="relative h-3 w-3 shrink-0"
+                    >
+                      <span className="absolute left-0 top-1/2 h-px w-3 -translate-y-1/2 bg-beige" />
+                      <span
+                        className={`absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-beige transition-transform duration-300 ${
+                          open ? "rotate-90 scale-0" : ""
+                        }`}
+                      />
                     </span>
                   </button>
                   <div
-                    className={`grid transition-[grid-template-rows] duration-200 ease-out ${
+                    className={`grid transition-[grid-template-rows] duration-300 ease-out ${
                       open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="pb-5 text-sm leading-relaxed text-white/60">
+                      <p className="max-w-xl pb-6 text-[15px] leading-relaxed text-white/55">
                         {item.a}
                       </p>
                     </div>
@@ -85,16 +94,8 @@ export default function Faq() {
         </Reveal>
 
         <Reveal delay={160}>
-          <div className="mt-14 flex justify-center">
-            <Link
-              href="/formular"
-              className="group inline-flex items-center gap-3 rounded-none bg-beige px-8 py-4 text-xs font-bold uppercase tracking-[0.14em] text-navyDeep transition-colors hover:bg-beigeDeep"
-            >
-              Klar til dit gratis udkast?
-              <span aria-hidden className="transition-transform group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
+          <div className="mt-16 flex justify-center">
+            <ButtonLink href="/formular">Klar til dit gratis udkast?</ButtonLink>
           </div>
         </Reveal>
       </div>

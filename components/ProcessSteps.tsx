@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { ButtonLink } from "./Button";
 import { useInViewOnce } from "@/lib/useInViewOnce";
 
 function clamp(v: number, min = 0, max = 1) {
@@ -85,24 +85,24 @@ function Step1Demo({
   const n = step1Fields.length;
   const t = animated ? "transition-all duration-700 ease-out" : "";
   return (
-    <div className="w-full max-w-sm space-y-3">
+    <div className="w-full max-w-sm space-y-2.5">
       {step1Fields.map((field, i) => {
         const reveal = clamp((progress - i / n) / (0.6 / n));
         const check = clamp((progress - (i + 0.55) / n) / (0.4 / n));
         return (
           <div
             key={field.label}
-            className={`flex items-center justify-between gap-4 border border-border bg-canvas px-5 py-3.5 ${t}`}
+            className={`flex items-center justify-between gap-4 border border-white/10 bg-white/[0.03] px-5 py-3.5 ${t}`}
             style={{
               opacity: reveal,
               transform: `translateY(${(1 - reveal) * 10}px)`,
             }}
           >
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mist">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/35">
                 {field.label}
               </p>
-              <p className="mt-0.5 text-sm font-semibold text-ink">
+              <p className="mt-0.5 text-sm font-medium text-white">
                 {field.value}
               </p>
             </div>
@@ -157,8 +157,10 @@ function Step2Demo({
         return (
           <div
             key={page.label}
-            className={`flex items-center justify-between gap-2 border px-3.5 py-3 text-xs font-semibold ${
-              active ? "border-navy bg-navy text-white" : "border-border bg-canvas text-muted"
+            className={`flex items-center justify-between gap-2 border px-3.5 py-3 text-xs font-medium ${
+              active
+                ? "border-beige/60 bg-beige text-navyDeep"
+                : "border-white/10 bg-white/[0.03] text-white/45"
             } ${t}`}
             style={{
               opacity: reveal,
@@ -168,7 +170,7 @@ function Step2Demo({
             <span>{page.label}</span>
             {page.selected && (
               <span
-                className={`flex h-4 w-4 flex-none items-center justify-center rounded-full bg-beige text-navyDeep ${t}`}
+                className={`flex h-4 w-4 flex-none items-center justify-center rounded-full bg-navyDeep text-beige ${t}`}
                 style={{
                   opacity: selectProgress,
                   transform: `scale(${0.4 + selectProgress * 0.6})`,
@@ -209,31 +211,31 @@ function Step3Demo({
         return (
           <div key={label} className="flex flex-col items-start">
             <div
-              className={`inline-flex items-center gap-2.5 border px-5 py-3 text-sm font-semibold transition-colors duration-500 ${
+              className={`inline-flex items-center gap-2.5 border px-5 py-3 text-sm font-medium transition-colors duration-500 ${
                 status === "active"
-                  ? "border-navy bg-navy text-white"
-                  : "border-border bg-canvas text-mist"
+                  ? "border-beige/60 bg-beige text-navyDeep"
+                  : "border-white/10 bg-white/[0.03] text-white/45"
               }`}
             >
               <span
                 className={`h-2 w-2 flex-none rounded-full transition-colors duration-500 ${
                   status === "active"
-                    ? "bg-beige"
+                    ? "bg-navyDeep"
                     : status === "done"
-                      ? "bg-steel"
-                      : "bg-border"
+                      ? "bg-beige/70"
+                      : "bg-white/20"
                 }`}
               />
               {label}
             </div>
             {i < step3Stages.length - 1 && (
-              <span className="ml-6 h-6 w-px bg-border" />
+              <span className="ml-6 h-6 w-px bg-white/10" />
             )}
           </div>
         );
       })}
       <p
-        className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-mist transition-opacity duration-700"
+        className="mt-4 text-xs font-medium uppercase tracking-[0.16em] text-white/40 transition-opacity duration-700"
         style={{ opacity: stage === step3Stages.length - 1 ? 1 : 0 }}
       >
         Klar inden for 48 timer
@@ -268,21 +270,17 @@ const steps = [
 function StepText({ eyebrow, title, body, cta }: (typeof steps)[number]) {
   return (
     <div className="max-w-sm">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-mist">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-beige/70">
         {eyebrow}
       </p>
-      <h3 className="mt-2 font-display text-2xl font-bold leading-[1.1] tracking-tight text-ink sm:text-3xl">
+      <h3 className="mt-3 font-display text-2xl font-medium leading-[1.1] tracking-tight text-white sm:text-3xl">
         {title}
       </h3>
-      {body && <p className="mt-2 text-sm text-muted">{body}</p>}
+      {body && <p className="mt-3 text-[15px] leading-relaxed text-white/55">{body}</p>}
       {cta && (
-        <Link
-          href="/formular"
-          className="mt-5 inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
-        >
+        <ButtonLink href="/formular" className="mt-6">
           Start skemaet
-          <span aria-hidden>→</span>
-        </Link>
+        </ButtonLink>
       )}
     </div>
   );
@@ -301,13 +299,13 @@ function ProgressRail({ progress }: { progress: number }) {
         return (
           <span
             key={i}
-            className="relative z-10 flex h-9 w-9 flex-none items-center justify-center rounded-full border font-display text-sm font-bold transition-colors duration-500"
+            className="relative z-10 flex h-9 w-9 flex-none items-center justify-center rounded-full border font-display text-sm font-medium transition-colors duration-500"
             style={{
               marginTop: i === 0 ? 0 : "auto",
               marginBottom: i === 2 ? 0 : "auto",
               borderColor: reached ? "transparent" : "rgba(255,255,255,0.15)",
-              backgroundColor: reached ? "#e1e2d1" : "rgba(255,255,255,0.05)",
-              color: reached ? "#1c2020" : "#fff",
+              backgroundColor: reached ? "#e1e2d1" : "rgba(255,255,255,0.04)",
+              color: reached ? "#1c2020" : "rgba(255,255,255,0.4)",
             }}
           >
             {i + 1}
@@ -343,7 +341,7 @@ function DesktopProcess() {
                     pointerEvents: activeIndex === i ? "auto" : "none",
                   }}
                 >
-                  <div className="flex w-full flex-col justify-center gap-10 rounded-2xl border border-white/10 bg-white/95 p-10 shadow-2xl backdrop-blur-sm xl:flex-row xl:items-center xl:justify-between xl:gap-16">
+                  <div className="flex w-full flex-col justify-center gap-10 border border-white/10 bg-ink/40 p-10 shadow-2xl backdrop-blur-2xl xl:flex-row xl:items-center xl:justify-between xl:gap-16">
                     <StepText {...step} />
                     <div className="flex xl:justify-end">
                       {i === 0 && <Step1Demo progress={bandProgress} />}
@@ -377,17 +375,17 @@ function MobileStepCard({
     <div ref={ref} className="flex flex-col">
       <div className="mb-6 flex justify-center">
         <span
-          className="flex h-9 w-9 items-center justify-center rounded-full border font-display text-sm font-bold transition-colors duration-500"
+          className="flex h-9 w-9 items-center justify-center rounded-full border font-display text-sm font-medium transition-colors duration-500"
           style={{
             borderColor: inView ? "transparent" : "rgba(255,255,255,0.15)",
-            backgroundColor: inView ? "#e1e2d1" : "rgba(255,255,255,0.05)",
-            color: inView ? "#1c2020" : "#fff",
+            backgroundColor: inView ? "#e1e2d1" : "rgba(255,255,255,0.04)",
+            color: inView ? "#1c2020" : "rgba(255,255,255,0.4)",
           }}
         >
           {n}
         </span>
       </div>
-      <div className="flex flex-col gap-8 rounded-xl border border-white/10 bg-white p-8 shadow-cardSoft">
+      <div className="flex flex-col gap-8 border border-white/10 bg-ink/40 p-8 shadow-xl backdrop-blur-2xl">
         <StepText {...step} />
         <div className="flex">{demo}</div>
       </div>

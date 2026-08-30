@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import HeroVideo from "./HeroVideo";
+import { ButtonLink, ButtonAnchor } from "./Button";
 
 const steps = [
   { n: "01", label: "Firmanavn og branche" },
@@ -12,38 +12,34 @@ const badges = ["Gratis", "Ingen binding", "Tager 2 min"];
 
 function CtaCard() {
   return (
-    <div className="rounded-xl bg-white p-8 shadow-card">
-      <h2 className="font-display text-xl font-bold text-ink">
+    <div className="border border-white/10 bg-ink/45 p-9 shadow-2xl backdrop-blur-2xl">
+      <h2 className="font-display text-2xl font-medium text-white">
         Klar til flere kunder?
       </h2>
-      <p className="mt-2 text-sm text-muted">
+      <p className="mt-2.5 text-[15px] leading-relaxed text-white/60">
         Udfyld et kort skema – vi bygger et gratis udkast til dig på 2 dage.
       </p>
 
-      <ol className="mt-7 divide-y divide-border">
+      <ol className="mt-7 divide-y divide-white/10">
         {steps.map((step) => (
           <li key={step.n} className="flex items-center gap-4 py-3.5">
-            <span className="font-display text-xs font-semibold text-navy">
+            <span className="font-display text-xs font-semibold text-beige">
               {step.n}
             </span>
-            <span className="text-sm text-ink">{step.label}</span>
+            <span className="text-sm text-white/80">{step.label}</span>
           </li>
         ))}
       </ol>
 
-      <Link
-        href="/formular"
-        className="mt-7 flex w-full items-center justify-center gap-2 rounded-none bg-beige py-4 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
-      >
+      <ButtonLink href="/formular" className="mt-7 w-full justify-center">
         Få dit gratis udkast
-        <span aria-hidden>→</span>
-      </Link>
+      </ButtonLink>
 
       <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-1.5">
         {badges.map((badge) => (
           <span
             key={badge}
-            className="text-xs font-medium uppercase tracking-wide text-mist"
+            className="text-[11px] font-medium uppercase tracking-[0.14em] text-white/40"
           >
             {badge}
           </span>
@@ -62,29 +58,29 @@ export default function Hero() {
       <HeroVideo />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-navyDeep/80 via-navyDeep/50 to-navyDeep/85"
+        className="absolute inset-0 bg-gradient-to-b from-navyDeep/85 via-navyDeep/45 to-navyDeep/90"
       />
 
-      <div className="relative mx-auto grid max-w-page gap-14 px-6 py-24 md:grid-cols-2 md:items-center md:py-32">
+      <div className="relative mx-auto grid max-w-page gap-16 px-6 py-28 md:grid-cols-[1.25fr_1fr] md:items-center md:py-36 lg:px-10">
         <div className="animate-hero-in">
-          <h1 className="leading-[0.94] tracking-tighter">
-            <span className="block font-display text-6xl font-bold uppercase text-white sm:text-7xl md:text-[5.5rem]">
+          <h1 className="leading-[0.92] tracking-tighter">
+            <span className="block font-display text-7xl font-bold uppercase text-white sm:text-8xl md:text-[6rem] lg:text-[6.75rem]">
               Få flere kunder
             </span>
             <span className="block font-display text-4xl font-medium uppercase text-beige sm:text-5xl md:text-6xl">
               med en professionel hjemmeside
             </span>
           </h1>
-          <p className="mt-8 max-w-md text-lg text-white/70">
+          <p className="mt-9 max-w-md text-lg leading-relaxed text-white/70">
             Du betaler kun hvis du er tilfreds – typisk levering på 2 dage.
           </p>
 
-          <div className="mt-9 md:hidden">
+          <div className="mt-10 md:hidden">
             <CtaCard />
           </div>
 
-          <div className="mt-9 grid grid-cols-2 gap-3 sm:max-w-sm">
-            <div className="overflow-hidden rounded-xl shadow-cardSoft">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:max-w-sm">
+            <div className="overflow-hidden border border-white/10">
               <Image
                 src="/assets/ref-vvs.png"
                 alt="Eksempel på hjemmeside bygget af Advio for en VVS-virksomhed"
@@ -94,7 +90,7 @@ export default function Hero() {
                 className="h-auto w-full"
               />
             </div>
-            <div className="overflow-hidden rounded-xl shadow-cardSoft">
+            <div className="overflow-hidden border border-white/10">
               <Image
                 src="/assets/ref-elektriker.png"
                 alt="Eksempel på hjemmeside bygget af Advio for en elektriker"
@@ -106,14 +102,10 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="mt-9">
-            <a
-              href="tel:+4522494295"
-              className="inline-flex items-center gap-2 rounded-none bg-beige px-6 py-3.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
-            >
+          <div className="mt-10">
+            <ButtonAnchor href="tel:+4522494295" variant="ghost">
               Ring til os
-              <span aria-hidden>→</span>
-            </a>
+            </ButtonAnchor>
           </div>
         </div>
 

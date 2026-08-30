@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ButtonLink } from "./Button";
 
 const links = [
   { href: "#hero", label: "Forside" },
@@ -12,8 +13,8 @@ const links = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
-      <div className="mx-auto flex max-w-page items-center justify-between px-6 py-4">
+    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-navyDeep/80 backdrop-blur-md">
+      <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5 lg:px-10">
         <Link href="#hero" className="flex items-center">
           <Image
             src="/assets/ADVIOLOGONYT.png"
@@ -21,28 +22,25 @@ export default function Header() {
             width={96}
             height={32}
             priority
-            className="h-8 w-auto"
+            className="h-7 w-auto"
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-10 md:flex">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-white/70 transition-colors hover:text-white"
+              className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <Link
-          href="/formular"
-          className="inline-flex items-center gap-2 rounded-none bg-beige px-5 py-2.5 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
-        >
+        <ButtonLink href="/formular" className="px-5 py-2.5 text-[11px]">
           Få et tilbud
-        </Link>
+        </ButtonLink>
       </div>
     </header>
   );

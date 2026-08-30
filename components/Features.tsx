@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import { ButtonLink } from "./Button";
 
 const features = [
   {
@@ -36,38 +36,33 @@ export default function Features() {
           className="mb-14 sm:mb-16"
         />
 
-        <div className="grid gap-px overflow-hidden rounded-xl bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-px overflow-hidden bg-white/10 lg:grid-cols-3">
           {features.map((f, i) => (
-            <Reveal key={f.n} delay={i * 80}>
-              <div className="group h-full bg-white p-8 transition-colors duration-300 hover:bg-canvas">
-                <span className="font-display text-sm font-semibold text-mist">
+            <Reveal
+              key={f.n}
+              delay={i * 80}
+              className={i === 0 || i === 3 ? "lg:col-span-2" : ""}
+            >
+              <div className="group flex h-full min-h-[220px] flex-col justify-between bg-ink/40 p-9 backdrop-blur-2xl transition-colors duration-300 hover:bg-ink/55 sm:min-h-[260px]">
+                <span className="font-display text-sm font-medium text-beige/70">
                   {f.n}
                 </span>
-                <h4 className="mt-4 font-display text-xl font-bold leading-snug tracking-tight text-ink">
-                  {f.title}
-                </h4>
-                <p className="mt-3 text-sm leading-relaxed text-muted">
-                  {f.body}
-                </p>
+                <div>
+                  <h4 className="font-display text-2xl font-medium leading-snug tracking-tight text-white sm:text-3xl">
+                    {f.title}
+                  </h4>
+                  <p className="mt-3 max-w-md text-[15px] leading-relaxed text-white/55">
+                    {f.body}
+                  </p>
+                </div>
               </div>
             </Reveal>
           ))}
         </div>
 
         <Reveal delay={100}>
-          <div className="mt-12 flex justify-center">
-            <Link
-              href="/formular"
-              className="group inline-flex items-center gap-3 rounded-none bg-beige px-8 py-4 text-sm font-semibold text-navyDeep transition-colors hover:bg-beigeDeep"
-            >
-              Få dit gratis udkast
-              <span
-                aria-hidden
-                className="transition-transform group-hover:translate-x-1"
-              >
-                →
-              </span>
-            </Link>
+          <div className="mt-16 flex justify-center">
+            <ButtonLink href="/formular">Få dit gratis udkast</ButtonLink>
           </div>
         </Reveal>
       </div>
