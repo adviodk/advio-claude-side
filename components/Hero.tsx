@@ -54,8 +54,35 @@ function CtaCard() {
 
 export default function Hero() {
   return (
-    <section id="hero" className="scroll-mt-20 bg-navy-fade">
-      <div className="mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
+    <section
+      id="hero"
+      className="relative scroll-mt-20 overflow-hidden bg-navy-fade"
+    >
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/assets/hero-underwater-poster.jpg"
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+      >
+        <source src="/assets/hero-underwater.mp4" type="video/mp4" />
+      </video>
+      <Image
+        src="/assets/hero-underwater-poster.jpg"
+        alt=""
+        fill
+        priority
+        aria-hidden="true"
+        className="hidden object-cover motion-reduce:block"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-b from-navyDeep/80 via-navyDeep/50 to-navyDeep/85"
+      />
+
+      <div className="relative mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
         <div>
           <h1 className="leading-[0.98] tracking-tight">
             <span className="block font-display text-5xl font-bold uppercase text-white sm:text-6xl md:text-7xl">
