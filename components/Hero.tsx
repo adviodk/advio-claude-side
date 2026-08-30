@@ -63,14 +63,14 @@ export default function Hero() {
         muted
         loop
         playsInline
-        poster="/assets/hero-underwater-poster.jpg"
+        poster="/assets/hero-ocean-poster.jpg"
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
       >
-        <source src="/assets/hero-underwater.mp4" type="video/mp4" />
+        <source src="/assets/hero-ocean.mp4" type="video/mp4" />
       </video>
       <Image
-        src="/assets/hero-underwater-poster.jpg"
+        src="/assets/hero-ocean-poster.jpg"
         alt=""
         fill
         priority
