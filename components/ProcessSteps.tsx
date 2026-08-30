@@ -47,7 +47,7 @@ function StepCard({
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-mist">
           {eyebrow}
         </p>
-        <h3 className="mt-2 font-display text-2xl font-black leading-[1.1] text-ink sm:text-3xl">
+        <h3 className="mt-2 font-display text-2xl font-bold leading-[1.1] text-ink sm:text-3xl">
           {title}
         </h3>
         {children}

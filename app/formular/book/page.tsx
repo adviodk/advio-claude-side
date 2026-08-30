@@ -101,7 +101,7 @@ export default async function BookPage({
 
       <main className="mx-auto max-w-xl px-6 py-16">
         <h1 className="leading-[1.02] tracking-tight">
-          <span className="block font-sans text-2xl font-black uppercase text-white sm:text-3xl">
+          <span className="block font-display text-2xl font-bold uppercase text-white sm:text-3xl">
             Tak!
           </span>
           <span className="block font-display text-2xl font-medium uppercase text-beige sm:text-3xl">

@@ -45,7 +45,7 @@ export default function Contact() {
             </span>
           </div>
           <h2 className="mb-12 leading-[1.02] tracking-tight">
-            <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
+            <span className="font-display text-3xl font-bold uppercase text-white sm:text-4xl">
               Har du
             </span>{" "}
             <span className="font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
@@ -59,7 +59,7 @@ export default function Contact() {
             <div className="rounded-2xl bg-white p-8 shadow-card">
               {sent ? (
                 <div className="py-10 text-center">
-                  <p className="font-display text-xl font-black text-ink">
+                  <p className="font-display text-xl font-bold text-ink">
                     Tak for din besked!
                   </p>
                   <p className="mt-2 text-sm text-muted">
@@ -112,7 +112,7 @@ export default function Contact() {
           <Reveal delay={80}>
             <div className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-white/5 p-8">
               <div>
-                <p className="font-display text-xl font-black text-white">
+                <p className="font-display text-xl font-bold text-white">
                   Foretrækker du at ringe?
                 </p>
                 <p className="mt-2 text-sm text-white/60">

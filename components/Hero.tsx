@@ -12,7 +12,7 @@ const badges = ["Gratis", "Ingen binding", "Tager 2 min"];
 function CtaCard() {
   return (
     <div className="rounded-2xl bg-white p-8 shadow-card">
-      <h2 className="font-display text-xl font-black text-ink">
+      <h2 className="font-display text-xl font-bold text-ink">
         Klar til flere kunder?
       </h2>
       <p className="mt-2 text-sm text-muted">
@@ -58,7 +58,7 @@ export default function Hero() {
       <div className="mx-auto grid max-w-page gap-14 px-6 py-20 md:grid-cols-2 md:items-center md:py-28">
         <div>
           <h1 className="leading-[0.98] tracking-tight">
-            <span className="block font-sans text-5xl font-black uppercase text-white sm:text-6xl md:text-7xl">
+            <span className="block font-display text-5xl font-bold uppercase text-white sm:text-6xl md:text-7xl">
               Få flere kunder
             </span>
             <span className="block font-display text-4xl font-medium uppercase text-beige sm:text-5xl md:text-6xl">

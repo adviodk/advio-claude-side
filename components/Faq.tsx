@@ -45,7 +45,7 @@ export default function Faq() {
             </span>
           </div>
           <h2 className="mb-12 leading-[1.02] tracking-tight">
-            <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
+            <span className="font-display text-3xl font-bold uppercase text-white sm:text-4xl">
               Godt at
             </span>{" "}
             <span className="font-display text-3xl font-medium uppercase text-beige sm:text-4xl">

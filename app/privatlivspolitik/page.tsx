@@ -28,7 +28,7 @@ export default function PrivatlivspolitikPage() {
       </header>
 
       <main className="mx-auto max-w-2xl px-6 py-16">
-        <h1 className="font-display text-3xl font-black tracking-tight text-ink sm:text-4xl">
+        <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
           Privatlivspolitik
         </h1>
         <p className="mt-3 text-sm text-muted">Senest opdateret: august 2026</p>

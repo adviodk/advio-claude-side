@@ -81,7 +81,7 @@ export default function Cases() {
             </h2>
           </div>
           <h3 className="leading-[1.02] tracking-tight">
-            <span className="font-sans text-4xl font-black uppercase text-white sm:text-5xl">
+            <span className="font-display text-4xl font-bold uppercase text-white sm:text-5xl">
               Udvalgte cases
             </span>{" "}
             <span className="font-display text-4xl font-medium uppercase text-beige sm:text-5xl">

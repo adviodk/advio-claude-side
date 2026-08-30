@@ -36,7 +36,7 @@ export default function Features() {
             </span>
           </div>
           <h2 className="mb-12 leading-[1.02] tracking-tight">
-            <span className="font-sans text-3xl font-black uppercase text-white sm:text-4xl">
+            <span className="font-display text-3xl font-bold uppercase text-white sm:text-4xl">
               Bygget til at
             </span>{" "}
             <span className="font-display text-3xl font-medium uppercase text-beige sm:text-4xl">
@@ -58,7 +58,7 @@ export default function Features() {
                   <span className="font-display text-xs font-semibold text-navy">
                     {f.n}
                   </span>
-                  <h4 className="mt-3 font-display text-lg font-black text-ink">
+                  <h4 className="mt-3 font-display text-lg font-bold text-ink">
                     {f.title}
                   </h4>
                   <p className="mt-2.5 text-sm leading-relaxed text-muted">

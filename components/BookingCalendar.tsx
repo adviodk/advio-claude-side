@@ -202,7 +202,7 @@ export default function BookingCalendar({
 
     return (
       <div className="rounded-2xl bg-white p-8 text-center shadow-card">
-        <p className="font-display text-2xl font-black text-ink">Du er booket!</p>
+        <p className="font-display text-2xl font-bold text-ink">Du er booket!</p>
         <p className="mt-2 text-sm text-muted">
           Mødet er sat i kalenderen {dateStr} kl. {timeStr}. Du modtager en kalenderinvitation på
           email med det samme.

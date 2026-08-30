@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Hanken_Grotesk, Fraunces } from "next/font/google";
+import { Hanken_Grotesk, Fredoka } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -9,10 +9,9 @@ const hankenGrotesk = Hanken_Grotesk({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-inter",
 });
-const fraunces = Fraunces({
+const fredoka = Fredoka({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-display",
 });
 
@@ -30,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="da">
       <body
-        className={`${hankenGrotesk.variable} ${fraunces.variable} font-sans antialiased`}
+        className={`${hankenGrotesk.variable} ${fredoka.variable} font-sans antialiased`}
       >
         {children}
         <CookieConsent />
