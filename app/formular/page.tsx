@@ -3,7 +3,11 @@
 import { useRef, useState, FormEvent, KeyboardEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Button, ButtonSubmit } from "@/components/Button";
+import { enqueueAttachments } from "@/lib/attachmentOutbox";
+
+const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/simon@advio.dk";
 
 const TOTAL_STEPS = 9;
 
@@ -78,6 +82,7 @@ function isValidFacebookUrl(value: string) {
 }
 
 export default function FormularPage() {
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [data, setData] = useState<FormState>(initialState);
@@ -139,13 +144,17 @@ export default function FormularPage() {
   }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    // Guards against a rapid double-click submitting (and emailing) the
-    // form twice before the native submit navigates away.
-    if (submitting) {
-      e.preventDefault();
-      return;
-    }
+    // Vi håndterer submit selv: teksten + Lead ID sendes med det samme, brugeren
+    // navigeres straks videre til kalenderen, og billederne uploades i
+    // baggrunden. Store/mange uploads må aldrig blokere booking-flowet, og en
+    // uploadfejl må ikke sende brugeren væk fra kalenderen.
+    e.preventDefault();
+
+    // Guard mod hurtig dobbelt-klik (dobbelt mail / dobbelt navigation).
+    if (submitting) return;
     setSubmitting(true);
+
+    const form = e.currentTarget;
 
     const params = new URLSearchParams();
     if (data.firma) params.set("firma", data.firma);
@@ -159,10 +168,13 @@ export default function FormularPage() {
     if (data.services) params.set("services", data.services);
     if (data.usp) params.set("usp", data.usp);
     if (data.billeder) params.set("billeder", data.billeder);
+    const bookUrl = `/formular/book?${params.toString()}`;
     if (nextFieldRef.current) {
-      nextFieldRef.current.value = `${window.location.origin}/formular/book?${params.toString()}`;
+      // Beholdes uændret: FormSubmit registrerer stadig _next (bruges ikke af os).
+      nextFieldRef.current.value = `${window.location.origin}${bookUrl}`;
     }
 
+    // Lead ID / notifikation — uændret kontrakt (Content-Type, body, endpoint).
     fetch("/api/lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -175,10 +187,38 @@ export default function FormularPage() {
       keepalive: true,
     }).catch(() => {});
 
-    // No preventDefault: this submits natively (multipart) to FormSubmit,
-    // which is required for the file upload to be attached to the email.
-    // FormSubmit only redirects to _next once it has processed the POST
-    // server-side, so the email is always sent before the booking page loads.
+    // Tekst-leaden til FormSubmit sendes STRAKS (uden filer) — lille body, samme
+    // endpoint, samme felt-navne + skjulte felter → samme mail som hidtil.
+    const textForm = new FormData(form);
+    textForm.delete("billeder_filer");
+    fetch(FORMSUBMIT_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      body: textForm,
+    }).catch(() => {});
+
+    // Billederne lægges i en durabel IndexedDB-outbox og uploades ét ad gangen
+    // i baggrunden via /api/lead/attachments. Fortsætter på /formular/book og
+    // genoptages ved et nyt besøg, hvis fanen lukkes midt i. Læses synkront her,
+    // mens formularen stadig er i DOM'en.
+    const fileInput = form.elements.namedItem(
+      "billeder_filer",
+    ) as HTMLInputElement | null;
+    const imageFiles = fileInput?.files ? Array.from(fileInput.files) : [];
+    if (imageFiles.length > 0) {
+      const leadRef = `${data.firma}|${data.telefon || data.email}|${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2, 7)}`;
+      enqueueAttachments({
+        leadRef,
+        firma: data.firma,
+        telefon: data.telefon || data.email,
+        files: imageFiles,
+      });
+    }
+
+    // Videre til kalenderen med det samme — venter ALDRIG på uploaden.
+    router.push(bookUrl);
   }
 
   return (

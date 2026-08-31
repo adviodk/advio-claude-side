@@ -3,6 +3,7 @@ import { Hanken_Grotesk, Newsreader } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import AttachmentResume from "@/components/AttachmentResume";
 
 // Only the weights actually referenced in the codebase are loaded (see
 // `grep -rohE "font-(medium|semibold|bold|black)"` across components/app).
@@ -38,6 +39,7 @@ export default function RootLayout({
         {children}
         <CookieConsent />
         <GoogleAnalytics />
+        <AttachmentResume />
       </body>
     </html>
   );

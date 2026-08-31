@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import BookingCalendar from "@/components/BookingCalendar";
+import UploadStatus from "@/components/UploadStatus";
 
 type AvailabilityData = {
   timezone: string;
@@ -112,6 +113,8 @@ export default async function BookPage({
           Vi har modtaget din henvendelse til {params.firma || "jer"} og
           glæder os til at høre fra dig.
         </p>
+
+        <UploadStatus />
 
         <div className="mt-8">
           <Suspense fallback={<CalendarSkeleton />}>
