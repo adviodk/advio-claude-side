@@ -17,19 +17,20 @@ export default function Contact() {
   }, []);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    // Guards against a rapid double-click sending the form twice before the
-    // native submit navigates away to FormSubmit's redirect.
-    if (submitting) {
-      e.preventDefault();
-      return;
-    }
+    // Non-blocking, same pattern as the /formular submit: never navigate the
+    // browser to FormSubmit. Send the notification + the FormSubmit email in
+    // the background and show the confirmation locally.
+    e.preventDefault();
+    if (submitting) return;
     setSubmitting(true);
 
     if (nextFieldRef.current) {
+      // Kept for FormSubmit's own records — we no longer rely on its redirect.
       nextFieldRef.current.value = `${window.location.origin}/?sent=true#kontakt`;
     }
-
     const data = new FormData(e.currentTarget);
+
+    // Telegram notification — unchanged contract.
     fetch("/api/lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -41,8 +42,16 @@ export default function Contact() {
       keepalive: true,
     }).catch(() => {});
 
-    // No preventDefault: submits natively to FormSubmit, which redirects
-    // back to _next once the email has been sent server-side.
+    // FormSubmit email in the background — same endpoint, same field names +
+    // hidden fields => same email. Small text-only body; mode:"no-cors" mirrors
+    // how a form POST looks to the browser (opaque response, fire-and-forget).
+    fetch("https://formsubmit.co/simon@advio.dk", {
+      method: "POST",
+      mode: "no-cors",
+      body: data,
+    }).catch(() => {});
+
+    setSent(true);
   }
 
   return (
