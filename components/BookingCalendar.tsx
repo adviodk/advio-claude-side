@@ -147,7 +147,7 @@ export default function BookingCalendar({
     view && maxDateKey ? `${view.year}-${String(view.month).padStart(2, "0")}` < maxDateKey.slice(0, 7) : false;
 
   async function handleBook() {
-    if (!selectedSlot || !navn.trim() || !email.trim()) return;
+    if (submitting || !selectedSlot || !navn.trim() || !email.trim()) return;
     setSubmitting(true);
     setSubmitError(null);
 

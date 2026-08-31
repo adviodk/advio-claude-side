@@ -7,6 +7,7 @@ import { ButtonSubmit, ButtonAnchor } from "./Button";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const nextFieldRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -16,6 +17,14 @@ export default function Contact() {
   }, []);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    // Guards against a rapid double-click sending the form twice before the
+    // native submit navigates away to FormSubmit's redirect.
+    if (submitting) {
+      e.preventDefault();
+      return;
+    }
+    setSubmitting(true);
+
     if (nextFieldRef.current) {
       nextFieldRef.current.value = `${window.location.origin}/?sent=true#kontakt`;
     }
@@ -106,7 +115,9 @@ export default function Contact() {
                       className="field-dark resize-none"
                     />
                   </label>
-                  <ButtonSubmit>Send besked</ButtonSubmit>
+                  <ButtonSubmit disabled={submitting}>
+                    {submitting ? "Sender…" : "Send besked"}
+                  </ButtonSubmit>
                 </form>
               )}
             </div>

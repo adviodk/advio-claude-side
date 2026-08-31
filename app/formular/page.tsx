@@ -81,6 +81,7 @@ export default function FormularPage() {
   const [step, setStep] = useState(0);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [data, setData] = useState<FormState>(initialState);
+  const [submitting, setSubmitting] = useState(false);
   const nextFieldRef = useRef<HTMLInputElement>(null);
 
   const isLastStep = step === TOTAL_STEPS - 1;
@@ -138,6 +139,14 @@ export default function FormularPage() {
   }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    // Guards against a rapid double-click submitting (and emailing) the
+    // form twice before the native submit navigates away.
+    if (submitting) {
+      e.preventDefault();
+      return;
+    }
+    setSubmitting(true);
+
     const params = new URLSearchParams();
     if (data.firma) params.set("firma", data.firma);
     if (data.branche) params.set("branche", data.branche);
@@ -502,8 +511,8 @@ export default function FormularPage() {
               </Button>
             )}
             {isLastStep ? (
-              <ButtonSubmit className="flex-1" disabled={!canAdvance()}>
-                Send og vælg en tid
+              <ButtonSubmit className="flex-1" disabled={!canAdvance() || submitting}>
+                {submitting ? "Sender…" : "Send og vælg en tid"}
               </ButtonSubmit>
             ) : (
               <Button
