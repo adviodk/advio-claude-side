@@ -25,6 +25,35 @@ function json(body: unknown, status: number) {
   });
 }
 
+/**
+ * `file.type` is whatever the caller's request declares — trivially
+ * spoofable by anyone posting directly to this endpoint (bypassing the
+ * browser form). This checks the actual leading bytes against known image
+ * signatures instead, so a renamed/relabelled non-image can't ride through
+ * as an "image" attachment. SVG is deliberately excluded even though it's
+ * a valid image MIME type: it's XML and can carry an embedded <script>.
+ */
+async function sniffImageType(file: File): Promise<string | null> {
+  const head = new Uint8Array(await file.slice(0, 12).arrayBuffer());
+
+  if (head[0] === 0xff && head[1] === 0xd8 && head[2] === 0xff) return "image/jpeg";
+  if (
+    head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4e && head[3] === 0x47 &&
+    head[4] === 0x0d && head[5] === 0x0a && head[6] === 0x1a && head[7] === 0x0a
+  ) {
+    return "image/png";
+  }
+  if (head[0] === 0x47 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x38) return "image/gif";
+  if (
+    head[0] === 0x52 && head[1] === 0x49 && head[2] === 0x46 && head[3] === 0x46 &&
+    head[8] === 0x57 && head[9] === 0x45 && head[10] === 0x42 && head[11] === 0x50
+  ) {
+    return "image/webp";
+  }
+
+  return null;
+}
+
 export async function POST(request: Request) {
   // Per-fil route -> mere generøs grænse end tekst-ruterne (op til ~20 billeder
   // pr. lead + genoptagelser), men stadig et loft mod spam.
@@ -53,6 +82,10 @@ export async function POST(request: Request) {
   }
   if (file.size > MAX_FILE_BYTES) {
     return json({ ok: false, error: "Filen er for stor" }, 413);
+  }
+  // Don't trust the declared Content-Type — verify the actual file bytes.
+  if (!(await sniffImageType(file))) {
+    return json({ ok: false, error: "Filen er ikke et gyldigt billede" }, 415);
   }
 
   // Byg en minimal FormSubmit-mail for netop dette billede. Emnet tråd-matcher

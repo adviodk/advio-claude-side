@@ -1,9 +1,12 @@
 import { google } from "googleapis";
 
-const SCOPES = [
-  "https://www.googleapis.com/auth/calendar",
-  "https://www.googleapis.com/auth/spreadsheets",
-];
+// Narrowed to least privilege: calendar.events (create/read events) rather
+// than full calendar management, and no Sheets scope — lib/sheets.ts (the
+// only Sheets consumer) has been removed as dead code (superseded by the
+// Advio Automation migration, see AGENTS.md history / git log). If Sheets
+// access is ever needed again, re-add "https://www.googleapis.com/auth/spreadsheets"
+// here and re-run the OAuth bootstrap flow for a new refresh token.
+const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
 
 function getOAuth2Client() {
   const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -17,12 +20,13 @@ function getOAuth2Client() {
   return new google.auth.OAuth2(clientId, clientSecret, redirectUri);
 }
 
-export function getGoogleAuthUrl() {
+export function getGoogleAuthUrl(state: string) {
   const client = getOAuth2Client();
   return client.generateAuthUrl({
     access_type: "offline",
     prompt: "consent",
     scope: SCOPES,
+    state,
   });
 }
 
@@ -50,10 +54,6 @@ export function getAuthorizedClient() {
 
 export function getCalendarClient() {
   return google.calendar({ version: "v3", auth: getAuthorizedClient() });
-}
-
-export function getSheetsClient() {
-  return google.sheets({ version: "v4", auth: getAuthorizedClient() });
 }
 
 export const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID || "primary";
