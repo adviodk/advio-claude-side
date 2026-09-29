@@ -3,6 +3,7 @@ import { Hanken_Grotesk, Newsreader } from "next/font/google";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import MetaPixel from "@/components/MetaPixel";
 import AttachmentResume from "@/components/AttachmentResume";
 
 // Only the weights actually referenced in the codebase are loaded (see
@@ -39,6 +40,7 @@ export default function RootLayout({
         {children}
         <CookieConsent />
         <GoogleAnalytics />
+        <MetaPixel />
         <AttachmentResume />
       </body>
     </html>

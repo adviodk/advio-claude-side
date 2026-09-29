@@ -99,6 +99,12 @@ export default function PrivatlivspolitikPage() {
                 du har givet samtykke til statistik-cookies.
               </li>
               <li>
+                <span className="font-medium text-ink">Meta Pixel</span> —
+                bruges til at måle effekten af vores annoncer på Facebook og
+                Instagram, men kun hvis du har givet samtykke til
+                markedsføringscookies.
+              </li>
+              <li>
                 <span className="font-medium text-ink">Vercel</span> — hoster
                 selve hjemmesiden.
               </li>
@@ -111,7 +117,9 @@ export default function PrivatlivspolitikPage() {
               Vi bruger kun cookies hvis du aktivt har accepteret det i
               cookie-banneret. Det gælder statistik-cookies fra Google
               Analytics, som indsamler oplysninger om hvordan du bruger
-              siden, fx hvilke sider du besøger og hvor du kommer fra.
+              siden, fx hvilke sider du besøger og hvor du kommer fra, samt
+              markedsføringscookies fra Meta Pixel, som bruges til at måle
+              og målrette annoncer på Facebook og Instagram.
               Bookingkalenderen på siden bruger ikke cookies. Du kan til
               enhver tid trække dit samtykke tilbage ved at slette cookies i
               din browser og genindlæse siden, hvorefter banneret vises igen.

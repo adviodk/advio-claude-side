@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button, ButtonSubmit } from "@/components/Button";
 import { enqueueAttachments } from "@/lib/attachmentOutbox";
+import { trackMetaEvent } from "@/lib/metaPixel";
 
 const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/simon@advio.dk";
 
@@ -216,6 +217,8 @@ export default function FormularPage() {
         files: imageFiles,
       });
     }
+
+    trackMetaEvent("Lead");
 
     // Videre til kalenderen med det samme — venter ALDRIG på uploaden.
     router.push(bookUrl);

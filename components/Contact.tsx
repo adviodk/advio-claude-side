@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, FormEvent } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import { ButtonSubmit, ButtonAnchor } from "./Button";
+import { trackMetaEvent } from "@/lib/metaPixel";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
@@ -13,6 +14,7 @@ export default function Contact() {
   useEffect(() => {
     if (window.location.search.includes("sent=true")) {
       setSent(true);
+      trackMetaEvent("Lead");
     }
   }, []);
 
@@ -51,6 +53,7 @@ export default function Contact() {
       body: data,
     }).catch(() => {});
 
+    trackMetaEvent("Lead");
     setSent(true);
   }
 

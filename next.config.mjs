@@ -1,23 +1,24 @@
 // Every external origin the site actually talks to from the browser:
-// Google Analytics (gtag.js + beacons, only loaded post-consent) and
+// Google Analytics (gtag.js + beacons, only loaded post-consent), Meta
+// Pixel (fbevents.js + tracking pixel, only loaded post-consent), and
 // FormSubmit (the contact/lead forms POST straight to it). Everything
 // else is same-origin. 'unsafe-inline' on script-src/style-src is a
-// known, deliberate looseness: next/script's inline GA init snippet and
-// React's inline style={{}} usage across the site both need it, and
-// there's no middleware/nonce plumbing in this app to tighten that
-// further without a bigger change. No dangerouslySetInnerHTML or eval
-// exists anywhere in the codebase, so the realistic injection surface
-// this still blocks (a future XSS regression pulling in an arbitrary
-// remote script, or exfiltrating data to a non-allowlisted origin) is
-// still meaningfully reduced.
+// known, deliberate looseness: next/script's inline GA/Pixel init
+// snippets and React's inline style={{}} usage across the site both need
+// it, and there's no middleware/nonce plumbing in this app to tighten
+// that further without a bigger change. No dangerouslySetInnerHTML or
+// eval exists anywhere in the codebase, so the realistic injection
+// surface this still blocks (a future XSS regression pulling in an
+// arbitrary remote script, or exfiltrating data to a non-allowlisted
+// origin) is still meaningfully reduced.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://www.google-analytics.com",
+  "img-src 'self' data: https://www.google-analytics.com https://www.facebook.com",
   "font-src 'self'",
   "media-src 'self'",
-  "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://formsubmit.co",
+  "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://formsubmit.co https://connect.facebook.net https://www.facebook.com",
   "form-action 'self' https://formsubmit.co",
   "frame-ancestors 'none'",
   "object-src 'none'",

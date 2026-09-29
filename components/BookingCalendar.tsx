@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { trackMetaEvent } from "@/lib/metaPixel";
 
 type Availability = {
   timezone: string;
@@ -183,6 +184,7 @@ export default function BookingCalendar({
       }
 
       setBooked({ meetLink: data.meetLink, start: data.start });
+      trackMetaEvent("Schedule");
     } catch {
       setSubmitError("Noget gik galt. Prøv igen.");
     } finally {
