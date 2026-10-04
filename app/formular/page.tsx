@@ -256,23 +256,10 @@ export default function FormularPage() {
           </div>
         </header>
 
-        <main className="mx-auto max-w-xl px-6 py-16">
-        <div className={`${quicksand.className} animate-hero-in rounded-2xl bg-white p-8 shadow-card sm:p-10`}>
-          <h1 className="leading-[1.05] tracking-tight">
-            <span className="block text-3xl font-bold text-ink sm:text-4xl">
-              Lad os bygge
-            </span>
-            <span className="block text-3xl font-semibold text-navy sm:text-4xl">
-              din nye hjemmeside
-            </span>
-          </h1>
-          <p className="mt-4 text-muted">
-            Det tager kun et minut at udfylde – vi vender tilbage med et
-            skræddersyet professionelt udkast.
-          </p>
-
-          <div className="mt-8">
-            <div className="mb-2 flex items-center justify-between text-xs font-medium text-muted">
+        <main className="mx-auto max-w-xl px-4 py-8 sm:px-6 sm:py-16">
+        <div className={`${quicksand.className} animate-hero-in rounded-2xl bg-white p-6 shadow-card sm:p-10`}>
+          <div className="sm:mt-0">
+            <div className="mb-2 hidden items-center justify-between text-xs font-medium text-muted sm:flex">
               <span>
                 Trin {step + 1} af {TOTAL_STEPS}
               </span>
@@ -291,7 +278,7 @@ export default function FormularPage() {
             method="POST"
             onSubmit={handleSubmit}
             onKeyDown={handleKeyDown}
-            className="mt-8"
+            className="mt-5 sm:mt-8"
           >
           <input type="hidden" name="_subject" value="Ny henvendelse fra advio.dk" />
           <input type="hidden" name="_template" value="table" />
@@ -303,9 +290,6 @@ export default function FormularPage() {
               <h2 className="text-xl font-semibold text-ink">
                 Hvad hedder dit firma?
               </h2>
-              <p className="mt-1.5 text-sm text-muted">
-                Begynd at skrive, så finder vi jer i CVR-registret.
-              </p>
               <div className="relative mt-6">
                 <input
                   type="text"
@@ -444,7 +428,7 @@ export default function FormularPage() {
             </div>
           </form>
 
-          <p className="mt-8 text-center text-sm text-muted">
+          <p className="mt-6 hidden text-center text-sm text-muted sm:mt-8 sm:block">
             Har du spørgsmål? Ring til os på{" "}
             <a href="tel:+4522494295" className="font-medium text-navy">
               22 49 42 95
