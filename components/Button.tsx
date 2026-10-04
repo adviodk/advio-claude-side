@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 type Common = {
   children: ReactNode;
-  variant?: "solid" | "ghost";
+  variant?: "solid" | "ghost" | "ghost-light";
   className?: string;
 };
 
@@ -14,6 +14,10 @@ const variants = {
   solid: "bg-beige text-navyDeep hover:bg-beigeDeep",
   ghost:
     "border border-white/20 text-white hover:border-white/40 hover:bg-white/5",
+  // For buttons that sit on a light/white card rather than the site's
+  // usual dark backdrop — same tokens BookingCalendar.tsx already uses for
+  // its light-themed controls.
+  "ghost-light": "border border-border text-ink hover:border-navy hover:bg-tint",
 };
 
 function Arrow() {

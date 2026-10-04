@@ -1,17 +1,25 @@
 "use client";
 
 import { useEffect, useRef, useState, FormEvent, KeyboardEvent } from "react";
+import { Quicksand } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button, ButtonSubmit } from "@/components/Button";
+import BackgroundVideo from "@/components/BackgroundVideo";
 import { trackMetaEvent } from "@/lib/metaPixel";
+
+// Scoped to this page's card only — a rounded, friendly sans matching the
+// reference design, distinct from the rest of the site's serif/Hanken
+// Grotesk type system used elsewhere.
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
 
 const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/simon@advio.dk";
 
 const TOTAL_STEPS = 2;
-
-const badges = ["Gratis udkast", "Typisk levering 2 dage", "Ingen binding"];
 
 const brancher = [
   "Håndværker",
@@ -218,226 +226,233 @@ export default function FormularPage() {
   }
 
   return (
-    <div className="min-h-screen bg-navy-fade">
-      <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-navyDeep/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5 lg:px-10">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
-          >
-            <span aria-hidden>←</span>
-            Tilbage til forsiden
-          </Link>
-          <Image
-            src="/assets/ADVIOLOGONYT.png"
-            alt="Advio"
-            width={84}
-            height={28}
-            className="h-7 w-auto"
-          />
-        </div>
-      </header>
+    <div className="relative min-h-screen overflow-hidden bg-navy-fade">
+      <div aria-hidden="true" className="absolute inset-0">
+        <BackgroundVideo
+          desktopSrc="/assets/hero-ocean.mp4"
+          mobileSrc="/assets/hero-ocean-mobile.mp4"
+          posterSrc="/assets/hero-ocean-poster.jpg"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-navyDeep/85 via-navyDeep/45 to-navyDeep/90" />
+      </div>
 
-      <main className="mx-auto max-w-xl px-6 py-16">
-        <h1 className="leading-[0.98] tracking-tighter">
-          <span className="block font-display text-4xl font-bold uppercase text-white sm:text-5xl">
-            Lad os bygge
-          </span>
-          <span className="block font-display text-4xl font-medium uppercase text-beige sm:text-5xl">
-            din nye hjemmeside
-          </span>
-        </h1>
-        <p className="mt-4 text-white/70">
-          Det tager kun et minut at udfylde – vi vender tilbage med et
-          skræddersyet professionelt udkast.
-        </p>
-
-        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium uppercase tracking-wide text-white/50">
-          {badges.map((b) => (
-            <span key={b}>{b}</span>
-          ))}
-        </div>
-
-        <div className="mt-10">
-          <div className="mb-2 flex items-center justify-between text-xs font-medium text-white/60">
-            <span>
-              Trin {step + 1} af {TOTAL_STEPS}
-            </span>
-            <span>{progress}%</span>
-          </div>
-          <div className="h-1.5 w-full rounded-full border border-white/20 bg-white/5">
-            <div
-              className="h-full rounded-full bg-beige transition-all duration-300"
-              style={{ width: `${progress}%` }}
+      <div className="relative z-10">
+        <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-navyDeep/80 backdrop-blur-md">
+          <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5 lg:px-10">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
+            >
+              <span aria-hidden>←</span>
+              Tilbage til forsiden
+            </Link>
+            <Image
+              src="/assets/ADVIOLOGONYT.png"
+              alt="Advio"
+              width={84}
+              height={28}
+              className="h-7 w-auto"
             />
           </div>
-        </div>
+        </header>
 
-        <form
-          action="https://formsubmit.co/simon@advio.dk"
-          method="POST"
-          onSubmit={handleSubmit}
-          onKeyDown={handleKeyDown}
-          className="mt-10 border border-white/10 bg-ink/40 p-8 shadow-2xl backdrop-blur-2xl sm:p-10"
-        >
+        <main className="mx-auto max-w-xl px-6 py-16">
+        <div className={`${quicksand.className} animate-hero-in rounded-2xl bg-white p-8 shadow-card sm:p-10`}>
+          <h1 className="leading-[1.05] tracking-tight">
+            <span className="block text-3xl font-bold text-ink sm:text-4xl">
+              Lad os bygge
+            </span>
+            <span className="block text-3xl font-semibold text-navy sm:text-4xl">
+              din nye hjemmeside
+            </span>
+          </h1>
+          <p className="mt-4 text-muted">
+            Det tager kun et minut at udfylde – vi vender tilbage med et
+            skræddersyet professionelt udkast.
+          </p>
+
+          <div className="mt-8">
+            <div className="mb-2 flex items-center justify-between text-xs font-medium text-muted">
+              <span>
+                Trin {step + 1} af {TOTAL_STEPS}
+              </span>
+              <span>{progress}%</span>
+            </div>
+            <div className="h-1.5 w-full rounded-full border border-border bg-tint">
+              <div
+                className="h-full rounded-full bg-beige transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+
+          <form
+            action="https://formsubmit.co/simon@advio.dk"
+            method="POST"
+            onSubmit={handleSubmit}
+            onKeyDown={handleKeyDown}
+            className="mt-8"
+          >
           <input type="hidden" name="_subject" value="Ny henvendelse fra advio.dk" />
           <input type="hidden" name="_template" value="table" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_next" ref={nextFieldRef} value="" />
           <input type="hidden" name="cvr" value={data.cvr} />
 
-          <div className={step === 0 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
-              Hvad hedder dit firma?
-            </h2>
-            <p className="mt-1.5 text-sm text-white/55">
-              Begynd at skrive, så finder vi jer i CVR-registret.
-            </p>
-            <div className="relative mt-6">
-              <input
-                type="text"
-                name="firma"
-                autoComplete="off"
-                placeholder="Fx Hansen ApS"
-                value={data.firma}
-                onChange={(e) => update("firma", e.target.value)}
-                onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-                className="field-dark"
-              />
-              {showSuggestions && suggestions.length > 0 && (
-                <ul className="absolute left-0 right-0 top-full z-10 mt-1.5 max-h-60 overflow-y-auto border border-white/15 bg-navyDeep shadow-2xl">
-                  {suggestions.map((s) => (
-                    <li key={`${s.name}-${s.cvr ?? ""}`}>
-                      <button
-                        type="button"
-                        onMouseDown={() => selectSuggestion(s)}
-                        className="block w-full px-4 py-3 text-left text-sm text-white/80 transition-colors hover:bg-white/10"
-                      >
-                        <span className="block font-medium text-white">{s.name}</span>
-                        {(s.city || s.industry) && (
-                          <span className="mt-0.5 block text-xs text-white/50">
-                            {[s.city, s.industry].filter(Boolean).join(" · ")}
-                          </span>
-                        )}
-                      </button>
-                    </li>
+            <div key={`step0-${step}`} className={step === 0 ? "animate-step-in" : "hidden"}>
+              <h2 className="text-xl font-semibold text-ink">
+                Hvad hedder dit firma?
+              </h2>
+              <p className="mt-1.5 text-sm text-muted">
+                Begynd at skrive, så finder vi jer i CVR-registret.
+              </p>
+              <div className="relative mt-6">
+                <input
+                  type="text"
+                  name="firma"
+                  autoComplete="off"
+                  placeholder="Fx Hansen ApS"
+                  value={data.firma}
+                  onChange={(e) => update("firma", e.target.value)}
+                  onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                  className="field"
+                />
+                {showSuggestions && suggestions.length > 0 && (
+                  <ul className="animate-step-in absolute left-0 right-0 top-full z-10 mt-1.5 max-h-60 overflow-y-auto rounded-lg border border-border bg-white shadow-card">
+                    {suggestions.map((s) => (
+                      <li key={`${s.name}-${s.cvr ?? ""}`}>
+                        <button
+                          type="button"
+                          onMouseDown={() => selectSuggestion(s)}
+                          className="block w-full px-4 py-3 text-left text-sm text-ink transition-colors hover:bg-tint"
+                        >
+                          <span className="block font-medium text-ink">{s.name}</span>
+                          {(s.city || s.industry) && (
+                            <span className="mt-0.5 block text-xs text-mist">
+                              {[s.city, s.industry].filter(Boolean).join(" · ")}
+                            </span>
+                          )}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <label className="mt-6 block">
+                <span className="field-label">Hvilken branche er I i?</span>
+                <select
+                  name="branche"
+                  value={data.branche}
+                  onChange={(e) => update("branche", e.target.value)}
+                  className="field"
+                >
+                  <option value="" disabled>
+                    Vælg branche
+                  </option>
+                  {brancher.map((b) => (
+                    <option key={b} value={b}>
+                      {b}
+                    </option>
                   ))}
-                </ul>
+                </select>
+              </label>
+
+              {data.branche === "Andet" && (
+                <label className="mt-4 block">
+                  <span className="field-label">Hvilken branche?</span>
+                  <input
+                    type="text"
+                    name="branche_andet"
+                    placeholder="Fx bogholderi, tøjbutik, rengøring…"
+                    value={data.brancheAndet}
+                    onChange={(e) => update("brancheAndet", e.target.value)}
+                    className="field"
+                  />
+                </label>
               )}
             </div>
 
-            <label className="mt-6 block">
-              <span className="field-label-dark">Hvilken branche er I i?</span>
-              <select
-                name="branche"
-                value={data.branche}
-                onChange={(e) => update("branche", e.target.value)}
-                className="field-dark"
-              >
-                <option value="" disabled>
-                  Vælg branche
-                </option>
-                {brancher.map((b) => (
-                  <option key={b} value={b}>
-                    {b}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            {data.branche === "Andet" && (
-              <label className="mt-4 block">
-                <span className="field-label-dark">Hvilken branche?</span>
-                <input
-                  type="text"
-                  name="branche_andet"
-                  placeholder="Fx bogholderi, tøjbutik, rengøring…"
-                  value={data.brancheAndet}
-                  onChange={(e) => update("brancheAndet", e.target.value)}
-                  className="field-dark"
-                />
-              </label>
-            )}
-          </div>
-
-          <div className={step === 1 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
-              Hvordan får vi fat i dig?
-            </h2>
-            <p className="mt-1.5 text-sm text-white/55">
-              Udfyld navn og mindst ét kontaktfelt – vi bruger det kun til at
-              sende dit udkast.
-            </p>
-            <div className="mt-6 space-y-4">
-              <Field label="Navn">
-                <input
-                  type="text"
-                  name="navn"
-                  placeholder="Dit fulde navn"
-                  value={data.navn}
-                  onChange={(e) => update("navn", e.target.value)}
-                  className="field-dark"
-                />
-              </Field>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Email">
+            <div key={`step1-${step}`} className={step === 1 ? "animate-step-in" : "hidden"}>
+              <h2 className="text-xl font-semibold text-ink">
+                Hvordan får vi fat i dig?
+              </h2>
+              <p className="mt-1.5 text-sm text-muted">
+                Udfyld navn og mindst ét kontaktfelt – vi bruger det kun til at
+                sende dit udkast.
+              </p>
+              <div className="mt-6 space-y-4">
+                <Field label="Navn">
                   <input
-                    type="email"
-                    name="email"
-                    placeholder="din@email.dk"
-                    value={data.email}
-                    onChange={(e) => update("email", e.target.value)}
-                    className="field-dark"
+                    type="text"
+                    name="navn"
+                    placeholder="Dit fulde navn"
+                    value={data.navn}
+                    onChange={(e) => update("navn", e.target.value)}
+                    className="field"
                   />
                 </Field>
-                <Field label="Telefonnummer">
-                  <input
-                    type="tel"
-                    name="telefon"
-                    placeholder="Fx 22 49 42 95"
-                    value={data.telefon}
-                    onChange={(e) => update("telefon", e.target.value)}
-                    className="field-dark"
-                  />
-                </Field>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="Email">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="din@email.dk"
+                      value={data.email}
+                      onChange={(e) => update("email", e.target.value)}
+                      className="field"
+                    />
+                  </Field>
+                  <Field label="Telefonnummer">
+                    <input
+                      type="tel"
+                      name="telefon"
+                      placeholder="Fx 22 49 42 95"
+                      value={data.telefon}
+                      onChange={(e) => update("telefon", e.target.value)}
+                      className="field"
+                    />
+                  </Field>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="mt-8 flex gap-3">
-            {step > 0 && (
-              <Button
-                variant="ghost"
-                onClick={() => setStep((s) => s - 1)}
-                className="flex-1"
-              >
-                Tilbage
-              </Button>
-            )}
-            {isLastStep ? (
-              <ButtonSubmit className="flex-1" disabled={!canAdvance() || submitting}>
-                {submitting ? "Sender…" : "Send og vælg en tid"}
-              </ButtonSubmit>
-            ) : (
-              <Button
-                onClick={handleNext}
-                disabled={!canAdvance()}
-                className="flex-1"
-              >
-                Næste
-              </Button>
-            )}
-          </div>
-        </form>
+            <div className="mt-8 flex gap-3">
+              {step > 0 && (
+                <Button
+                  variant="ghost-light"
+                  onClick={() => setStep((s) => s - 1)}
+                  className="flex-1"
+                >
+                  Tilbage
+                </Button>
+              )}
+              {isLastStep ? (
+                <ButtonSubmit className="flex-1" disabled={!canAdvance() || submitting}>
+                  {submitting ? "Sender…" : "Send og vælg en tid"}
+                </ButtonSubmit>
+              ) : (
+                <Button
+                  onClick={handleNext}
+                  disabled={!canAdvance()}
+                  className="flex-1"
+                >
+                  Næste
+                </Button>
+              )}
+            </div>
+          </form>
 
-        <p className="mt-8 text-center text-sm text-white/60">
-          Har du spørgsmål? Ring til os på{" "}
-          <a href="tel:+4522494295" className="font-medium text-beige">
-            22 49 42 95
-          </a>
-        </p>
-      </main>
+          <p className="mt-8 text-center text-sm text-muted">
+            Har du spørgsmål? Ring til os på{" "}
+            <a href="tel:+4522494295" className="font-medium text-navy">
+              22 49 42 95
+            </a>
+          </p>
+        </div>
+        </main>
+      </div>
     </div>
   );
 }
@@ -451,7 +466,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-white/70">
+      <span className="mb-1.5 block text-sm font-medium text-navy">
         {label}
       </span>
       {children}
