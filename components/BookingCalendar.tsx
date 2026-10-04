@@ -56,9 +56,9 @@ export default function BookingCalendar({
 }) {
   const [availability, setAvailability] = useState<Availability | null>(initialAvailability ?? null);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState<string | null>(
-    () => Object.keys(initialAvailability?.days ?? {}).sort()[0] ?? null,
-  );
+  // Starts unselected on purpose — the user picks a date first, and the
+  // time-slot list only appears once they have (see the JSX below).
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [view, setView] = useState<{ year: number; month: number } | null>(() => {
     const firstDate = Object.keys(initialAvailability?.days ?? {}).sort()[0];
@@ -78,7 +78,6 @@ export default function BookingCalendar({
   function applyAvailability(data: Availability) {
     setAvailability(data);
     const firstDate = Object.keys(data.days).sort()[0] ?? null;
-    setSelectedDate((current) => current ?? firstDate);
     if (firstDate) {
       const [y, m] = firstDate.split("-").map(Number);
       setView((current) => current ?? { year: y, month: m });
