@@ -192,8 +192,8 @@ export default function BookingCalendar({
     const timeStr = formatTimeLabel(booked.start);
 
     return (
-      <div className="rounded-xl bg-white p-8 text-center shadow-card">
-        <p className="font-display text-2xl font-bold text-ink">Du er booket!</p>
+      <div className="text-center">
+        <p className="text-2xl font-bold text-ink">Du er booket!</p>
         <p className="mt-2 text-sm text-muted">
           Mødet er sat i kalenderen {dateStr} kl. {timeStr}. Du modtager en kalenderinvitation på
           email med det samme.
@@ -215,7 +215,7 @@ export default function BookingCalendar({
 
   if (loadError) {
     return (
-      <div className="rounded-xl bg-white p-8 text-center shadow-card">
+      <div className="text-center">
         <p className="text-sm text-muted">{loadError}</p>
       </div>
     );
@@ -223,14 +223,14 @@ export default function BookingCalendar({
 
   if (!availability) {
     return (
-      <div className="rounded-xl bg-white p-8 text-center shadow-card">
+      <div className="text-center">
         <p className="text-sm text-muted">Henter ledige tider…</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl bg-white p-8 shadow-card">
+    <div>
       <p className="field-label">Vælg en dato</p>
       {view && (
         <div>
