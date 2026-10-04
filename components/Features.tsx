@@ -1,6 +1,6 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { ButtonLink } from "./Button";
+import TrackedButtonLink from "./TrackedButtonLink";
 
 const features = [
   {
@@ -62,7 +62,9 @@ export default function Features() {
 
         <Reveal delay={100}>
           <div className="mt-16 flex justify-center">
-            <ButtonLink href="/formular">Få dit gratis udkast</ButtonLink>
+            <TrackedButtonLink href="/formular" location="features">
+              Få dit gratis udkast
+            </TrackedButtonLink>
           </div>
         </Reveal>
       </div>

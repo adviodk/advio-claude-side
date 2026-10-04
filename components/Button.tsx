@@ -37,10 +37,12 @@ export function ButtonLink({
   children,
   variant = "solid",
   className = "",
-}: Common & { href: string }) {
+  onClick,
+}: Common & { href: string; onClick?: () => void }) {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={`${base} ${variants[variant]} ${className}`}
     >
       {children}

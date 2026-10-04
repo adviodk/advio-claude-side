@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ButtonLink } from "./Button";
+import TrackedButtonLink from "./TrackedButtonLink";
 
 const links = [
   { href: "#hero", label: "Forside" },
@@ -38,9 +38,9 @@ export default function Header() {
           ))}
         </nav>
 
-        <ButtonLink href="/formular" className="px-5 py-2.5 text-[11px]">
+        <TrackedButtonLink href="/formular" location="header" className="px-5 py-2.5 text-[11px]">
           Få et tilbud
-        </ButtonLink>
+        </TrackedButtonLink>
       </div>
     </header>
   );

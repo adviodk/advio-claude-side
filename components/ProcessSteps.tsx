@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ButtonLink } from "./Button";
+import TrackedButtonLink from "./TrackedButtonLink";
 import { useInViewOnce } from "@/lib/useInViewOnce";
 
 function clamp(v: number, min = 0, max = 1) {
@@ -70,9 +70,9 @@ function useSectionProgress(ref: React.RefObject<HTMLDivElement | null>) {
 // --- Step 1: udfyld skema ---------------------------------------------
 
 const step1Fields = [
-  { label: "Branche", value: "VVS-installatør" },
-  { label: "Navn", value: "Frederiksen VVS ApS" },
-  { label: "Beskrivelse", value: "Ny hjemmeside til håndværksvirksomhed" },
+  { label: "Branche", value: "Frisør & skønhed" },
+  { label: "Navn", value: "Nord Frisør ApS" },
+  { label: "Beskrivelse", value: "Ny hjemmeside til mindre virksomhed" },
 ];
 
 function Step1Demo({
@@ -278,9 +278,9 @@ function StepText({ eyebrow, title, body, cta }: (typeof steps)[number]) {
       </h3>
       {body && <p className="mt-3 text-[15px] leading-relaxed text-white/55">{body}</p>}
       {cta && (
-        <ButtonLink href="/formular" className="mt-6">
+        <TrackedButtonLink href="/formular" location="process" className="mt-6">
           Start skemaet
-        </ButtonLink>
+        </TrackedButtonLink>
       )}
     </div>
   );

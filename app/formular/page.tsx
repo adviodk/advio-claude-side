@@ -1,94 +1,95 @@
 "use client";
 
-import { useRef, useState, FormEvent, KeyboardEvent } from "react";
+import { useEffect, useRef, useState, FormEvent, KeyboardEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button, ButtonSubmit } from "@/components/Button";
-import { enqueueAttachments } from "@/lib/attachmentOutbox";
 import { trackMetaEvent } from "@/lib/metaPixel";
 
 const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/simon@advio.dk";
 
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 2;
 
 const badges = ["Gratis udkast", "Typisk levering 2 dage", "Ingen binding"];
 
 const brancher = [
-  "Tømrer",
-  "Elektriker",
-  "VVS",
-  "Maler",
-  "Murer",
-  "Anlægsgartner",
+  "Håndværker",
+  "Frisør & skønhed",
+  "Restaurant & café",
+  "Butik & webshop",
+  "Konsulent & rådgivning",
+  "Sundhed & fitness",
   "Andet",
 ];
 
-const billedeValg = [
-  "Ja, jeg uploader nu",
-  "Ja, men jeg sender dem senere",
-  "Nej, ikke endnu – brug gerne stockbilleder",
-];
-
-const indholdValg = [
-  "Kontaktformular",
-  "Prisliste",
-  "Om os-side",
-  "Kundeanmeldelser / referencer",
-  "Online booking",
-  "Billedgalleri af udført arbejde",
-  "Nyheder / blog",
-  "Andet",
-];
+type CvrSuggestion = {
+  name: string;
+  cvr?: string;
+  city?: string;
+  industry?: string;
+};
 
 type FormState = {
   firma: string;
+  cvr: string;
   branche: string;
+  brancheAndet: string;
+  navn: string;
   telefon: string;
   email: string;
-  harHjemmeside: string;
-  domaene: string;
-  harFacebook: string;
-  facebookUrl: string;
-  billeder: string;
-  indhold: string[];
-  services: string;
-  usp: string;
 };
 
 const initialState: FormState = {
   firma: "",
+  cvr: "",
   branche: "",
+  brancheAndet: "",
+  navn: "",
   telefon: "",
   email: "",
-  harHjemmeside: "",
-  domaene: "",
-  harFacebook: "",
-  facebookUrl: "",
-  billeder: "",
-  indhold: [],
-  services: "",
-  usp: "",
 };
 
-function isValidFacebookUrl(value: string) {
-  const trimmed = value.trim();
-  if (!trimmed) return false;
-  try {
-    const url = new URL(/^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`);
-    return /(^|\.)(facebook|fb)\.com$/i.test(url.hostname);
-  } catch {
-    return false;
+/** Best-effort match of a CVR industry description onto one of our fixed
+ * branche options — falls back to "Andet" with the raw text kept, rather
+ * than guessing wrong. */
+function matchBrancheFromIndustry(industry: string | undefined): {
+  branche: string;
+  brancheAndet: string;
+} {
+  if (!industry) return { branche: "", brancheAndet: "" };
+  const lower = industry.toLowerCase();
+  if (/tømrer|elektriker|vvs|maler|murer|anlægsgartner|håndværk|byggeri/.test(lower)) {
+    return { branche: "Håndværker", brancheAndet: "" };
   }
+  if (/frisør|skønhed|salon|kosmetolog/.test(lower)) {
+    return { branche: "Frisør & skønhed", brancheAndet: "" };
+  }
+  if (/restaurant|café|cafe|pizzeria|bar\b/.test(lower)) {
+    return { branche: "Restaurant & café", brancheAndet: "" };
+  }
+  if (/butik|detail|webshop|forhandler/.test(lower)) {
+    return { branche: "Butik & webshop", brancheAndet: "" };
+  }
+  if (/konsulent|rådgivning|advokat|revision/.test(lower)) {
+    return { branche: "Konsulent & rådgivning", brancheAndet: "" };
+  }
+  if (/fitness|sundhed|klinik|terapi|træning/.test(lower)) {
+    return { branche: "Sundhed & fitness", brancheAndet: "" };
+  }
+  return { branche: "Andet", brancheAndet: industry };
 }
 
 export default function FormularPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [fileNames, setFileNames] = useState<string[]>([]);
   const [data, setData] = useState<FormState>(initialState);
   const [submitting, setSubmitting] = useState(false);
   const nextFieldRef = useRef<HTMLInputElement>(null);
+
+  const [suggestions, setSuggestions] = useState<CvrSuggestion[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const skipNextSearch = useRef(false);
 
   const isLastStep = step === TOTAL_STEPS - 1;
   const progress = Math.round(((step + 1) / TOTAL_STEPS) * 100);
@@ -97,36 +98,59 @@ export default function FormularPage() {
     setData((prev) => ({ ...prev, [key]: value }));
   }
 
-  function toggleIndhold(value: string) {
+  // Debounced CVR-autocomplete — an assist on top of a plain text field,
+  // never a requirement. Any failure just means no suggestions appear.
+  useEffect(() => {
+    if (skipNextSearch.current) {
+      skipNextSearch.current = false;
+      return;
+    }
+    const query = data.firma.trim();
+    if (query.length < 2) {
+      setSuggestions([]);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/cvr?q=${encodeURIComponent(query)}`);
+        const json = await res.json();
+        setSuggestions(json.ok ? json.results : []);
+        setShowSuggestions(true);
+      } catch {
+        setSuggestions([]);
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.firma]);
+
+  function selectSuggestion(s: CvrSuggestion) {
+    skipNextSearch.current = true;
+    const matched = matchBrancheFromIndustry(s.industry);
     setData((prev) => ({
       ...prev,
-      indhold: prev.indhold.includes(value)
-        ? prev.indhold.filter((v) => v !== value)
-        : [...prev.indhold, value],
+      firma: s.name,
+      cvr: s.cvr || "",
+      branche: matched.branche || prev.branche,
+      brancheAndet: matched.brancheAndet || prev.brancheAndet,
     }));
+    setSuggestions([]);
+    setShowSuggestions(false);
   }
 
   function canAdvance() {
     switch (step) {
       case 0:
-        return data.firma.trim().length > 0;
-      case 1:
-        return data.branche.length > 0;
-      case 2:
-        return data.telefon.trim().length > 0 || data.email.trim().length > 0;
-      case 3:
-        return data.harHjemmeside.length > 0;
-      case 4:
         return (
-          data.harFacebook.length > 0 &&
-          (data.harFacebook !== "Ja" || isValidFacebookUrl(data.facebookUrl))
+          data.firma.trim().length > 0 &&
+          data.branche.length > 0 &&
+          (data.branche !== "Andet" || data.brancheAndet.trim().length > 0)
         );
-      case 5:
-        return data.billeder.length > 0;
-      case 6:
-        return data.indhold.length > 0;
-      case 7:
-        return data.services.trim().length > 0;
+      case 1:
+        return (
+          data.navn.trim().length > 0 &&
+          (data.telefon.trim().length > 0 || data.email.trim().length > 0)
+        );
       default:
         return true;
     }
@@ -134,6 +158,7 @@ export default function FormularPage() {
 
   function handleNext() {
     if (!canAdvance()) return;
+    setShowSuggestions(false);
     setStep((s) => Math.min(s + 1, TOTAL_STEPS - 1));
   }
 
@@ -145,82 +170,50 @@ export default function FormularPage() {
   }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    // Vi håndterer submit selv: teksten + Lead ID sendes med det samme, brugeren
-    // navigeres straks videre til kalenderen, og billederne uploades i
-    // baggrunden. Store/mange uploads må aldrig blokere booking-flowet, og en
-    // uploadfejl må ikke sende brugeren væk fra kalenderen.
     e.preventDefault();
-
-    // Guard mod hurtig dobbelt-klik (dobbelt mail / dobbelt navigation).
     if (submitting) return;
     setSubmitting(true);
 
     const form = e.currentTarget;
+    const branche =
+      data.branche === "Andet" && data.brancheAndet.trim()
+        ? data.brancheAndet.trim()
+        : data.branche;
 
     const params = new URLSearchParams();
     if (data.firma) params.set("firma", data.firma);
-    if (data.branche) params.set("branche", data.branche);
+    if (data.cvr) params.set("cvr", data.cvr);
+    if (branche) params.set("branche", branche);
+    if (data.navn) params.set("navn", data.navn);
     if (data.telefon) params.set("telefon", data.telefon);
     if (data.email) params.set("email", data.email);
-    if (data.harHjemmeside) params.set("harHjemmeside", data.harHjemmeside);
-    if (data.domaene) params.set("domaene", data.domaene);
-    if (data.harFacebook) params.set("harFacebook", data.harFacebook);
-    if (data.facebookUrl) params.set("facebookUrl", data.facebookUrl);
-    if (data.services) params.set("services", data.services);
-    if (data.usp) params.set("usp", data.usp);
-    if (data.billeder) params.set("billeder", data.billeder);
     const bookUrl = `/formular/book?${params.toString()}`;
     if (nextFieldRef.current) {
-      // Beholdes uændret: FormSubmit registrerer stadig _next (bruges ikke af os).
       nextFieldRef.current.value = `${window.location.origin}${bookUrl}`;
     }
 
-    // Lead ID / notifikation — uændret kontrakt (Content-Type, body, endpoint).
     fetch("/api/lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         type: "spørgeskema",
         firma: data.firma,
+        navn: data.navn,
         telefon: data.telefon,
         email: data.email,
       }),
       keepalive: true,
     }).catch(() => {});
 
-    // Tekst-leaden til FormSubmit sendes STRAKS (uden filer) — lille body, samme
-    // endpoint, samme felt-navne + skjulte felter → samme mail som hidtil.
     const textForm = new FormData(form);
-    textForm.delete("billeder_filer");
     fetch(FORMSUBMIT_ENDPOINT, {
       method: "POST",
       mode: "no-cors",
       body: textForm,
     }).catch(() => {});
 
-    // Billederne lægges i en durabel IndexedDB-outbox og uploades ét ad gangen
-    // i baggrunden via /api/lead/attachments. Fortsætter på /formular/book og
-    // genoptages ved et nyt besøg, hvis fanen lukkes midt i. Læses synkront her,
-    // mens formularen stadig er i DOM'en.
-    const fileInput = form.elements.namedItem(
-      "billeder_filer",
-    ) as HTMLInputElement | null;
-    const imageFiles = fileInput?.files ? Array.from(fileInput.files) : [];
-    if (imageFiles.length > 0) {
-      const leadRef = `${data.firma}|${data.telefon || data.email}|${Date.now()}-${Math.random()
-        .toString(36)
-        .slice(2, 7)}`;
-      enqueueAttachments({
-        leadRef,
-        firma: data.firma,
-        telefon: data.telefon || data.email,
-        files: imageFiles,
-      });
-    }
-
     trackMetaEvent("Lead");
 
-    // Videre til kalenderen med det samme — venter ALDRIG på uploaden.
     router.push(bookUrl);
   }
 
@@ -255,7 +248,7 @@ export default function FormularPage() {
           </span>
         </h1>
         <p className="mt-4 text-white/70">
-          Det tager kun 2 minutter at udfylde – vi vender tilbage med et
+          Det tager kun et minut at udfylde – vi vender tilbage med et
           skræddersyet professionelt udkast.
         </p>
 
@@ -283,7 +276,6 @@ export default function FormularPage() {
         <form
           action="https://formsubmit.co/simon@advio.dk"
           method="POST"
-          encType="multipart/form-data"
           onSubmit={handleSubmit}
           onKeyDown={handleKeyDown}
           className="mt-10 border border-white/10 bg-ink/40 p-8 shadow-2xl backdrop-blur-2xl sm:p-10"
@@ -292,255 +284,125 @@ export default function FormularPage() {
           <input type="hidden" name="_template" value="table" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_next" ref={nextFieldRef} value="" />
+          <input type="hidden" name="cvr" value={data.cvr} />
 
           <div className={step === 0 ? "" : "hidden"}>
             <h2 className="font-display text-xl font-medium text-white">
               Hvad hedder dit firma?
             </h2>
             <p className="mt-1.5 text-sm text-white/55">
-              Det navn kunderne kender jer under.
+              Begynd at skrive, så finder vi jer i CVR-registret.
             </p>
-            <input
-              type="text"
-              name="firma"
-              placeholder="Fx Hansen VVS ApS"
-              value={data.firma}
-              onChange={(e) => update("firma", e.target.value)}
-              className="field-dark mt-6"
-            />
+            <div className="relative mt-6">
+              <input
+                type="text"
+                name="firma"
+                autoComplete="off"
+                placeholder="Fx Hansen ApS"
+                value={data.firma}
+                onChange={(e) => update("firma", e.target.value)}
+                onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                className="field-dark"
+              />
+              {showSuggestions && suggestions.length > 0 && (
+                <ul className="absolute left-0 right-0 top-full z-10 mt-1.5 max-h-60 overflow-y-auto border border-white/15 bg-navyDeep shadow-2xl">
+                  {suggestions.map((s) => (
+                    <li key={`${s.name}-${s.cvr ?? ""}`}>
+                      <button
+                        type="button"
+                        onMouseDown={() => selectSuggestion(s)}
+                        className="block w-full px-4 py-3 text-left text-sm text-white/80 transition-colors hover:bg-white/10"
+                      >
+                        <span className="block font-medium text-white">{s.name}</span>
+                        {(s.city || s.industry) && (
+                          <span className="mt-0.5 block text-xs text-white/50">
+                            {[s.city, s.industry].filter(Boolean).join(" · ")}
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <label className="mt-6 block">
+              <span className="field-label-dark">Hvilken branche er I i?</span>
+              <select
+                name="branche"
+                value={data.branche}
+                onChange={(e) => update("branche", e.target.value)}
+                className="field-dark"
+              >
+                <option value="" disabled>
+                  Vælg branche
+                </option>
+                {brancher.map((b) => (
+                  <option key={b} value={b}>
+                    {b}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            {data.branche === "Andet" && (
+              <label className="mt-4 block">
+                <span className="field-label-dark">Hvilken branche?</span>
+                <input
+                  type="text"
+                  name="branche_andet"
+                  placeholder="Fx bogholderi, tøjbutik, rengøring…"
+                  value={data.brancheAndet}
+                  onChange={(e) => update("brancheAndet", e.target.value)}
+                  className="field-dark"
+                />
+              </label>
+            )}
           </div>
 
           <div className={step === 1 ? "" : "hidden"}>
             <h2 className="font-display text-xl font-medium text-white">
-              Hvilken slags håndværker er I?
-            </h2>
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {brancher.map((b) => (
-                <RadioOption
-                  key={b}
-                  name="branche"
-                  value={b}
-                  checked={data.branche === b}
-                  onChange={() => update("branche", b)}
-                >
-                  {b}
-                </RadioOption>
-              ))}
-            </div>
-          </div>
-
-          <div className={step === 2 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
               Hvordan får vi fat i dig?
             </h2>
             <p className="mt-1.5 text-sm text-white/55">
-              Udfyld mindst ét felt – vi bruger det kun til at sende dit
-              udkast.
+              Udfyld navn og mindst ét kontaktfelt – vi bruger det kun til at
+              sende dit udkast.
             </p>
             <div className="mt-6 space-y-4">
-              <Field label="Telefonnummer">
+              <Field label="Navn">
                 <input
-                  type="tel"
-                  name="telefon"
-                  placeholder="Fx 22 49 42 95"
-                  value={data.telefon}
-                  onChange={(e) => update("telefon", e.target.value)}
+                  type="text"
+                  name="navn"
+                  placeholder="Dit fulde navn"
+                  value={data.navn}
+                  onChange={(e) => update("navn", e.target.value)}
                   className="field-dark"
                 />
               </Field>
-              <Field label="Email">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="din@email.dk"
-                  value={data.email}
-                  onChange={(e) => update("email", e.target.value)}
-                  className="field-dark"
-                />
-              </Field>
-            </div>
-          </div>
-
-          <div className={step === 3 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
-              Har I allerede en hjemmeside?
-            </h2>
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              {["Ja", "Nej"].map((v) => (
-                <RadioOption
-                  key={v}
-                  name="har_hjemmeside"
-                  value={v}
-                  checked={data.harHjemmeside === v}
-                  onChange={() => update("harHjemmeside", v)}
-                >
-                  {v}
-                </RadioOption>
-              ))}
-            </div>
-
-            {data.harHjemmeside === "Ja" && (
-              <label className="mt-4 block">
-                <span className="field-label-dark">Domæne (valgfrit)</span>
-                <input
-                  type="text"
-                  name="domaene"
-                  placeholder="fx firmanavn.dk"
-                  value={data.domaene}
-                  onChange={(e) => update("domaene", e.target.value)}
-                  className="field-dark"
-                />
-              </label>
-            )}
-          </div>
-
-          <div className={step === 4 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
-              Har I en Facebook-side?
-            </h2>
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              {["Ja", "Nej"].map((v) => (
-                <RadioOption
-                  key={v}
-                  name="har_facebook"
-                  value={v}
-                  checked={data.harFacebook === v}
-                  onChange={() => update("harFacebook", v)}
-                >
-                  {v}
-                </RadioOption>
-              ))}
-            </div>
-
-            {data.harFacebook === "Ja" && (
-              <label className="mt-4 block">
-                <span className="field-label-dark">Indsæt linket til jeres Facebook-side</span>
-                <input
-                  type="text"
-                  name="facebook_url"
-                  placeholder="https://facebook.com/virksomhedsnavn"
-                  value={data.facebookUrl}
-                  onChange={(e) => update("facebookUrl", e.target.value)}
-                  className="field-dark"
-                />
-                {data.facebookUrl.trim().length > 0 && !isValidFacebookUrl(data.facebookUrl) && (
-                  <span className="mt-1.5 block text-xs font-medium text-red-400">
-                    Indtast venligst et gyldigt Facebook-link (fx https://facebook.com/ditfirma)
-                  </span>
-                )}
-              </label>
-            )}
-          </div>
-
-          <div className={step === 5 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
-              Har I billeder af jeres arbejde?
-            </h2>
-            <p className="mt-1.5 text-sm text-white/55">
-              Gode billeder af udført arbejde gør en enorm forskel for
-              kunderne.
-            </p>
-            <div className="mt-6 space-y-3">
-              {billedeValg.map((v) => (
-                <RadioOption
-                  key={v}
-                  name="billeder"
-                  value={v}
-                  checked={data.billeder === v}
-                  onChange={() => update("billeder", v)}
-                  block
-                >
-                  {v}
-                </RadioOption>
-              ))}
-            </div>
-
-            {data.billeder === "Ja, jeg uploader nu" && (
-              <div className="mt-4">
-                <label className="block cursor-pointer border border-dashed border-white/20 bg-white/[0.03] px-4 py-6 text-center text-sm font-medium text-white/60 transition-colors hover:bg-white/[0.06]">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Email">
                   <input
-                    type="file"
-                    name="billeder_filer"
-                    multiple
-                    accept="image/*"
-                    onChange={(e) =>
-                      setFileNames(
-                        Array.from(e.target.files ?? []).map((f) => f.name),
-                      )
-                    }
-                    className="sr-only"
+                    type="email"
+                    name="email"
+                    placeholder="din@email.dk"
+                    value={data.email}
+                    onChange={(e) => update("email", e.target.value)}
+                    className="field-dark"
                   />
-                  {fileNames.length > 0
-                    ? `${fileNames.length} billede(r) valgt`
-                    : "Klik for at vælge billeder"}
-                </label>
-                {fileNames.length > 0 && (
-                  <ul className="mt-2 space-y-0.5 text-xs text-white/50">
-                    {fileNames.map((n) => (
-                      <li key={n}>{n}</li>
-                    ))}
-                  </ul>
-                )}
+                </Field>
+                <Field label="Telefonnummer">
+                  <input
+                    type="tel"
+                    name="telefon"
+                    placeholder="Fx 22 49 42 95"
+                    value={data.telefon}
+                    onChange={(e) => update("telefon", e.target.value)}
+                    className="field-dark"
+                  />
+                </Field>
               </div>
-            )}
-          </div>
-
-          <div className={step === 6 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
-              Hvad skal hjemmesiden indeholde?
-            </h2>
-            <p className="mt-1.5 text-sm text-white/55">
-              Vælg alt hvad der er relevant.
-            </p>
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              {indholdValg.map((v) => (
-                <CheckOption
-                  key={v}
-                  name="indhold"
-                  value={v}
-                  checked={data.indhold.includes(v)}
-                  onChange={() => toggleIndhold(v)}
-                  activeClass="border-beige/60 bg-beige text-navyDeep"
-                >
-                  {v}
-                </CheckOption>
-              ))}
             </div>
-          </div>
-
-          <div className={step === 7 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
-              Hvilke ydelser tilbyder I?
-            </h2>
-            <p className="mt-1.5 text-sm text-white/55">
-              De vigtigste ydelser jeres virksomhed tilbyder.
-            </p>
-            <input
-              type="text"
-              name="services"
-              placeholder="Fx facaderenovering, badeværelser, tilbygninger…"
-              value={data.services}
-              onChange={(e) => update("services", e.target.value)}
-              className="field-dark mt-6"
-            />
-          </div>
-
-          <div className={step === 8 ? "" : "hidden"}>
-            <h2 className="font-display text-xl font-medium text-white">
-              Hvad gør jer særlige?
-            </h2>
-            <p className="mt-1.5 text-sm text-white/55">
-              <span className="font-semibold text-white/80">Frivilligt</span> — fortæl kort, hvad
-              der gør jer anderledes end andre.
-            </p>
-            <input
-              type="text"
-              name="unique_selling_points"
-              placeholder="Fx 20 års erfaring, lokalt firma, hurtig service, autoriseret, gratis tilbud…"
-              value={data.usp}
-              onChange={(e) => update("usp", e.target.value)}
-              className="field-dark mt-6"
-            />
           </div>
 
           <div className="mt-8 flex gap-3">
@@ -577,80 +439,6 @@ export default function FormularPage() {
         </p>
       </main>
     </div>
-  );
-}
-
-function RadioOption({
-  name,
-  value,
-  checked,
-  onChange,
-  children,
-  block = false,
-}: {
-  name: string;
-  value: string;
-  checked: boolean;
-  onChange: () => void;
-  children: React.ReactNode;
-  block?: boolean;
-}) {
-  return (
-    <label
-      className={`cursor-pointer border px-4 py-3.5 text-sm font-medium transition-colors ${
-        block ? "block w-full text-left" : "text-center"
-      } ${
-        checked
-          ? "border-beige/60 bg-beige text-navyDeep"
-          : "border-white/10 bg-white/[0.03] text-white/70 hover:border-white/25"
-      }`}
-    >
-      <input
-        type="radio"
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-        className="sr-only"
-      />
-      {children}
-    </label>
-  );
-}
-
-function CheckOption({
-  name,
-  value,
-  checked,
-  onChange,
-  children,
-  activeClass,
-  block = false,
-}: {
-  name: string;
-  value: string;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  children: React.ReactNode;
-  activeClass: string;
-  block?: boolean;
-}) {
-  return (
-    <label
-      className={`cursor-pointer border px-3 py-3.5 text-sm font-medium transition-colors ${
-        block ? "block w-full text-left" : ""
-      } ${checked ? activeClass : "border-white/10 bg-white/[0.03] text-white/70 hover:border-white/25"}`}
-    >
-      <input
-        type="checkbox"
-        name={name}
-        value={value}
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="sr-only"
-      />
-      {children}
-    </label>
   );
 }
 

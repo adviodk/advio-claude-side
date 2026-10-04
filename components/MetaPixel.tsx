@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { CONSENT_EVENT, getStoredConsent } from "@/lib/consent";
 
@@ -8,6 +9,8 @@ const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 export default function MetaPixel() {
   const [enabled, setEnabled] = useState(false);
+  const pathname = usePathname();
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
     setEnabled(getStoredConsent() === "accepted");
@@ -20,6 +23,19 @@ export default function MetaPixel() {
     window.addEventListener(CONSENT_EVENT, handleConsentChange);
     return () => window.removeEventListener(CONSENT_EVENT, handleConsentChange);
   }, []);
+
+  // The base pixel snippet below fires its own PageView once, on init. Since
+  // this is a client-side-routed app, later route changes never reload that
+  // snippet, so each subsequent navigation needs its own explicit PageView.
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (typeof window.fbq === "function") {
+      window.fbq("track", "PageView");
+    }
+  }, [pathname]);
 
   if (!enabled || !PIXEL_ID) return null;
 

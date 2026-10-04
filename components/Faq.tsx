@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import { ButtonLink } from "./Button";
+import TrackedButtonLink from "./TrackedButtonLink";
 
 const faqs = [
   {
@@ -95,7 +95,9 @@ export default function Faq() {
 
         <Reveal delay={160}>
           <div className="mt-16 flex justify-center">
-            <ButtonLink href="/formular">Klar til dit gratis udkast?</ButtonLink>
+            <TrackedButtonLink href="/formular" location="faq">
+              Klar til dit gratis udkast?
+            </TrackedButtonLink>
           </div>
         </Reveal>
       </div>

@@ -12,16 +12,11 @@ type AvailabilityData = {
 
 type Prefill = {
   firma?: string;
+  cvr?: string;
   branche?: string;
+  navn?: string;
   telefon?: string;
   email?: string;
-  harHjemmeside?: string;
-  domaene?: string;
-  harFacebook?: string;
-  facebookUrl?: string;
-  services?: string;
-  usp?: string;
-  billeder?: string;
 };
 
 // Awaits the Advio Automation call in its own component so it can sit behind
@@ -65,16 +60,11 @@ export default async function BookPage({
 }: {
   searchParams: Promise<{
     firma?: string;
+    cvr?: string;
     branche?: string;
+    navn?: string;
     telefon?: string;
     email?: string;
-    harHjemmeside?: string;
-    domaene?: string;
-    harFacebook?: string;
-    facebookUrl?: string;
-    services?: string;
-    usp?: string;
-    billeder?: string;
   }>;
 }) {
   const params = await searchParams;
@@ -121,16 +111,11 @@ export default async function BookPage({
             <AvailabilityLoader
               prefill={{
                 firma: params.firma,
+                cvr: params.cvr,
                 branche: params.branche,
+                navn: params.navn,
                 telefon: params.telefon,
                 email: params.email,
-                harHjemmeside: params.harHjemmeside,
-                domaene: params.domaene,
-                harFacebook: params.harFacebook,
-                facebookUrl: params.facebookUrl,
-                services: params.services,
-                usp: params.usp,
-                billeder: params.billeder,
               }}
             />
           </Suspense>

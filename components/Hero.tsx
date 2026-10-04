@@ -1,5 +1,6 @@
 import HeroVideo from "./HeroVideo";
-import { ButtonLink, ButtonAnchor } from "./Button";
+import { ButtonAnchor } from "./Button";
+import TrackedButtonLink from "./TrackedButtonLink";
 
 const steps = [
   { n: "01", label: "Firmanavn og branche" },
@@ -30,9 +31,9 @@ function CtaCard() {
         ))}
       </ol>
 
-      <ButtonLink href="/formular" className="mt-7 w-full justify-center">
+      <TrackedButtonLink href="/formular" location="hero" className="mt-7 w-full justify-center">
         Få dit gratis udkast
-      </ButtonLink>
+      </TrackedButtonLink>
 
       <div className="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-1.5">
         {badges.map((badge) => (
@@ -67,7 +68,7 @@ export default function Hero() {
               Få en hjemmeside,
             </span>
             <span className="block font-display text-2xl font-medium uppercase text-beige sm:text-4xl md:text-5xl lg:text-6xl">
-              der afspejler kvaliteten i dit arbejde.
+              der afspejler kvaliteten i din virksomhed.
             </span>
           </h1>
           <p className="mt-9 max-w-md text-lg leading-relaxed text-white/70">

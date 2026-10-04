@@ -10,16 +10,11 @@ type Availability = {
 
 type Prefill = {
   firma?: string;
+  cvr?: string;
+  branche?: string;
+  navn?: string;
   telefon?: string;
   email?: string;
-  branche?: string;
-  harHjemmeside?: string;
-  domaene?: string;
-  harFacebook?: string;
-  facebookUrl?: string;
-  services?: string;
-  usp?: string;
-  billeder?: string;
 };
 
 function formatDateLabel(dateKey: string) {
@@ -72,7 +67,7 @@ export default function BookingCalendar({
     return { year: y, month: m };
   });
 
-  const [navn, setNavn] = useState("");
+  const [navn, setNavn] = useState(prefill.navn || "");
   const [email, setEmail] = useState(prefill.email || "");
   const [telefon, setTelefon] = useState(prefill.telefon || "");
 
@@ -162,14 +157,8 @@ export default function BookingCalendar({
           email,
           telefon,
           firma: prefill.firma,
+          cvr: prefill.cvr,
           branche: prefill.branche,
-          harHjemmeside: prefill.harHjemmeside,
-          domaene: prefill.domaene,
-          harFacebook: prefill.harFacebook,
-          facebookUrl: prefill.facebookUrl,
-          services: prefill.services,
-          usp: prefill.usp,
-          billeder: prefill.billeder,
         }),
       });
       const data = await res.json();
