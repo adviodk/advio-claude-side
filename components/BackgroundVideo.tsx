@@ -31,10 +31,13 @@ export default function BackgroundVideo({
   desktopSrc,
   mobileSrc,
   posterSrc,
+  objectPosition,
 }: {
   desktopSrc: string;
   mobileSrc: string;
   posterSrc: string;
+  /** Optional CSS object-position for both poster and video (default: center). */
+  objectPosition?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -108,6 +111,7 @@ export default function BackgroundVideo({
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition }}
       />
       <video
         ref={videoRef}
@@ -117,6 +121,7 @@ export default function BackgroundVideo({
         preload="none"
         aria-hidden="true"
         onPlaying={() => setPlaying(true)}
+        style={{ objectPosition }}
         className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out motion-reduce:hidden ${
           playing ? "opacity-100" : "opacity-0"
         }`}

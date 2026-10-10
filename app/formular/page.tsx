@@ -1,33 +1,28 @@
 "use client";
 
 import { useEffect, useRef, useState, FormEvent, KeyboardEvent } from "react";
-import { Quicksand } from "next/font/google";
-import Link from "next/link";
+import HomeLink from "@/components/HomeLink";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button, ButtonSubmit } from "@/components/Button";
-import BackgroundVideo from "@/components/BackgroundVideo";
+import FormularBackground from "@/components/FormularBackground";
+import FontTheme from "@/components/FontTheme";
+import { fontVariables } from "@/components/fontThemes";
 import { trackMetaEvent } from "@/lib/metaPixel";
-
-// Scoped to this page's card only — a rounded, friendly sans matching the
-// reference design, distinct from the rest of the site's serif/Hanken
-// Grotesk type system used elsewhere.
-const quicksand = Quicksand({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
 
 const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/simon@advio.dk";
 
 const TOTAL_STEPS = 2;
 
 const brancher = [
-  "Håndværker",
-  "Frisør & skønhed",
-  "Restaurant & café",
-  "Butik & webshop",
-  "Konsulent & rådgivning",
-  "Sundhed & fitness",
+  "Arkitekt",
+  "Psykolog & terapi",
+  "Marketing- & kommunikationsbureau",
+  "HR & rekruttering",
+  "Ejendomsmægler",
+  "Advokat & rådgivning",
+  "Revision & økonomi",
+  "Klinik & sundhed",
   "Andet",
 ];
 
@@ -67,23 +62,29 @@ function matchBrancheFromIndustry(industry: string | undefined): {
 } {
   if (!industry) return { branche: "", brancheAndet: "" };
   const lower = industry.toLowerCase();
-  if (/tømrer|elektriker|vvs|maler|murer|anlægsgartner|håndværk|byggeri/.test(lower)) {
-    return { branche: "Håndværker", brancheAndet: "" };
+  if (/arkitekt/.test(lower)) {
+    return { branche: "Arkitekt", brancheAndet: "" };
   }
-  if (/frisør|skønhed|salon|kosmetolog/.test(lower)) {
-    return { branche: "Frisør & skønhed", brancheAndet: "" };
+  if (/psykolog|psykoterapi|terapi/.test(lower)) {
+    return { branche: "Psykolog & terapi", brancheAndet: "" };
   }
-  if (/restaurant|café|cafe|pizzeria|bar\b/.test(lower)) {
-    return { branche: "Restaurant & café", brancheAndet: "" };
+  if (/reklame|marketing|kommunikation|pr-bureau|mediebureau/.test(lower)) {
+    return { branche: "Marketing- & kommunikationsbureau", brancheAndet: "" };
   }
-  if (/butik|detail|webshop|forhandler/.test(lower)) {
-    return { branche: "Butik & webshop", brancheAndet: "" };
+  if (/rekruttering|personale|arbejdsformidling|vikar/.test(lower)) {
+    return { branche: "HR & rekruttering", brancheAndet: "" };
   }
-  if (/konsulent|rådgivning|advokat|revision/.test(lower)) {
-    return { branche: "Konsulent & rådgivning", brancheAndet: "" };
+  if (/ejendomsmægl|ejendomsformidl/.test(lower)) {
+    return { branche: "Ejendomsmægler", brancheAndet: "" };
   }
-  if (/fitness|sundhed|klinik|terapi|træning/.test(lower)) {
-    return { branche: "Sundhed & fitness", brancheAndet: "" };
+  if (/advokat|juridisk|rådgivning|konsulent/.test(lower)) {
+    return { branche: "Advokat & rådgivning", brancheAndet: "" };
+  }
+  if (/revision|bogføring|regnskab/.test(lower)) {
+    return { branche: "Revision & økonomi", brancheAndet: "" };
+  }
+  if (/læge|tandlæge|klinik|fysioterapi|kiropraktor|sundhed/.test(lower)) {
+    return { branche: "Klinik & sundhed", brancheAndet: "" };
   }
   return { branche: "Andet", brancheAndet: industry };
 }
@@ -98,6 +99,26 @@ export default function FormularPage() {
   const [suggestions, setSuggestions] = useState<CvrSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const skipNextSearch = useRef(false);
+  // True when the company name arrived from the front-page search bar — then
+  // the first step only asks for the industry.
+  const [firmaKnown, setFirmaKnown] = useState(false);
+
+  // Prefill from the front-page search (?firma=…&cvr=…&industry=…).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const firma = params.get("firma")?.trim();
+    if (!firma) return;
+    skipNextSearch.current = true;
+    const matched = matchBrancheFromIndustry(params.get("industry") ?? undefined);
+    setData((prev) => ({
+      ...prev,
+      firma,
+      cvr: params.get("cvr") ?? "",
+      branche: matched.branche,
+      brancheAndet: matched.brancheAndet,
+    }));
+    setFirmaKnown(true);
+  }, []);
 
   const isLastStep = step === TOTAL_STEPS - 1;
   const progress = Math.round(((step + 1) / TOTAL_STEPS) * 100);
@@ -226,51 +247,36 @@ export default function FormularPage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-navy-fade">
-      <div aria-hidden="true" className="absolute inset-0">
-        <BackgroundVideo
-          desktopSrc="/assets/hero-ocean.mp4"
-          mobileSrc="/assets/hero-ocean-mobile.mp4"
-          posterSrc="/assets/hero-ocean-poster.jpg"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-navyDeep/85 via-navyDeep/45 to-navyDeep/90" />
-      </div>
+    <FontTheme variables={fontVariables}>
+    <div className="relative min-h-screen overflow-hidden">
+      <FormularBackground />
 
       <div className="relative z-10">
-        <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-navyDeep/80 backdrop-blur-md">
+        <header className="sticky top-0 z-40 border-b border-black/[0.06] bg-white/55 backdrop-blur-md">
           <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5 lg:px-10">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
+            <HomeLink
+              className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-black/55 transition-colors hover:text-black"
             >
               <span aria-hidden>←</span>
               Tilbage til forsiden
-            </Link>
+            </HomeLink>
             <Image
               src="/assets/ADVIOLOGONYT.png"
               alt="Advio"
               width={84}
               height={28}
-              className="h-7 w-auto"
+              className="h-7 w-auto brightness-0"
             />
           </div>
         </header>
 
         <main className="mx-auto max-w-xl px-4 py-8 sm:px-6 sm:py-16">
-        <div className={`${quicksand.className} animate-hero-in rounded-2xl bg-white p-6 shadow-card sm:p-10`}>
-          <div className="sm:mt-0">
-            <div className="mb-2 hidden items-center justify-between text-xs font-medium text-muted sm:flex">
-              <span>
-                Trin {step + 1} af {TOTAL_STEPS}
-              </span>
-              <span>{progress}%</span>
-            </div>
-            <div className="h-1.5 w-full rounded-full border border-border bg-tint">
-              <div
-                className="h-full rounded-full bg-beige transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
+        <div className="animate-hero-in rounded-2xl bg-white p-6 shadow-card sm:p-10">
+          <div className="h-1 w-full rounded-full bg-black/[0.06]">
+            <div
+              className="h-full rounded-full bg-[#1a1a1a] transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
           </div>
 
           <form
@@ -287,7 +293,16 @@ export default function FormularPage() {
           <input type="hidden" name="cvr" value={data.cvr} />
 
             <div key={`step0-${step}`} className={step === 0 ? "animate-step-in" : "hidden"}>
-              <h2 className="text-xl font-semibold text-ink">
+              {firmaKnown ? (
+                <>
+                  <input type="hidden" name="firma" value={data.firma} />
+                  <h2 className="font-th-serif text-[1.7rem] leading-tight text-ink">
+                    Hvilken branche er {data.firma} i?
+                  </h2>
+                </>
+              ) : (
+              <>
+              <h2 className="font-th-serif text-[1.7rem] leading-tight text-ink">
                 Hvad hedder dit firma?
               </h2>
               <div className="relative mt-6">
@@ -295,7 +310,7 @@ export default function FormularPage() {
                   type="text"
                   name="firma"
                   autoComplete="off"
-                  placeholder="Fx Hansen ApS"
+                  placeholder="Fx Holm & Vinter Arkitekter"
                   value={data.firma}
                   onChange={(e) => update("firma", e.target.value)}
                   onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
@@ -323,9 +338,11 @@ export default function FormularPage() {
                   </ul>
                 )}
               </div>
+              </>
+              )}
 
               <label className="mt-6 block">
-                <span className="field-label">Hvilken branche er I i?</span>
+                {!firmaKnown && <span className="field-label">Hvilken branche er I i?</span>}
                 <select
                   name="branche"
                   value={data.branche}
@@ -349,7 +366,7 @@ export default function FormularPage() {
                   <input
                     type="text"
                     name="branche_andet"
-                    placeholder="Fx bogholderi, tøjbutik, rengøring…"
+                    placeholder="Fx ingeniørfirma, kapitalforvaltning, konsulenthus…"
                     value={data.brancheAndet}
                     onChange={(e) => update("brancheAndet", e.target.value)}
                     className="field"
@@ -359,13 +376,9 @@ export default function FormularPage() {
             </div>
 
             <div key={`step1-${step}`} className={step === 1 ? "animate-step-in" : "hidden"}>
-              <h2 className="text-xl font-semibold text-ink">
+              <h2 className="font-th-serif text-[1.7rem] leading-tight text-ink">
                 Hvordan får vi fat i dig?
               </h2>
-              <p className="mt-1.5 text-sm text-muted">
-                Udfyld navn og mindst ét kontaktfelt – vi bruger det kun til at
-                sende dit udkast.
-              </p>
               <div className="mt-6 space-y-4">
                 <Field label="Navn">
                   <input
@@ -392,7 +405,7 @@ export default function FormularPage() {
                     <input
                       type="tel"
                       name="telefon"
-                      placeholder="Fx 22 49 42 95"
+                      placeholder="Fx 12 34 56 78"
                       value={data.telefon}
                       onChange={(e) => update("telefon", e.target.value)}
                       className="field"
@@ -428,9 +441,8 @@ export default function FormularPage() {
             </div>
           </form>
 
-          <p className="mt-6 hidden text-center text-sm text-muted sm:mt-8 sm:block">
-            Har du spørgsmål? Ring til os på{" "}
-            <a href="tel:+4522494295" className="font-medium text-navy">
+          <p className="mt-8 text-center">
+            <a href="tel:+4522494295" className="text-xs tracking-wide text-black/25 transition-colors hover:text-black/50">
               22 49 42 95
             </a>
           </p>
@@ -438,6 +450,7 @@ export default function FormularPage() {
         </main>
       </div>
     </div>
+    </FontTheme>
   );
 }
 

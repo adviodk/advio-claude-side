@@ -27,6 +27,11 @@ const CSP = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    // 75 is the default; 90 is used for the case screenshots, where small
+    // text in the customers' sites should stay crisp.
+    qualities: [75, 90],
+  },
   async headers() {
     return [
       {

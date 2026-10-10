@@ -1,4 +1,4 @@
-import Link from "next/link";
+import HomeLink from "@/components/HomeLink";
 import Image from "next/image";
 
 export const metadata = {
@@ -10,13 +10,12 @@ export default function PrivatlivspolitikPage() {
     <div className="min-h-screen bg-canvas">
       <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
         <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5">
-          <Link
-            href="/"
+          <HomeLink
             className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
           >
             <span aria-hidden>←</span>
             Tilbage til forsiden
-          </Link>
+          </HomeLink>
           <Image
             src="/assets/ADVIOLOGONYT.png"
             alt="Advio"
@@ -27,7 +26,24 @@ export default function PrivatlivspolitikPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-6 py-16">
+      {/* Canal drawing from the redesign hero, faded in from the top and
+          multiplied into the page colour so its white paper disappears. */}
+      <div
+        aria-hidden
+        className="relative h-[220px] mix-blend-multiply [-webkit-mask-image:linear-gradient(to_bottom,transparent,black_45%)] [mask-image:linear-gradient(to_bottom,transparent,black_45%)] sm:h-[340px]"
+      >
+        <Image
+          src="/hero/ink/kanal.webp"
+          alt=""
+          fill
+          preload
+          quality={90}
+          sizes="100vw"
+          className="object-cover object-[50%_72%]"
+        />
+      </div>
+
+      <main className="mx-auto max-w-2xl px-6 pb-16 pt-12">
         <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
           Privatlivspolitik
         </h1>

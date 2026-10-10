@@ -1,17 +1,11 @@
 import { Suspense } from "react";
-import { Quicksand } from "next/font/google";
-import Link from "next/link";
+import HomeLink from "@/components/HomeLink";
 import Image from "next/image";
 import BookingCalendar from "@/components/BookingCalendar";
 import UploadStatus from "@/components/UploadStatus";
-import BackgroundVideo from "@/components/BackgroundVideo";
-
-// Same scoped font as /formular — this page is the next step in the same
-// flow and should read as one continuous card-style experience.
-const quicksand = Quicksand({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
+import FormularBackground from "@/components/FormularBackground";
+import FontTheme from "@/components/FontTheme";
+import { fontVariables } from "@/components/fontThemes";
 
 type AvailabilityData = {
   timezone: string;
@@ -75,39 +69,32 @@ export default async function BookPage({
   const params = await searchParams;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-navy-fade">
-      <div aria-hidden="true" className="absolute inset-0">
-        <BackgroundVideo
-          desktopSrc="/assets/hero-ocean.mp4"
-          mobileSrc="/assets/hero-ocean-mobile.mp4"
-          posterSrc="/assets/hero-ocean-poster.jpg"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-navyDeep/85 via-navyDeep/45 to-navyDeep/90" />
-      </div>
+    <FontTheme variables={fontVariables}>
+    <div className="relative min-h-screen overflow-hidden">
+      <FormularBackground />
 
       <div className="relative z-10">
-        <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-navyDeep/80 backdrop-blur-md">
+        <header className="sticky top-0 z-40 border-b border-black/[0.06] bg-white/55 backdrop-blur-md">
           <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5 lg:px-10">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
+            <HomeLink
+              className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-black/55 transition-colors hover:text-black"
             >
               <span aria-hidden>←</span>
               Tilbage til forsiden
-            </Link>
+            </HomeLink>
             <Image
               src="/assets/ADVIOLOGONYT.png"
               alt="Advio"
               width={84}
               height={28}
-              className="h-7 w-auto"
+              className="h-7 w-auto brightness-0"
             />
           </div>
         </header>
 
         <main className="mx-auto max-w-xl px-4 py-8 sm:px-6 sm:py-16">
-          <div className={`${quicksand.className} animate-hero-in rounded-2xl bg-white p-6 shadow-card sm:p-10`}>
-            <h1 className="text-xl font-semibold text-ink">Tak!</h1>
+          <div className="animate-hero-in rounded-2xl bg-white p-6 shadow-card sm:p-10">
+            <h1 className="font-th-serif text-[1.7rem] leading-tight text-ink">Tak!</h1>
             <p className="mt-1.5 text-sm text-muted">
               Vi har modtaget din henvendelse til {params.firma || "jer"} — vælg
               en tid der passer dig.
@@ -133,5 +120,6 @@ export default async function BookPage({
         </main>
       </div>
     </div>
+    </FontTheme>
   );
 }

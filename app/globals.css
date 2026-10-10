@@ -95,3 +95,29 @@ body {
     animation: none;
   }
 }
+
+/* Slow logo carousel under the redesign hero. */
+.logo-marquee {
+  animation: logo-marquee 70s linear infinite;
+}
+
+@keyframes logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee {
+    animation: none;
+  }
+}
+
+/* Redesign — case preview fade-in on the map. */
+@keyframes case-in {
+  from { opacity: 0; transform: translateY(12px); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}

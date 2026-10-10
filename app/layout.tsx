@@ -5,6 +5,7 @@ import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import MetaPixel from "@/components/MetaPixel";
 import AttachmentResume from "@/components/AttachmentResume";
+import { FrontPageMarker } from "@/components/HomeLink";
 
 // Only the weights actually referenced in the codebase are loaded (see
 // `grep -rohE "font-(medium|semibold|bold|black)"` across components/app).
@@ -42,6 +43,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <MetaPixel />
         <AttachmentResume />
+        <FrontPageMarker />
       </body>
     </html>
   );

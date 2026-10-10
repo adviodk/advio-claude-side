@@ -7,6 +7,10 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "Georgia", "serif"],
+        // Font roles for the redesign + questionnaire (see components/fontThemes.ts).
+        "th-serif": ["var(--f-serif)", "Georgia", "serif"],
+        "th-sans": ["var(--f-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        "th-mono": ["var(--f-mono)", "ui-monospace", "monospace"],
       },
       colors: {
         ink: "#1a1c1b",
