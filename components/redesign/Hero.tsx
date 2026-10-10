@@ -42,7 +42,7 @@ export default function Hero() {
 
       <header className="relative z-10 flex items-center justify-between gap-6 px-4 py-5 sm:px-8 sm:py-6">
         <Link
-          href="/redesign"
+          href="/"
           aria-label="Advio – forside"
           className="rounded-[3px] bg-white px-4 py-3 shadow-[0_10px_24px_-14px_rgba(20,22,20,0.4)] sm:px-5 sm:py-3.5"
         >

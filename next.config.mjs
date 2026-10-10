@@ -32,6 +32,10 @@ const nextConfig = {
     // text in the customers' sites should stay crisp.
     qualities: [75, 90],
   },
+  // The redesign was previewed at /redesign before it became the front page.
+  async redirects() {
+    return [{ source: "/redesign", destination: "/", permanent: true }];
+  },
   async headers() {
     return [
       {

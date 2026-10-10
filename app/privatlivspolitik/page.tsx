@@ -1,4 +1,4 @@
-import HomeLink from "@/components/HomeLink";
+import Link from "next/link";
 import Image from "next/image";
 
 export const metadata = {
@@ -10,12 +10,13 @@ export default function PrivatlivspolitikPage() {
     <div className="min-h-screen bg-canvas">
       <header className="sticky top-0 z-40 border-b border-white/10 bg-navyDeep/95 backdrop-blur">
         <div className="mx-auto flex max-w-page items-center justify-between px-6 py-5">
-          <HomeLink
+          <Link
+            href="/"
             className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
           >
             <span aria-hidden>←</span>
             Tilbage til forsiden
-          </HomeLink>
+          </Link>
           <Image
             src="/assets/ADVIOLOGONYT.png"
             alt="Advio"

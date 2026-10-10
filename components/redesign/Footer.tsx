@@ -28,7 +28,7 @@ export default function Footer() {
         <div className="mx-auto grid max-w-[1300px] gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:items-start lg:gap-10">
           {/* Brand */}
           <div className={`${box} lg:mt-0`}>
-            <Link href="/redesign" aria-label="Advio – forside">
+            <Link href="/" aria-label="Advio – forside">
               <Image src="/assets/ADVIOLOGONYT.png" alt="Advio" width={2000} height={667} className="h-5 w-auto brightness-0" />
             </Link>
             <div className="mt-6 aspect-square w-[150px] border-[5px] border-[var(--ink)] text-[var(--ink)]">
