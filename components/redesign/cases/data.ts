@@ -12,7 +12,7 @@ export type CaseItem = {
 };
 
 // Trade and area are taken from each customer's own site; city from CVR
-// (Erik Larsen, Proelectric) or the site's footer (V&N, JK).
+// (Erik Larsen, Proelectric) or the site's footer (V&N, JK, Flotsyn).
 export const cases: CaseItem[] = [
   {
     name: "Erik Larsen & Co.",
@@ -57,5 +57,16 @@ export const cases: CaseItem[] = [
     city: "Valby",
     lon: 12.509,
     lat: 55.663,
+  },
+  {
+    name: "Flotsyn.dk",
+    trade: "Vinduespudsning",
+    place: "Frederiksberg",
+    url: "https://www.flotsyn.dk",
+    domain: "flotsyn.dk",
+    shot: "/redesign/cases/flotsyn.webp",
+    city: "Frederiksberg",
+    lon: 12.53,
+    lat: 55.679,
   },
 ];

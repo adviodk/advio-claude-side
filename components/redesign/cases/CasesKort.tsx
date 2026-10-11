@@ -9,14 +9,15 @@ import { MAP_W, MAP_H, denmarkPath, bornholmPath, bornholmInset, project } from 
 import { BrowserFrame, CaseMeta, CasesTitle, monoLabel } from "./parts";
 
 // Where each pin's label sits, and how far (in map units) the clickable
-// marker is pulled away from the real location. Erik Larsen (København N)
-// and Proelectric (Valby) are only ~4 km apart, so their markers are spread
-// apart with a thin leader line back to the exact spot.
+// marker is pulled away from the real location. Erik Larsen (København N),
+// Proelectric (Valby) and Flotsyn (Frederiksberg) are only a few km apart, so
+// their markers are spread apart with a thin leader line back to the exact spot.
 const pinLayout: { side: "left" | "right"; offset: [number, number] }[] = [
   { side: "left", offset: [-70, -62] },
   { side: "right", offset: [0, 0] },
   { side: "left", offset: [0, 0] },
   { side: "left", offset: [-70, 52] },
+  { side: "right", offset: [62, -4] },
 ];
 
 // Faint height curves inside the land, for a topographic feel.
