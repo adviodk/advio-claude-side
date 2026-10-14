@@ -17,6 +17,7 @@ const pinLayout: { side: "left" | "right"; offset: [number, number] }[] = [
   { side: "right", offset: [0, 0] },
   { side: "left", offset: [0, 0] },
   { side: "left", offset: [-70, 52] },
+  { side: "left", offset: [0, 0] },
 ];
 
 // Faint height curves inside the land, for a topographic feel.

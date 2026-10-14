@@ -58,4 +58,15 @@ export const cases: CaseItem[] = [
     lon: 12.509,
     lat: 55.663,
   },
+  {
+    name: "Flotsyn.dk",
+    trade: "Vinduespudsning",
+    place: "Frederiksberg",
+    url: "https://www.flotsyn.dk",
+    domain: "flotsyn.dk",
+    shot: "/redesign/cases/flotsyn.webp",
+    city: "Frederiksberg",
+    lon: 12.527,
+    lat: 55.675,
+  },
 ];
