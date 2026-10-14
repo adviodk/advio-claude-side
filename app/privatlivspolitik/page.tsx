@@ -48,7 +48,7 @@ export default function PrivatlivspolitikPage() {
         <h1 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
           Privatlivspolitik
         </h1>
-        <p className="mt-3 text-sm text-muted">Senest opdateret: august 2026</p>
+        <p className="mt-3 text-sm text-muted">Senest opdateret: oktober 2026</p>
 
         <div className="mt-10 space-y-10 text-sm leading-relaxed text-muted">
           <section>
@@ -78,8 +78,8 @@ export default function PrivatlivspolitikPage() {
             </h2>
             <p className="mt-3">
               Når du udfylder kontaktformularen på advio.dk, indsamler vi de
-              oplysninger du selv angiver: firmanavn, branche, telefonnummer
-              og/eller e-mail, om I har en hjemmeside eller Facebook-side i
+              oplysninger du selv angiver: firmanavn, CVR-nummer, branche, dit
+              navn, telefonnummer og/eller e-mail, om I har en hjemmeside eller Facebook-side i
               forvejen, eventuelle billeder du uploader af udført arbejde, og
               hvilke elementer I ønsker på jeres hjemmeside. Vi bruger kun
               disse oplysninger til at udarbejde et skræddersyet udkast til
@@ -119,7 +119,12 @@ export default function PrivatlivspolitikPage() {
                 <span className="font-medium text-ink">Meta Pixel</span> —
                 bruges til at måle effekten af vores annoncer på Facebook og
                 Instagram, men kun hvis du har givet samtykke til
-                markedsføringscookies.
+                markedsføringscookies. Har du givet samtykke, og udfylder du
+                en formular på siden, sendes dit navn, din e-mail og dit
+                telefonnummer til Meta i krypteret (hashet) form, så vi kan
+                se, hvilke annoncer der fører til henvendelser og bookinger
+                (såkaldt avanceret matchning). Meta modtager ikke oplysningerne
+                i læsbar form.
               </li>
               <li>
                 <span className="font-medium text-ink">Vercel</span> — hoster
