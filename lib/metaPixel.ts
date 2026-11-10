@@ -28,6 +28,21 @@ const STANDARD_EVENTS = new Set([
 ]);
 
 /**
+ * Internal-traffic opt-out: set localStorage "meta_tracking_disabled" to
+ * "true" in your own browser and the pixel is never loaded and no events are
+ * sent from it. Per-browser only, so other visitors are unaffected.
+ */
+export const META_TRACKING_DISABLED_KEY = "meta_tracking_disabled";
+
+export function isMetaTrackingDisabled() {
+  try {
+    return window.localStorage.getItem(META_TRACKING_DISABLED_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Fires a Meta Pixel event, but only once per event per browser session
  * (sessionStorage-guarded) so re-renders or repeated calls can't
  * double-report the same conversion. Events with a `location` param (CTA
@@ -37,6 +52,7 @@ const STANDARD_EVENTS = new Set([
  */
 export function trackMetaEvent(name: string, params?: Record<string, unknown>) {
   if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+  if (isMetaTrackingDisabled()) return;
 
   const location = typeof params?.location === "string" ? `_${params.location}` : "";
   const guardKey = `meta_evt_${name}${location}`;

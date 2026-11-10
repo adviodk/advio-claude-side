@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { CONSENT_EVENT, getStoredConsent } from "@/lib/consent";
+import { isMetaTrackingDisabled } from "@/lib/metaPixel";
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
@@ -13,11 +14,12 @@ export default function MetaPixel() {
   const isInitialMount = useRef(true);
 
   useEffect(() => {
-    setEnabled(getStoredConsent() === "accepted");
+    // Internal traffic (localStorage flag) never loads the pixel, whatever the consent.
+    setEnabled(getStoredConsent() === "accepted" && !isMetaTrackingDisabled());
 
     function handleConsentChange(e: Event) {
       const detail = (e as CustomEvent<string>).detail;
-      setEnabled(detail === "accepted");
+      setEnabled(detail === "accepted" && !isMetaTrackingDisabled());
     }
 
     window.addEventListener(CONSENT_EVENT, handleConsentChange);
@@ -32,7 +34,7 @@ export default function MetaPixel() {
       isInitialMount.current = false;
       return;
     }
-    if (typeof window.fbq === "function") {
+    if (typeof window.fbq === "function" && !isMetaTrackingDisabled()) {
       window.fbq("track", "PageView");
     }
   }, [pathname]);
