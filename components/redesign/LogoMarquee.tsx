@@ -7,6 +7,7 @@ const logos = [
   { src: "/logos/proelectric.png", alt: "Proelectric", width: 641 },
   { src: "/logos/vn-isolering.png", alt: "V&N Isolering ApS", width: 466 },
   { src: "/logos/jk-draen.png", alt: "JK Dræn & Kloakspuling", width: 808 },
+  { src: "/logos/flotsyn.png", alt: "Flotsyn.dk", width: 700 },
 ];
 
 function Row({ hidden = false }: { hidden?: boolean }) {
